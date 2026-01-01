@@ -1,0 +1,18 @@
+<svg width="78" height="74" viewBox="0 0 78 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="akar-icons:chat-error">
+<g id="Group">
+<path id="Vector" d="M45.5 61.75C57.7557 61.75 63.8852 61.75 67.691 57.941C71.5 54.1352 71.5 48.0057 71.5 35.75C71.5 23.4943 71.5 17.3647 67.691 13.559C63.8852 9.75 57.7557 9.75 45.5 9.75H32.5C20.2443 9.75 14.1147 9.75 10.309 13.559C6.5 17.3647 6.5 23.4943 6.5 35.75C6.5 48.0057 6.5 54.1352 10.309 57.941C12.4312 60.0665 15.275 61.0058 19.5 61.4185" stroke="url(#paint0_linear_1267_1176)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M45.5 61.7499C41.483 61.7499 37.0566 63.3749 33.0168 65.4712C26.5233 68.8414 23.2766 70.5282 21.6776 69.4524C20.0785 68.3799 20.3808 65.0487 20.9886 58.3894L21.125 56.8749M32.1068 28.8567L39 35.7499M39 35.7499L45.8933 42.6432M39 35.7499L45.8933 28.8567M39 35.7499L32.1068 42.6432" stroke="url(#paint1_linear_1267_1176)" stroke-width="4" stroke-linecap="round"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1267_1176" x1="6.5" y1="9.75" x2="56.9583" y2="74.3996" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF0092"/>
+<stop offset="1" stop-color="#216DFD"/>
+</linearGradient>
+<linearGradient id="paint1_linear_1267_1176" x1="20.499" y1="28.8567" x2="57.5716" y2="52.4394" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF0092"/>
+<stop offset="1" stop-color="#216DFD"/>
+</linearGradient>
+</defs>
+</svg>

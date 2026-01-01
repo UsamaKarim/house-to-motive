@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CADisableMinimumFrameDurationOnPhone</key>
+    <true/>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>CFBundleDisplayName</key>
+    <string>House To Motive</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>house_to_motive</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>$(FLUTTER_BUILD_NAME)</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleVersion</key>
+    <string>$(FLUTTER_BUILD_NUMBER)</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+
+
+    <key>NSUserTrackingUsageDescription</key>
+    <string>We require your permission to track your activity and associate data, such as your email address, to provide a personalized experience and improve the app’s performance.</string>
+
+    <!-- Camera Permission -->
+    <key>NSCameraUsageDescription</key>
+    <string>The app needs camera access to allow users to take photos for their profiles or upload content directly from the camera.</string>
+
+    <!-- Location Permissions -->
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Location access is required to display your position on the map and suggest nearby services, even in the background.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Location access is required to show your real-time position on the map and provide directions even when the app is running in the background.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Location access is needed to display your current position and nearby services while the app is in use.</string>
+
+    <!-- Microphone Permission -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>The app needs microphone access to enable audio recording during calls or while creating content.</string>
+
+    <!-- Photo Library Permissions -->
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>The app requires access to save photos you create or edit within the app to your photo library.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>The app requires access to your photo library to allow you to upload photos for completing your profile and to share videos with other users in the app. This helps you personalize your account and enhance your app experience by sharing content.</string>
+
+    <!-- Bluetooth Permissions -->
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>The app uses Bluetooth to detect and connect to nearby devices such as external accessories or beacons.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>The app requires Bluetooth access to communicate with external devices for enhanced functionality.</string>
+
+    <!-- Google Sign-In Config -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.697945399042-2nhfmklhlf0h4f5tg753p6fnqug8is79</string>
+            </array>
+        </dict>
+    </array>
+
+
+    <!-- Additional App Settings -->
+    <key>UIApplicationSupportsIndirectInputEvents</key>
+    <true/>
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+    <key>UIMainStoryboardFile</key>
+    <string>Main</string>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+</dict>
+</plist>

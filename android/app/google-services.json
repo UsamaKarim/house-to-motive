@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "697945399042",
+    "firebase_url": "https://house-to-motive-cee37-default-rtdb.firebaseio.com",
+    "project_id": "house-to-motive-cee37",
+    "storage_bucket": "house-to-motive-cee37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697945399042:android:85de92872e529a0bd96c1b",
+        "android_client_info": {
+          "package_name": "com.example.house_to_motive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697945399042-5pvotbb6i49lnk1o51d8irbpcm2mlmit.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.house_to_motive",
+            "certificate_hash": "c1fa2b3bf3e57a186412230968d4013a1b892335"
+          }
+        },
+        {
+          "client_id": "697945399042-uj33ddp73rgntd505inkrav3lggc5p66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEcBrseOuWH46pjrQw8K2WUjKRn-4FXSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697945399042-uj33ddp73rgntd505inkrav3lggc5p66.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "697945399042-2nhfmklhlf0h4f5tg753p6fnqug8is79.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.houseToMotiveApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

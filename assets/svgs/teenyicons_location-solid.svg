@@ -1,0 +1,14 @@
+<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="teenyicons:location-solid" clip-path="url(#clip0_1764_9849)">
+<path id="Vector" fill-rule="evenodd" clip-rule="evenodd" d="M9.06667 1.15373V0H7.93333V1.15373C6.18123 1.28876 4.53511 2.04568 3.2921 3.28786C2.04908 4.53004 1.29107 6.17565 1.15487 7.92767H0V9.061H1.15487C1.29055 10.8142 2.04813 12.4612 3.291 13.7051C4.53387 14.949 6.18027 15.708 7.93333 15.8451V17H9.06667V15.8451C10.8197 15.708 12.4661 14.949 13.709 13.7051C14.9519 12.4612 15.7094 10.8142 15.8451 9.061H17V7.92767H15.8451C15.7089 6.17565 14.9509 4.53004 13.7079 3.28786C12.4649 2.04568 10.8188 1.28876 9.06667 1.15373ZM9.06667 3.4V7.92767H13.6V9.061H9.06667V13.6H7.93333V9.061H3.4V7.92767H7.93333V3.4H9.06667Z" fill="url(#paint0_linear_1764_9849)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1764_9849" x1="0" y1="0" x2="17" y2="17.425" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF0092"/>
+<stop offset="1" stop-color="#216DFD"/>
+</linearGradient>
+<clipPath id="clip0_1764_9849">
+<rect width="17" height="17" fill="white"/>
+</clipPath>
+</defs>
+</svg>
