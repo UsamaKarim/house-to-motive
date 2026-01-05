@@ -10,7 +10,8 @@ class VideoListScreen extends StatefulWidget {
 }
 
 class _VideoListScreenState extends State<VideoListScreen> {
-  final String userId = FirebaseAuth.instance.currentUser!.uid; // Replace with actual user ID
+  final String userId =
+      FirebaseAuth.instance.currentUser!.uid; // Replace with actual user ID
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,10 @@ class _VideoListScreenState extends State<VideoListScreen> {
                     subtitle: Text('Likes: ${videoDoc['likesCount']}'),
                     trailing: IconButton(
                       icon: isLiked
-                          ? SvgPicture.asset('assets/svgs/Like icon.svg',color: Colors.red,)
+                          ? SvgPicture.asset(
+                              'assets/svgs/Like icon.svg',
+                              color: Colors.red,
+                            )
                           : SvgPicture.asset('assets/svgs/Unlike icon.svg'),
                       onPressed: () => toggleLike(videoDoc.id, isLiked),
                     ),
@@ -64,8 +68,11 @@ class _VideoListScreenState extends State<VideoListScreen> {
   }
 
   void toggleLike(String videoId, bool isLiked) {
-    final DocumentReference videoRef = FirebaseFirestore.instance.collection('videos').doc(videoId);
-    final DocumentReference likeRef = FirebaseFirestore.instance.collection('userLikes').doc(userId + '_' + videoId);
+    final DocumentReference videoRef =
+        FirebaseFirestore.instance.collection('videos').doc(videoId);
+    final DocumentReference likeRef = FirebaseFirestore.instance
+        .collection('userLikes')
+        .doc(userId + '_' + videoId);
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       if (isLiked) {

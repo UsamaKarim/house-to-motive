@@ -85,7 +85,7 @@ class CreateaccVerifyNumberScreen extends StatelessWidget {
             SizedBox(height: screenHeight * 0.03),
             GestureDetector(
               onTap: () {
-                Get.bottomSheet( BottomSheetDeletDialog());
+                Get.bottomSheet(BottomSheetDeletDialog());
               },
               child: const Text(
                 "Send Again",

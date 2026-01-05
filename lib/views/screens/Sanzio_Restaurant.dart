@@ -227,11 +227,7 @@ class _SanzioRestaurantState extends State<SanzioRestaurant> {
                       children: [
                         Image.asset("assets/stopwatch.png"),
                         Text(
-                          "  Open: ${widget.openingTime.length > 15
-                              ? "${widget.openingTime.substring(0, 15)}..."
-                              : widget.openingTime} - ${widget.closingTime.length > 15
-                              ? "${widget.closingTime.substring(0, 15)}..."
-                              : widget.closingTime}",
+                          "  Open: ${widget.openingTime.length > 15 ? "${widget.openingTime.substring(0, 15)}..." : widget.openingTime} - ${widget.closingTime.length > 15 ? "${widget.closingTime.substring(0, 15)}..." : widget.closingTime}",
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -269,7 +265,7 @@ class _SanzioRestaurantState extends State<SanzioRestaurant> {
                     SizedBox(
                       height: size.height / 40,
                     ),
-                     Text(
+                    Text(
                       widget.description,
                       style: const TextStyle(
                           fontFamily: 'ProximaNova',

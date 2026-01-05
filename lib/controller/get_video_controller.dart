@@ -13,6 +13,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:geocoding/geocoding.dart';
 import '../views/screens/video_screen.dart';
+
 class GetVideoController extends GetxController {
   final Set<Marker> markers = <Marker>{}.obs;
   final RxList<String> videoUrls = <String>[].obs;
@@ -23,7 +24,8 @@ class GetVideoController extends GetxController {
     final http.Response response = await http.get(Uri.parse(url));
     final Uint8List bytes = response.bodyBytes;
 
-    final ui.Codec codec = await ui.instantiateImageCodec(bytes, targetWidth: 100, targetHeight: 150);
+    final ui.Codec codec = await ui.instantiateImageCodec(bytes,
+        targetWidth: 100, targetHeight: 150);
     final ui.FrameInfo fi = await codec.getNextFrame();
 
     final ui.Image image = fi.image;
@@ -38,12 +40,15 @@ class GetVideoController extends GetxController {
     canvas.clipRRect(clipRect);
     canvas.drawImage(image, Offset.zero, paint);
 
-    final ui.Image finalImage = await pictureRecorder.endRecording().toImage(100, 150);
-    final ByteData? byteData = await finalImage.toByteData(format: ui.ImageByteFormat.png);
+    final ui.Image finalImage =
+        await pictureRecorder.endRecording().toImage(100, 150);
+    final ByteData? byteData =
+        await finalImage.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List finalBytes = byteData!.buffer.asUint8List();
 
     return BitmapDescriptor.fromBytes(finalBytes);
   }
+
   Future<void> fetchAndMarkLocations() async {
     final videoCollection = firestore.collection('videos');
     final querySnapshot = await videoCollection.get();
@@ -69,7 +74,8 @@ class GetVideoController extends GetxController {
 
     try {
       final List<Location> locations = await locationFromAddress(address);
-      final BitmapDescriptor customIcon = await getBitmapDescriptorFromUrl(imageURL);
+      final BitmapDescriptor customIcon =
+          await getBitmapDescriptorFromUrl(imageURL);
       final Location location = locations.first;
 
       final marker = Marker(
@@ -77,15 +83,15 @@ class GetVideoController extends GetxController {
         position: LatLng(location.latitude, location.longitude),
         icon: customIcon,
         onTap: () {
-
-          Get.to(() => VideoScreen(
+          Get.to(
+            () => VideoScreen(
               videoUrls: videoUrls,
               initialIndex: videoUrls.indexOf(videoURL),
-              videoUserIdList: userIdsList1,title: 'title',
+              videoUserIdList: userIdsList1,
+              title: 'title',
               videoIdList: videoIdsList1,
-            userId: userId,
-
-          ),
+              userId: userId,
+            ),
           );
         },
       );
@@ -98,6 +104,7 @@ class GetVideoController extends GetxController {
       log('Error processing document $doc: $e');
     }
   }
+
   //check follow or not
   RxBool isFollowing = false.obs;
   Future<void> checkFollowingStatus(String ticketUid) async {
@@ -111,9 +118,9 @@ class GetVideoController extends GetxController {
     bool isAlreadyFollowing = currentUserDoc['following'] != null &&
         currentUserDoc['following'].contains(ticketUid);
 
-
-      isFollowing = isAlreadyFollowing.obs;
+    isFollowing = isAlreadyFollowing.obs;
   }
+
   //Check Nearby Videos
   var nearByVideos = <videoInfo>[].obs;
   var distanceList = [].obs;
@@ -123,7 +130,7 @@ class GetVideoController extends GetxController {
   RxList<String> videoUserIdsList = <String>[].obs;
   RxList<String> thumbnailList = <String>[].obs;
   RxList<String> idList = <String>[].obs;
-  RxString userId=''.obs;
+  RxString userId = ''.obs;
 
   Future<void> checkNearbyVideos() async {
     try {
@@ -208,7 +215,8 @@ class GetVideoController extends GetxController {
 
       // Calculate distance using Geolocator (returns meters, so convert to km)
       double roadDistance =
-          Geolocator.distanceBetween(userLat, userLon, videoLat, videoLon) / 1000;
+          Geolocator.distanceBetween(userLat, userLon, videoLat, videoLon) /
+              1000;
 
       if (roadDistance <= 15 && !idList.contains(video.id)) {
         // Create a videoInfo object
@@ -257,8 +265,10 @@ class GetVideoController extends GetxController {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
+
   //get user Videos
   RxList<Map<String, dynamic>> userVideos = <Map<String, dynamic>>[].obs;
   RxList<String> videoIdList = <String>[].obs;
@@ -267,7 +277,7 @@ class GetVideoController extends GetxController {
 
   Future<void> getUserVideos(String userId) async {
     final QuerySnapshot<Map<String, dynamic>> userSnapshot =
-    await FirebaseFirestore.instance.collection('videos').get();
+        await FirebaseFirestore.instance.collection('videos').get();
 
     final List<Map<String, dynamic>> filteredVideos = userSnapshot.docs
         .map((doc) => doc.data())
@@ -286,7 +296,8 @@ class GetVideoController extends GetxController {
       if (data['userId'] == userId) {
         videoIdList.add(doc.id); // Store document ID
         videoUserIdList.add(data['userId']); // Store user ID
-        videoUrlList.add(data['videoUrl']); // Store video URL (assuming 'videoUrl' is the field name)
+        videoUrlList.add(data[
+            'videoUrl']); // Store video URL (assuming 'videoUrl' is the field name)
         log("Document ID: ${doc.id}, User ID: ${data['userId']}, Video URL: ${data['videoUrl']}");
       }
     }
@@ -297,14 +308,16 @@ class GetVideoController extends GetxController {
   void convertDistanceToKilometers() {
     for (int i = 0; i < distanceList.length; i++) {
       log("Distance in kilometers: $kilometersList");
-      double kilometers = distanceList[i] / 1000; // Convert meters to kilometers
+      double kilometers =
+          distanceList[i] / 1000; // Convert meters to kilometers
       if (!kilometersList.contains(kilometers)) {
         kilometersList.add(kilometers);
       }
     }
   }
 
-  Future<double> getRoadDistance(double lat1, double lon1, double lat2, double lon2) async {
+  Future<double> getRoadDistance(
+      double lat1, double lon1, double lat2, double lon2) async {
     const String apiKey = "AIzaSyDotkOgJK6nWqbYMLFOuQQs8VNpyIOAmGw";
     String url =
         "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$lat1,$lon1&destinations=$lat2,$lon2&key=$apiKey";
@@ -313,12 +326,11 @@ class GetVideoController extends GetxController {
 
     if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);
-      var distanceInMeters = jsonResponse["rows"][0]["elements"][0]["distance"]["value"];
+      var distanceInMeters =
+          jsonResponse["rows"][0]["elements"][0]["distance"]["value"];
       return distanceInMeters / 1000; // Convert to km
     } else {
       throw Exception("Failed to fetch road distance");
     }
   }
-
-
 }

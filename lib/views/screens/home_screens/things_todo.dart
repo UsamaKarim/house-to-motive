@@ -86,93 +86,93 @@ class _HomeScreen2State extends State<HomeScreen2> {
         SizedBox(height: screenHeight * 0.02),
         Obx(() => getVideoController.isLoading.value
             ? const Center(
-          child: CircularProgressIndicator(),
-        )
+                child: CircularProgressIndicator(),
+              )
             : Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: getVideoController.nearByVideos.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'No Locations Near Me',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    )
-                  : SizedBox(
-                      height: screenHeight * 0.16,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: min(getVideoController.nearByVideos.length,
-                            userDataList.length),
-                        itemBuilder: (context, index) {
-                          videoInfo video =
-                              getVideoController.nearByVideos[index];
-                          return GestureDetector(
-                            onTap: () {
-                              searchUserController
-                                  .getApplicationUsers()
-                                  .then((value) {
-                                searchUserController.getCurrentUserData(
-                                    getVideoController.videoUserIdsList[index]);
-                              }).then((value) {
-                                Get.to(() => VideoScreen(
-                                      videoUrls: getVideoController
-                                          .videoUrlsNearByLocation,
-                                      initialIndex: index,
-                                      videoUserIdList:
-                                          getVideoController.videoUserIdsList,
-                                      title: 'near',
-                                      thumbnail: getVideoController
-                                          .thumbnailList[index],
-                                      userId: getVideoController
-                                          .videoUserIdsList[index],
-                                      videoIdList: getVideoController.idList,
-                                    ));
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 6, right: 6),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor:
-                                        Colors.grey.withOpacity(0.2),
-                                    backgroundImage:
-                                        NetworkImage("${video.thumbnailUrl}"),
-                                    maxRadius: 5.h,
-                                  ),
-                                  SizedBox(height: 0.5.h),
-                                  Text(
-                                    "${video.location.value.length <= 8 ? video.userName : '${video.location.value.substring(0, 8)}..'}",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
+                padding: const EdgeInsets.only(left: 12),
+                child: getVideoController.nearByVideos.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No Locations Near Me',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      )
+                    : SizedBox(
+                        height: screenHeight * 0.16,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: min(getVideoController.nearByVideos.length,
+                              userDataList.length),
+                          itemBuilder: (context, index) {
+                            videoInfo video =
+                                getVideoController.nearByVideos[index];
+                            return GestureDetector(
+                              onTap: () {
+                                searchUserController
+                                    .getApplicationUsers()
+                                    .then((value) {
+                                  searchUserController.getCurrentUserData(
+                                      getVideoController
+                                          .videoUserIdsList[index]);
+                                }).then((value) {
+                                  Get.to(() => VideoScreen(
+                                        videoUrls: getVideoController
+                                            .videoUrlsNearByLocation,
+                                        initialIndex: index,
+                                        videoUserIdList:
+                                            getVideoController.videoUserIdsList,
+                                        title: 'near',
+                                        thumbnail: getVideoController
+                                            .thumbnailList[index],
+                                        userId: getVideoController
+                                            .videoUserIdsList[index],
+                                        videoIdList: getVideoController.idList,
+                                      ));
+                                });
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 6, right: 6),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor:
+                                          Colors.grey.withOpacity(0.2),
+                                      backgroundImage:
+                                          NetworkImage("${video.thumbnailUrl}"),
+                                      maxRadius: 5.h,
                                     ),
-                                  ),
-                                  Text(
-                                    (getVideoController.kilometersList[index]
-                                                    .toString())
-                                                .length <
-                                            5
-                                        ? ('(${getVideoController
-                                        .kilometersList[index]
-                                        .toString()} km)')
-                                        : '(${getVideoController.kilometersList[index].toString().substring(0, 3)} km)',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0xff7390A1),
+                                    SizedBox(height: 0.5.h),
+                                    Text(
+                                      "${video.location.value.length <= 8 ? video.userName : '${video.location.value.substring(0, 8)}..'}",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Text(
+                                      (getVideoController.kilometersList[index]
+                                                      .toString())
+                                                  .length <
+                                              5
+                                          ? ('(${getVideoController.kilometersList[index].toString()} km)')
+                                          : '(${getVideoController.kilometersList[index].toString().substring(0, 3)} km)',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: const Color(0xff7390A1),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-            )),
+              )),
         SizedBox(height: screenHeight * 0.03),
         Padding(
           padding: const EdgeInsets.only(left: 12.0, right: 12),
@@ -763,11 +763,13 @@ class _HomeScreen2State extends State<HomeScreen2> {
                 List<DocumentSnapshot> upcomingEvents = docs.where((doc) {
                   Timestamp dateTimestamp = doc['date'] ?? Timestamp.now();
                   DateTime eventDate = dateTimestamp.toDate();
-                  return eventDate.isAfter(DateTime.now()); // Only keep future events
+                  return eventDate
+                      .isAfter(DateTime.now()); // Only keep future events
                 }).toList();
 
                 if (upcomingEvents.isEmpty) {
-                  return const Center(child: Text('No upcoming events available.'));
+                  return const Center(
+                      child: Text('No upcoming events available.'));
                 }
 
                 return ListView.builder(

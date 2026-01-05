@@ -4,10 +4,9 @@ import 'package:get/get.dart';
 import 'package:house_to_motive/views/screens/paymentMethod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-
 class CheckoutMethod extends StatefulWidget {
   final String totalPrice;
-  const CheckoutMethod({super.key,required this.totalPrice});
+  const CheckoutMethod({super.key, required this.totalPrice});
 
   @override
   State<CheckoutMethod> createState() => _CheckoutMethodState();
@@ -208,9 +207,9 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
                             colors: [Color(0xffFF0092), Color(0xff216DFD)],
                           ).createShader(bounds);
                         },
-                        child:  Text(
-                          "£${widget.totalPrice.isEmpty?20:widget.totalPrice}",
-                          style:const TextStyle(
+                        child: Text(
+                          "£${widget.totalPrice.isEmpty ? 20 : widget.totalPrice}",
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,

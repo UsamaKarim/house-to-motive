@@ -78,17 +78,17 @@ Widget CalenderCard(
                     ],
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width*0.24,
+                    width: MediaQuery.of(context).size.width * 0.24,
                   ),
                   Container(
-                      width: MediaQuery.of(context).size.width*0.009,
-                      height: MediaQuery.of(context).size.height*0.04,
+                      width: MediaQuery.of(context).size.width * 0.009,
+                      height: MediaQuery.of(context).size.height * 0.04,
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Color(0xfffbd22f), Color(0xffc89f00)],
-                          )))
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xfffbd22f), Color(0xffc89f00)],
+                      )))
                 ],
               ),
             )

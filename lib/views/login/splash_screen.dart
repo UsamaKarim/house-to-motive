@@ -15,26 +15,26 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final GetVideoController getVideoController =Get.put(GetVideoController());
-  final GetChatSController getChatSController =Get.put(GetChatSController());
+  final GetVideoController getVideoController = Get.put(GetVideoController());
+  final GetChatSController getChatSController = Get.put(GetChatSController());
   final placeApiController = Get.put(PlacesApi());
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // placeApiController.determinePosition();
-   // getVideoController.fetchAndMarkLocations().then((value) => {
-   // getVideoController.checkNearbyVideos().then((value) {
-   //   Future.delayed(
-   //     const Duration(seconds: 0), // Adjust the duration as needed
-   //         () {
-   //       nextScreen();
-   //     },
-   //   );
-   // })
-   //
-   //
-   // });
+    // getVideoController.fetchAndMarkLocations().then((value) => {
+    // getVideoController.checkNearbyVideos().then((value) {
+    //   Future.delayed(
+    //     const Duration(seconds: 0), // Adjust the duration as needed
+    //         () {
+    //       nextScreen();
+    //     },
+    //   );
+    // })
+    //
+    //
+    // });
     nextScreen();
     // placeApiController.determinePosition();
   }

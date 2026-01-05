@@ -7,19 +7,19 @@ import '../../controller/event_controller.dart';
 import 'create_event2.dart';
 
 class CreateEventScreen extends StatelessWidget {
-   CreateEventScreen({super.key});
+  CreateEventScreen({super.key});
 
   final ButtonController controller = Get.put(ButtonController());
-   // final CollectionReference collectionReference =
-   // FirebaseFirestore.instance.collection('tickets');
-   //
-   // void updateFieldInAllDocuments() async {
-   //   QuerySnapshot querySnapshot = await collectionReference.get();
-   //   querySnapshot.docs.forEach((doc) {
-   //     collectionReference.doc(doc.id).update({
-   //       'uid': '5CIJVbhQVpZ3oZbLjjl7LkOR1hB3', // Specify the field and its new value
-   //     });
-   //   });}
+  // final CollectionReference collectionReference =
+  // FirebaseFirestore.instance.collection('tickets');
+  //
+  // void updateFieldInAllDocuments() async {
+  //   QuerySnapshot querySnapshot = await collectionReference.get();
+  //   querySnapshot.docs.forEach((doc) {
+  //     collectionReference.doc(doc.id).update({
+  //       'uid': '5CIJVbhQVpZ3oZbLjjl7LkOR1hB3', // Specify the field and its new value
+  //     });
+  //   });}
   @override
   Widget build(BuildContext context) {
     // updateFieldInAllDocuments();
@@ -320,7 +320,6 @@ class FreeContainer extends StatelessWidget {
       height: 44.h, // Adjust the height as needed
       width: double.infinity,
       // color: Colors.blue, // Customize the color
-
     );
   }
 }
@@ -353,16 +352,17 @@ class PaidContainer extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-               Expanded(
+              Expanded(
                 child: TextField(
                   controller: ticketController.childPriceController,
                   style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     hintText: '\$price',
                     isDense: true,
-                    hintStyle: TextStyle(color: Colors.white,fontSize: 10),
+                    hintStyle: TextStyle(color: Colors.white, fontSize: 10),
                     border: OutlineInputBorder(borderSide: BorderSide.none),
-                    contentPadding: EdgeInsets.only(bottom: 8), // Adjust the padding as needed
+                    contentPadding: EdgeInsets.only(
+                        bottom: 8), // Adjust the padding as needed
                   ),
                   textAlign: TextAlign.center,
                   // cursorHeight: 15,
@@ -396,14 +396,14 @@ class PaidContainer extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-               Expanded(
+              Expanded(
                 child: TextField(
                   controller: ticketController.adultPriceController,
                   style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     hintText: '\$price',
                     isDense: true,
-                    hintStyle: TextStyle(color: Colors.white,fontSize: 10),
+                    hintStyle: TextStyle(color: Colors.white, fontSize: 10),
                     border: OutlineInputBorder(borderSide: BorderSide.none),
                     // contentPadding: EdgeInsets.only(bottom: 8), // Adjust the padding as needed
                   ),
@@ -444,7 +444,7 @@ class PaidContainer extends StatelessWidget {
                   decoration: const InputDecoration(
                     hintText: '\$price',
                     isDense: true,
-                    hintStyle: TextStyle(color: Colors.white,fontSize: 10),
+                    hintStyle: TextStyle(color: Colors.white, fontSize: 10),
                     border: OutlineInputBorder(borderSide: BorderSide.none),
                     // contentPadding: EdgeInsets.only(bottom: 8), // Adjust the padding as needed
                   ),
@@ -477,4 +477,3 @@ class ButtonController extends GetxController {
     }
   }
 }
-

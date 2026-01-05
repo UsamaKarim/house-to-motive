@@ -44,7 +44,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var isGuestLogin;
   bool showLoader = true;
 
-
   void _shareContent() {
     Share.share('house_to_motive');
   }
@@ -66,7 +65,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return null;
     }
   }
-  RxString currentUserUid="".obs;
+
+  RxString currentUserUid = "".obs;
   // @override
   // void initState() {
   //   super.initState();
@@ -82,10 +82,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _checkGuestMode() async {
-    bool guestStatus = await checkGuestMode();  // Await the async method
+    bool guestStatus = await checkGuestMode(); // Await the async method
     setState(() {
       isGuestLogin = guestStatus;
-      showLoader = false;// Update the state when the async operation is complete
+      showLoader =
+          false; // Update the state when the async operation is complete
     });
 
     if (!isGuestLogin) {
@@ -101,13 +102,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return result; // Return bool, defaulting to false if no value
   }
 
-
-
   FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    final GetVideoController getVideoController=Get.put(GetVideoController());
+    final GetVideoController getVideoController = Get.put(GetVideoController());
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
@@ -115,428 +114,480 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: const EdgeInsets.all(12.0),
           child: !showLoader
               ? isGuestLogin
-              ? SizedBox(
-            height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                const Text('Please Login to continue', style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-                ),),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomButton(
-                  title: "Login",
-                  ontap: () {
-                    Get.offAll(() => LoginWithEmailScreen());
-                  },
-                ),
-                            ],
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Please Login to continue',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
                           ),
-              ) : Column(
-            children: [
-              Container(
-                height: Get.height / 5,
-                width: Get.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                 Column(crossAxisAlignment: CrossAxisAlignment.start,
-                   children: [
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                     children: [
-                       Column(
-                         children: [
-                           FutureBuilder(
-                             future: fetchUserData(),
-                             builder: (BuildContext context,
-                                 AsyncSnapshot<Map<String, dynamic>?> snapshot) {
-                               if (snapshot.connectionState ==
-                                   ConnectionState.waiting) {
-                                 return Shimmer.fromColors(
-                                   baseColor: Colors.grey.shade300,
-                                   highlightColor: Colors.grey.shade100,
-                                   child: const CircleAvatar(
-                                     radius: 35,
-                                     backgroundColor: Colors.white,
-                                     // backgroundImage: AssetImage('assets/pngs/user_profile.png'),
-                                   ),
-                                 );
-                               } else if (snapshot.hasError) {
-                                 return Text("Error: ${snapshot.error}");
-                               } else if (snapshot.hasData) {
-                                 profilePicUrl = snapshot.data?['profilePic'];
-                                 return profilePicUrl != null
-                                     ? CircleAvatar(
-                                   radius: 35,
-                                   backgroundColor: Colors.black,
-                                   backgroundImage: NetworkImage(profilePicUrl!
-                                       .isNotEmpty
-                                       ? profilePicUrl!
-                                       : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",scale: 1.0),
-                                 )
-                                     : const CircleAvatar(
-                                   radius: 35,
-                                   backgroundColor: Colors.white,
-                                   backgroundImage: AssetImage(
-                                       'assets/pngs/user_profile.png'),
-                                 );
-                               } else {
-                                 return const Text("No user data available");
-                               }
-                             },
-                           ),
-                           SizedBox(height: 1.h,),
-                           FutureBuilder<DocumentSnapshot>(
-                             future: getUserDetails(auth.currentUser?.uid??""),
-                             builder: (BuildContext context,
-                                 AsyncSnapshot<DocumentSnapshot> snapshot) {
-                               if (snapshot.connectionState ==
-                                   ConnectionState.waiting) {
-                                 return const Text("User not found");
-                               }
-                               if (snapshot.connectionState ==
-                                   ConnectionState.done) {
-                                 data = snapshot.data?.data()
-                                 as Map<String, dynamic>;
-                                 return 
-                                   Text(
-                                   data!['User Name'].toString().length<8?
-                                   data!['User Name'].toString(): '${data!['User Name'].toString().substring(0,6)}...',
-                                   style: GoogleFonts.inter(
-                                     fontSize: 12,
-                                     color: Colors.black,
-                                   ),textAlign: TextAlign.center,
-                                 );
-                               }
-                               return const Text("Loading...");
-                             },
-                           ),
-                         ],
-                       ),
-
-                       GestureDetector(
-                         onTap: () {
-                           Get.to(() => const FollowersScreen());
-                         },
-                         child: SizedBox(
-                           height: 80,
-                           width: 80,
-                           child: Column(
-                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                             children: [
-                               Text(
-                                 'Followers',
-                                 style: GoogleFonts.inter(
-                                   fontSize: 10,
-                                   fontWeight: FontWeight.w400,
-                                   color: const Color(0xff7390A1),
-                                 ),
-                               ),
-                               Obx(
-                                     () => Text(
-                                   ticketController.followersList.length
-                                       .toString(),
-                                   style: GoogleFonts.inter(
-                                     fontSize: 20,
-                                     fontWeight: FontWeight.w600,
-                                     color: const Color(0xff025B8F),
-                                   ),
-                                 ),
-                               ),
-                             ],
-                           ),
-                         ),
-                       ),
-                       GestureDetector(
-                         onTap: () {
-                           Get.to(() => const FollowingScreen());
-                         },
-                         child: SizedBox(
-                           height: 80,
-                           width: 80,
-                           child: Column(
-                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                             children: [
-                               Text(
-                                 'Following',
-                                 style: GoogleFonts.inter(
-                                   fontSize: 10,
-                                   fontWeight: FontWeight.w400,
-                                   color: const Color(0xff7390A1),
-                                 ),
-                               ),
-                               Obx(
-                                     () => Text(
-                                   ticketController.followingList.length
-                                       .toString(),
-                                   // followingLength,
-                                   style: GoogleFonts.inter(
-                                     fontSize: 20,
-                                     fontWeight: FontWeight.w600,
-                                     color: const Color(0xff025B8F),
-                                   ),
-                                 ),
-                               ),
-                             ],
-                           ),
-                         ),
-                       ),
-                       SizedBox(
-                         height: 80,
-                         width: 80,
-                         child: Column(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           children: [
-                             Text(
-                               'Posts',
-                               style: GoogleFonts.inter(
-                                 fontSize: 10,
-                                 fontWeight: FontWeight.w400,
-                                 color: const Color(0xff7390A1),
-                               ),
-                             ),
-                             Obx(()=>
-                             Text(
-                                 '${getVideoController.userVideos.length}',
-                                 style: GoogleFonts.inter(
-                                   fontSize: 20,
-                                   fontWeight: FontWeight.w600,
-                                   color: const Color(0xff025B8F),
-                                 ),
-                               ),
-                             ),
-                           ],
-                         ),
-                       ),
-                     ],
-                   ),
-
-                 ],),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.start,
-                    //   children: [
-                    //     Padding(
-                    //       padding: const EdgeInsets.only(left: 10.0),
-                    //       child: Text(
-                    //         'Business man',
-                    //         style: GoogleFonts.inter(
-                    //           fontSize: 10,
-                    //           fontWeight: FontWeight.w400,
-                    //           color: const Color(0xff7390A1),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 2.h),
-              // ProfileWidget(),
-              Container(
-                // height: 50,
-                // width: Get.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 0.7.h),
-                    ProfileWidget(
-                        svg: 'assets/svgs/userr.svg',
-                        title: 'Edit Profile',
-                        onTap: () {
-                          Get.to(() => const EditProfileScreen());
-                        }),
-                    ProfileWidget(
-                        svg: 'assets/svgs/Ticket 22.svg',
-                        title: 'My Tickets',
-                        onTap: () {
-                          Get.to(() => const ticketScreens());
-                          // Get.to(() =>  UserProfileScreen());
-                        }),
-                    ProfileWidget(
-                        svg: 'assets/svgs/Heart 1.svg',
-                        title: "Favourites",
-                        onTap: () {
-                          Get.to(() => const FavList());
-                        }),
-                    ProfileWidget(
-                        svg: 'assets/svgs/calendar1.svg',
-                        title: 'My Dates',
-                        onTap: () {
-                          Get.to(() => const CalenderScreen());
-                        }),
-                    FirebaseAuth.instance.currentUser?.email=="sales@housetomotive.com"?ProfileWidget(
-                        svg: 'assets/svgs/carbon_intent-request-create.svg',
-                        title: 'Create Event',
-                        onTap: () {
-                          Get.to(() => CreateEventScreen());
-                        }):const SizedBox.shrink(),
-                    // ProfileWidget(
-                    //     svg: 'assets/svgs/Play Circle.svg',
-                    //     title: 'Create Reel',
-                    //     isDevider: false,
-                    //     onTap: () {}),
-                    // SizedBox(height: 0.7.h),
-                  ],
-                ),
-              ),
-              // SizedBox(height: 2.h),
-              // Container(
-              //   // height: 50,
-              //   // width: Get.width,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(10),
-              //     color: Colors.white,
-              //   ),
-              //
-              //   child: Column(
-              //     children: [
-              //       SizedBox(height: 0.7.h),
-              //       ProfileWidget(
-              //           svg: 'assets/svgs/faqs.svg',
-              //           title: 'FAQs',
-              //           onTap: () {
-              //             Get.to(() => const FAQSScreen());
-              //           }),
-              //       ProfileWidget(
-              //           svg: 'assets/svgs/Settings.svg',
-              //           title: 'Settings',
-              //           onTap: () {
-              //             // Get.to(() =>  SettingScreen());
-              //             // Get.to(() =>  VideoListScreen());
-              //             Get.to(() => const SettingScreen());
-              //           }),
-              //       ProfileWidget(
-              //           svg: 'assets/svgs/privacy.svg',
-              //           title: "Privacy Policy",
-              //           onTap: () {
-              //             Get.to(() => const PrivacyPolicyScreen());
-              //           }),
-              //       ProfileWidget(
-              //           svg: 'assets/svgs/ph_share-fill.svg',
-              //           title: 'Invite People',
-              //           isDevider: false,
-              //           onTap: () {
-              //             _shareContent();
-              //           }),
-              //       SizedBox(height: 0.7.h),
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(height: 2.h),
-              Container(
-                // height: 50,
-                // width: Get.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                ),
-
-                child: Column(
-                  children: [
-                    SizedBox(height: 0.7.h),
-                    Column(
+                          SizedBox(
+                            height: 20,
+                          ),
+                          CustomButton(
+                            title: "Login",
+                            ontap: () {
+                              Get.offAll(() => LoginWithEmailScreen());
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                  : Column(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            Get.bottomSheet(const BottomSheetDeleteDialog());
-                          },
+                        Container(
+                          height: Get.height / 5,
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Row(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const SizedBox(width: 10),
-                                  Container(
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0xff025B8F),
-                                    ),
-                                    child: Center(
-                                      child: Image.asset('assets/delete.png', color: Colors.white, height: 20, width: 20,),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 20),
-                                  SizedBox(
-                                    width: Get.width * 0.75,
-                                    height: 35,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Delete Account',
-                                          style: GoogleFonts.inter(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          FutureBuilder(
+                                            future: fetchUserData(),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<
+                                                        Map<String, dynamic>?>
+                                                    snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return Shimmer.fromColors(
+                                                  baseColor:
+                                                      Colors.grey.shade300,
+                                                  highlightColor:
+                                                      Colors.grey.shade100,
+                                                  child: const CircleAvatar(
+                                                    radius: 35,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    // backgroundImage: AssetImage('assets/pngs/user_profile.png'),
+                                                  ),
+                                                );
+                                              } else if (snapshot.hasError) {
+                                                return Text(
+                                                    "Error: ${snapshot.error}");
+                                              } else if (snapshot.hasData) {
+                                                profilePicUrl = snapshot
+                                                    .data?['profilePic'];
+                                                return profilePicUrl != null
+                                                    ? CircleAvatar(
+                                                        radius: 35,
+                                                        backgroundColor:
+                                                            Colors.black,
+                                                        backgroundImage: NetworkImage(
+                                                            profilePicUrl!
+                                                                    .isNotEmpty
+                                                                ? profilePicUrl!
+                                                                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                                                            scale: 1.0),
+                                                      )
+                                                    : const CircleAvatar(
+                                                        radius: 35,
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        backgroundImage: AssetImage(
+                                                            'assets/pngs/user_profile.png'),
+                                                      );
+                                              } else {
+                                                return const Text(
+                                                    "No user data available");
+                                              }
+                                            },
+                                          ),
+                                          SizedBox(
+                                            height: 1.h,
+                                          ),
+                                          FutureBuilder<DocumentSnapshot>(
+                                            future: getUserDetails(
+                                                auth.currentUser?.uid ?? ""),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<DocumentSnapshot>
+                                                    snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const Text(
+                                                    "User not found");
+                                              }
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.done) {
+                                                data = snapshot.data?.data()
+                                                    as Map<String, dynamic>;
+                                                return Text(
+                                                  data!['User Name']
+                                                              .toString()
+                                                              .length <
+                                                          8
+                                                      ? data!['User Name']
+                                                          .toString()
+                                                      : '${data!['User Name'].toString().substring(0, 6)}...',
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 12,
+                                                    color: Colors.black,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                );
+                                              }
+                                              return const Text("Loading...");
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Get.to(() => const FollowersScreen());
+                                        },
+                                        child: SizedBox(
+                                          height: 80,
+                                          width: 80,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                'Followers',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w400,
+                                                  color:
+                                                      const Color(0xff7390A1),
+                                                ),
+                                              ),
+                                              Obx(
+                                                () => Text(
+                                                  ticketController
+                                                      .followersList.length
+                                                      .toString(),
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        const Color(0xff025B8F),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Spacer(),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Color(0xff3C3C434D),
-                                          size: 15,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Get.to(() => const FollowingScreen());
+                                        },
+                                        child: SizedBox(
+                                          height: 80,
+                                          width: 80,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                'Following',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w400,
+                                                  color:
+                                                      const Color(0xff7390A1),
+                                                ),
+                                              ),
+                                              Obx(
+                                                () => Text(
+                                                  ticketController
+                                                      .followingList.length
+                                                      .toString(),
+                                                  // followingLength,
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        const Color(0xff025B8F),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
+                                      ),
+                                      SizedBox(
+                                        height: 80,
+                                        width: 80,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              'Posts',
+                                              style: GoogleFonts.inter(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w400,
+                                                color: const Color(0xff7390A1),
+                                              ),
+                                            ),
+                                            Obx(
+                                              () => Text(
+                                                '${getVideoController.userVideos.length}',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600,
+                                                  color:
+                                                      const Color(0xff025B8F),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.start,
+                              //   children: [
+                              //     Padding(
+                              //       padding: const EdgeInsets.only(left: 10.0),
+                              //       child: Text(
+                              //         'Business man',
+                              //         style: GoogleFonts.inter(
+                              //           fontSize: 10,
+                              //           fontWeight: FontWeight.w400,
+                              //           color: const Color(0xff7390A1),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        // ProfileWidget(),
+                        Container(
+                          // height: 50,
+                          // width: Get.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 0.7.h),
+                              ProfileWidget(
+                                  svg: 'assets/svgs/userr.svg',
+                                  title: 'Edit Profile',
+                                  onTap: () {
+                                    Get.to(() => const EditProfileScreen());
+                                  }),
+                              ProfileWidget(
+                                  svg: 'assets/svgs/Ticket 22.svg',
+                                  title: 'My Tickets',
+                                  onTap: () {
+                                    Get.to(() => const ticketScreens());
+                                    // Get.to(() =>  UserProfileScreen());
+                                  }),
+                              ProfileWidget(
+                                  svg: 'assets/svgs/Heart 1.svg',
+                                  title: "Favourites",
+                                  onTap: () {
+                                    Get.to(() => const FavList());
+                                  }),
+                              ProfileWidget(
+                                  svg: 'assets/svgs/calendar1.svg',
+                                  title: 'My Dates',
+                                  onTap: () {
+                                    Get.to(() => const CalenderScreen());
+                                  }),
+                              FirebaseAuth.instance.currentUser?.email ==
+                                      "sales@housetomotive.com"
+                                  ? ProfileWidget(
+                                      svg:
+                                          'assets/svgs/carbon_intent-request-create.svg',
+                                      title: 'Create Event',
+                                      onTap: () {
+                                        Get.to(() => CreateEventScreen());
+                                      })
+                                  : const SizedBox.shrink(),
+                              // ProfileWidget(
+                              //     svg: 'assets/svgs/Play Circle.svg',
+                              //     title: 'Create Reel',
+                              //     isDevider: false,
+                              //     onTap: () {}),
+                              // SizedBox(height: 0.7.h),
+                            ],
+                          ),
+                        ),
+                        // SizedBox(height: 2.h),
+                        // Container(
+                        //   // height: 50,
+                        //   // width: Get.width,
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(10),
+                        //     color: Colors.white,
+                        //   ),
+                        //
+                        //   child: Column(
+                        //     children: [
+                        //       SizedBox(height: 0.7.h),
+                        //       ProfileWidget(
+                        //           svg: 'assets/svgs/faqs.svg',
+                        //           title: 'FAQs',
+                        //           onTap: () {
+                        //             Get.to(() => const FAQSScreen());
+                        //           }),
+                        //       ProfileWidget(
+                        //           svg: 'assets/svgs/Settings.svg',
+                        //           title: 'Settings',
+                        //           onTap: () {
+                        //             // Get.to(() =>  SettingScreen());
+                        //             // Get.to(() =>  VideoListScreen());
+                        //             Get.to(() => const SettingScreen());
+                        //           }),
+                        //       ProfileWidget(
+                        //           svg: 'assets/svgs/privacy.svg',
+                        //           title: "Privacy Policy",
+                        //           onTap: () {
+                        //             Get.to(() => const PrivacyPolicyScreen());
+                        //           }),
+                        //       ProfileWidget(
+                        //           svg: 'assets/svgs/ph_share-fill.svg',
+                        //           title: 'Invite People',
+                        //           isDevider: false,
+                        //           onTap: () {
+                        //             _shareContent();
+                        //           }),
+                        //       SizedBox(height: 0.7.h),
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(height: 2.h),
+                        Container(
+                          // height: 50,
+                          // width: Get.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+
+                          child: Column(
+                            children: [
+                              SizedBox(height: 0.7.h),
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.bottomSheet(
+                                          const BottomSheetDeleteDialog());
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const SizedBox(width: 10),
+                                            Container(
+                                              height: 35,
+                                              width: 35,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Color(0xff025B8F),
+                                              ),
+                                              child: Center(
+                                                child: Image.asset(
+                                                  'assets/delete.png',
+                                                  color: Colors.white,
+                                                  height: 20,
+                                                  width: 20,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 20),
+                                            SizedBox(
+                                              width: Get.width * 0.75,
+                                              height: 35,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Delete Account',
+                                                    style: GoogleFonts.inter(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    color: Color(0xff3C3C434D),
+                                                    size: 15,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(
+                                          indent: 65,
+                                          color: Colors.black38,
+                                        )
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
-                              Divider(
-                                indent: 65,
-                                color: Colors.black38,
-                              )
+                              // ProfileWidget(
+                              //     svg: 'assets/delete.png',
+                              //     title: 'Delete Account',
+                              //     onTap: () {
+                              //       Get.bottomSheet(const BottomSheetDeleteDialog());
+                              //       // Get.to(() => const MapsScreen());
+                              //     }),
+                              ProfileWidget(
+                                  svg: 'assets/svgs/contact.svg',
+                                  title: 'Contact Us',
+                                  onTap: () {
+                                    Get.to(() => const ContactUSScreen());
+                                    // Get.to(() => const MapsScreen());
+                                  }),
+                              ProfileWidget(
+                                svg: 'assets/svgs/Sign Outt.svg',
+                                onTap: () {
+                                  Get.bottomSheet(
+                                      const BottomSheetLogoutDialog());
+                                },
+                                title: 'Log Out',
+                                isDevider: false,
+                                red: true,
+                              ),
+                              const SizedBox(height: 0.7),
                             ],
                           ),
                         ),
+                        SizedBox(height: 9.h),
                       ],
-                    ),
-                    // ProfileWidget(
-                    //     svg: 'assets/delete.png',
-                    //     title: 'Delete Account',
-                    //     onTap: () {
-                    //       Get.bottomSheet(const BottomSheetDeleteDialog());
-                    //       // Get.to(() => const MapsScreen());
-                    //     }),
-                    ProfileWidget(
-                        svg: 'assets/svgs/contact.svg',
-                        title: 'Contact Us',
-                        onTap: () {
-                          Get.to(() => const ContactUSScreen());
-                          // Get.to(() => const MapsScreen());
-                        }),
-                    ProfileWidget(
-                      svg: 'assets/svgs/Sign Outt.svg',
-                      onTap: () {
-                        Get.bottomSheet(const BottomSheetLogoutDialog());
-                      },
-                      title: 'Log Out',
-                      isDevider: false,
-                      red: true,
-                    ),
-                    const SizedBox(height: 0.7),
-                  ],
+                    )
+              : Center(
+                  child: CircularProgressIndicator(),
                 ),
-              ),
-              SizedBox(height: 9.h),
-            ],
-          ) : Center(
-            child: CircularProgressIndicator(),
-          ),
         ),
       ),
     );
@@ -660,8 +711,6 @@ void _signOut() async {
   FirebaseAuth.instance.currentUser;
 }
 
-
-
 class BottomSheetDeleteDialog extends StatelessWidget {
   const BottomSheetDeleteDialog({super.key});
 
@@ -765,12 +814,12 @@ class BottomSheetDeleteDialog extends StatelessWidget {
   }
 }
 
-
 Future<void> deleteAccount() async {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Get.dialog(Center(child: CircularProgressIndicator()), barrierDismissible: false);
+  Get.dialog(Center(child: CircularProgressIndicator()),
+      barrierDismissible: false);
 
   try {
     // Get the current user

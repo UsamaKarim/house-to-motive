@@ -71,9 +71,9 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
               Expanded(
                 child: _videoControllers[index].value.isInitialized
                     ? AspectRatio(
-                  aspectRatio: _videoControllers[index].value.aspectRatio,
-                  child: VideoPlayer(_videoControllers[index]),
-                )
+                        aspectRatio: _videoControllers[index].value.aspectRatio,
+                        child: VideoPlayer(_videoControllers[index]),
+                      )
                     : const Center(child: CircularProgressIndicator()),
               ),
               VideoControls(controller: _videoControllers[index]),
@@ -101,7 +101,9 @@ class VideoControls extends StatelessWidget {
           ),
           onPressed: () {
             if (controller.value.isInitialized) {
-              controller.value.isPlaying ? controller.pause() : controller.play();
+              controller.value.isPlaying
+                  ? controller.pause()
+                  : controller.play();
             }
           },
         ),

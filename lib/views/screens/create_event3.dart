@@ -84,7 +84,7 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
   //
   //   return deviceTokens;
   // }
-  RxBool isLoading=false.obs;
+  RxBool isLoading = false.obs;
 
   void uploadEvent() {
     if (ticketController.locationController.text.isEmpty) {
@@ -94,41 +94,40 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
     } else if (ticketController.eventDescriptionController.text.isEmpty) {
       Get.snackbar('Status', 'please enter a Event Description');
     } else {
-      isLoading.value=true;
+      isLoading.value = true;
       ticketController
           .uploadImageToFirebase(
-        isPaid: isSelected.value,
-        date: ticketController.getSelectedDay(),
-        startTime: ticketController.selectedTime.value,
-        endTime: ticketController.selectedTimeEnd.value,
-        location: ticketController.locationController.text,
-        eventName: ticketController.eventNameController.text,
-        description: ticketController.eventDescriptionController.text,
-        commentDisable: ticketController.isCommentDisable.value,
-        private: ticketController.isPrivate.value,
-        isEventFavourite: ticketController.isEventFavourite.value,
-        // price: ticketController.eventPriceController,
-        adultPriceController: ticketController.adultPriceController,
-        childPriceController: ticketController.childPriceController,
-        familyPriceController: ticketController.familyPriceController,
-        uid: FirebaseAuth.instance.currentUser?.uid,
-      )
+            isPaid: isSelected.value,
+            date: ticketController.getSelectedDay(),
+            startTime: ticketController.selectedTime.value,
+            endTime: ticketController.selectedTimeEnd.value,
+            location: ticketController.locationController.text,
+            eventName: ticketController.eventNameController.text,
+            description: ticketController.eventDescriptionController.text,
+            commentDisable: ticketController.isCommentDisable.value,
+            private: ticketController.isPrivate.value,
+            isEventFavourite: ticketController.isEventFavourite.value,
+            // price: ticketController.eventPriceController,
+            adultPriceController: ticketController.adultPriceController,
+            childPriceController: ticketController.childPriceController,
+            familyPriceController: ticketController.familyPriceController,
+            uid: FirebaseAuth.instance.currentUser?.uid,
+          )
           .then((value) => {
-        isLoading.value=false,
+                isLoading.value = false,
 
-        // notificationServices.sendNotification(
-        //     _deviceTokens,
-        //     'Home to motive',
-        //     'Event: ${ticketController.eventNameController.text}'),
+                // notificationServices.sendNotification(
+                //     _deviceTokens,
+                //     'Home to motive',
+                //     'Event: ${ticketController.eventNameController.text}'),
 
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) {
-            return const BottomSheetEventDialog();
-
-          },
-        ),
-      });
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const BottomSheetEventDialog();
+                  },
+                ),
+              });
     }
   }
 
@@ -136,7 +135,7 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Obx(
-          () => Scaffold(
+      () => Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () {
@@ -187,7 +186,7 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
                     ),
                     isCollapsed: true,
                     contentPadding:
-                    EdgeInsets.symmetric(horizontal: 2.h, vertical: 1.5.h),
+                        EdgeInsets.symmetric(horizontal: 2.h, vertical: 1.5.h),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.black12),
                       borderRadius: BorderRadius.circular(20),
@@ -220,7 +219,7 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
                     ),
                     isCollapsed: true,
                     contentPadding:
-                    EdgeInsets.symmetric(horizontal: 2.h, vertical: 1.5.h),
+                        EdgeInsets.symmetric(horizontal: 2.h, vertical: 1.5.h),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.black12),
                       borderRadius: BorderRadius.circular(20),
@@ -282,39 +281,39 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
                         color: Colors.white,
                         image: ticketController.selectedImage.value != null
                             ? DecorationImage(
-                          image: FileImage(
-                              ticketController.selectedImage.value!),
-                          fit: BoxFit.cover,
-                        )
+                                image: FileImage(
+                                    ticketController.selectedImage.value!),
+                                fit: BoxFit.cover,
+                              )
                             : null,
                         // color: Colors.blue,
                       ),
                       child: ticketController.selectedImage.value == null
                           ? Padding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                                'assets/svgs/Document Upload 4.svg'),
-                            SizedBox(width: 2.h),
-                            const GradientText(
-                              text: "Upload Photos",
-                              gradient: LinearGradient(colors: [
-                                Color(0xffFF0092),
-                                Color(0xff216DFD),
-                              ]),
-                              style: TextStyle(
-                                fontFamily: 'ProximaNova',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff424B5A),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                      'assets/svgs/Document Upload 4.svg'),
+                                  SizedBox(width: 2.h),
+                                  const GradientText(
+                                    text: "Upload Photos",
+                                    gradient: LinearGradient(colors: [
+                                      Color(0xffFF0092),
+                                      Color(0xff216DFD),
+                                    ]),
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xff424B5A),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      )
+                            )
                           : Container()),
                 ),
                 SizedBox(height: 12.h),
@@ -342,32 +341,36 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
                       ),
                     ),
                     SizedBox(width: 2.w),
-
                     Expanded(
                       child: GestureDetector(
                         onTap: () async {
-
                           uploadEvent();
                           // getAllDeviceTokens();
                           // print('d token: $_deviceTokens');
                         },
-                        child:  Obx(() =>  isLoading.value==true?const Center(child: CircularProgressIndicator(color: Color(0xff025B8F),),): Container(
-                          height: 5.5.h,
-                          width: screenWidth / 2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xff025B8F),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Post',
-                              style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        )),
+                        child: Obx(() => isLoading.value == true
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Color(0xff025B8F),
+                                ),
+                              )
+                            : Container(
+                                height: 5.5.h,
+                                width: screenWidth / 2,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: const Color(0xff025B8F),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Post',
+                                    style: GoogleFonts.inter(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              )),
                       ),
                     ),
                   ],

@@ -34,7 +34,8 @@ class UserModel {
     required this.profilePic,
     this.deviceToken,
     List<String>? activeChatList, // Make activeChatList optional
-  }) : activeChatList = activeChatList ?? []; // Initialize with an empty list if null
+  }) : activeChatList =
+            activeChatList ?? []; // Initialize with an empty list if null
 }
 
 class SignupController extends GetxController {
@@ -46,12 +47,12 @@ class SignupController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  RxBool isLoading=false.obs;
+  RxBool isLoading = false.obs;
 
   Future<void> signUp() async {
     // String? deviceToken = await FirebaseMessaging.instance.getToken();
     try {
-      isLoading.value=true;
+      isLoading.value = true;
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
@@ -59,25 +60,24 @@ class SignupController extends GetxController {
       );
 
       UserModel newUser = UserModel(
-        userName: userNameController.text.trim(),
-        email: userCredential.user!.email!,
-        deviceToken: "",
-        profilePic: '',
-        activeChatList: [],// You can set the profile picture here
-       userId: FirebaseAuth.instance.currentUser!.uid
-      );
+          userName: userNameController.text.trim(),
+          email: userCredential.user!.email!,
+          deviceToken: "",
+          profilePic: '',
+          activeChatList: [], // You can set the profile picture here
+          userId: FirebaseAuth.instance.currentUser!.uid);
 
       await addUserDetails(newUser);
-      isLoading.value=false;
+      isLoading.value = false;
       Get.offAll(() => LoginWithEmailScreen());
       Utils().ToastMessage('Registered successfully');
     } catch (error) {
-      isLoading.value=false;
+      isLoading.value = false;
       Utils().ToastMessage(error.toString());
     }
   }
 
-  Future<void> addUserDetails(UserModel user ) async {
+  Future<void> addUserDetails(UserModel user) async {
     // Correctly await the getToken() future to get the device token
     // String? deviceToken = await FirebaseMessaging.instance.getToken();
 
@@ -89,8 +89,8 @@ class SignupController extends GetxController {
       'Email': user.email,
       'profilePic': user.profilePic,
       'Device Token': "",
-      'activeChatList':[],// Use the awaited value here
-      'userId':FirebaseAuth.instance.currentUser!.uid
+      'activeChatList': [], // Use the awaited value here
+      'userId': FirebaseAuth.instance.currentUser!.uid
     });
   }
 
@@ -103,7 +103,8 @@ class SignupController extends GetxController {
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
       try {
-        final UserCredential userCredential = await auth.signInWithPopup(authProvider);
+        final UserCredential userCredential =
+            await auth.signInWithPopup(authProvider);
         user = userCredential.user;
 
         if (user != null) {
@@ -118,11 +119,12 @@ class SignupController extends GetxController {
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+            await googleSignInAccount.authentication;
 
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
@@ -130,7 +132,8 @@ class SignupController extends GetxController {
         );
 
         try {
-          final UserCredential userCredential = await auth.signInWithCredential(credential);
+          final UserCredential userCredential =
+              await auth.signInWithCredential(credential);
           user = userCredential.user;
 
           if (user != null) {
@@ -167,20 +170,21 @@ class SignupController extends GetxController {
         log('Apple Sign-In is not supported on web with FirebaseAuth');
       } else {
         final AuthorizationCredentialAppleID appleCredential =
-        await SignInWithApple.getAppleIDCredential(
+            await SignInWithApple.getAppleIDCredential(
           scopes: [
             AppleIDAuthorizationScopes.email,
             AppleIDAuthorizationScopes.fullName,
           ],
         );
 
-        final OAuthCredential oauthCredential = OAuthProvider("apple.com").credential(
+        final OAuthCredential oauthCredential =
+            OAuthProvider("apple.com").credential(
           idToken: appleCredential.identityToken,
           accessToken: appleCredential.authorizationCode,
         );
 
         final UserCredential userCredential =
-        await auth.signInWithCredential(oauthCredential);
+            await auth.signInWithCredential(oauthCredential);
 
         user = userCredential.user;
 
@@ -231,7 +235,6 @@ class SignupController extends GetxController {
       log('Error saving user data to Firestore: $e');
     }
   }
-
 }
 
 class SignupScreen extends StatefulWidget {
@@ -266,7 +269,6 @@ class _SignupScreenState extends State<SignupScreen> {
                         'assets/pngs/htmimage1.png',
                       ),
                     ),
-
                     Center(
                       child: Image.asset(
                         'assets/svgs/splash-logo.png',
@@ -317,14 +319,16 @@ class _SignupScreenState extends State<SignupScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomSocialButton(
-                            svg: "assets/apple.svg", ontap: () {
+                            svg: "assets/apple.svg",
+                            ontap: () {
                               controller.signInWithApple();
-                        }),
+                            }),
                         const SizedBox(width: 20),
                         CustomSocialButton(
-                            svg: "assets/svgs/social/google.svg", ontap: () {
+                            svg: "assets/svgs/social/google.svg",
+                            ontap: () {
                               controller.signInWithGoogle();
-                        }),
+                            }),
                       ],
                     ),
                     SizedBox(height: screenHeight * 0.03),
@@ -374,59 +378,69 @@ class _SignupScreenState extends State<SignupScreen> {
                       title: 'Enter password',
                       textEditingController: controller.passwordController,
                     ),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: isTermsAccepted,
-                        onChanged: (value) {
-                          setState(() {
-                            isTermsAccepted = value!;
-                          });
-                        },
-                      ),
-                      Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'By signing up you agree to the ',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: 'Terms and Conditions',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff025B8F),
-                                  decoration: TextDecoration.underline,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    launchUrl(Uri.parse('https://housetomotive.com/terms-conditions/'));
-                                  },
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isTermsAccepted,
+                          onChanged: (value) {
+                            setState(() {
+                              isTermsAccepted = value!;
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'By signing up you agree to the ',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
-                            ],
+                              children: [
+                                TextSpan(
+                                  text: 'Terms and Conditions',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff025B8F),
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      launchUrl(Uri.parse(
+                                          'https://housetomotive.com/terms-conditions/'));
+                                    },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                     SizedBox(height: screenHeight * 0.03),
-                  Obx(() =>   controller.isLoading.value==true?const Center(child: CircularProgressIndicator(color: Color(0xff025B8F) ,),):  CustomButton(
-                    title: "Continue",
-                    ontap: () {
-                      if (!isTermsAccepted) {
-                        Utils().ToastMessage('You must accept the Terms and Conditions to continue.');
-                        return;
-                      }
-                      if (signupFormKey.currentState!.validate()) {
-                        controller.signUp();
-                      }
-                      // Get.to(() => const SignupWithPhoneNumberScreen());
-                    },
-                  ),),
+                    Obx(
+                      () => controller.isLoading.value == true
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xff025B8F),
+                              ),
+                            )
+                          : CustomButton(
+                              title: "Continue",
+                              ontap: () {
+                                if (!isTermsAccepted) {
+                                  Utils().ToastMessage(
+                                      'You must accept the Terms and Conditions to continue.');
+                                  return;
+                                }
+                                if (signupFormKey.currentState!.validate()) {
+                                  controller.signUp();
+                                }
+                                // Get.to(() => const SignupWithPhoneNumberScreen());
+                              },
+                            ),
+                    ),
                     SizedBox(height: screenHeight * 0.03),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -466,4 +480,3 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 }
-

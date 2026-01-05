@@ -232,13 +232,15 @@ class _CreateEvent2ScreenState extends State<CreateEvent2Screen> {
                             // controller: fieldTextEditingController,
                             focusNode: fieldFocusNode,
                             controller: eventLocationController,
-                            decoration:  InputDecoration(
-                              border: OutlineInputBorder(borderSide: const BorderSide(color:Colors.black12),
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black12),
                                   borderRadius: BorderRadius.circular(20.px),
-                              ),
+                                ),
                                 isCollapsed: true,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 1.h,vertical: 1.h)
-                            ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 1.h, vertical: 1.h)),
                           ),
                         ),
                         SizedBox(width: 1.h),

@@ -7,6 +7,7 @@ import 'package:house_to_motive/views/login/splash_screen.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -30,8 +31,6 @@ void main() async {
   });
 }
 
-
-
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   await Firebase.initializeApp();
 // }
@@ -39,7 +38,7 @@ void main() async {
 class MyApp extends StatefulWidget {
   GlobalKey<NavigatorState>? navigatorKey;
 
-   MyApp({
+  MyApp({
     this.navigatorKey,
     super.key,
   });
@@ -102,7 +101,7 @@ class _MyAppState extends State<MyApp> {
               child!,
               ZegoUIKitPrebuiltCallMiniOverlayPage(
                 avatarBuilder: (context, size, user, extraInfo) =>
-                const CircleAvatar(backgroundColor: Colors.blue),
+                    const CircleAvatar(backgroundColor: Colors.blue),
                 contextQuery: () {
                   return widget.navigatorKey!.currentState!.context;
                 },

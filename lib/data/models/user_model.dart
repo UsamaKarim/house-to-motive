@@ -56,7 +56,7 @@ class Event {
   factory Event.fromMap(Map<String, dynamic> data) {
     return Event(
       description: data['description'],
-      endTime:  _parseTimestamp(data['endTime']),
+      endTime: _parseTimestamp(data['endTime']),
       eventName: data['eventName'],
       familyPrice: data['familyPrice'],
       id: data['id'],
@@ -65,7 +65,7 @@ class Event {
       location: data['location'],
       photoURL: data['photoURL'],
       private: data['private'],
-      startTime:  _parseTimestamp(data['startTime']),
+      startTime: _parseTimestamp(data['startTime']),
       uid: data['uid'],
       userName: data['userName'],
       userProfilePic: data['userProfilePic'],
@@ -80,7 +80,8 @@ class Event {
       final parts = timestamp.split(':');
       if (parts.length == 2) {
         final now = DateTime.now();
-        return DateTime(now.year, now.month, now.day, int.parse(parts[0]), int.parse(parts[1]));
+        return DateTime(now.year, now.month, now.day, int.parse(parts[0]),
+            int.parse(parts[1]));
       } else {
         return DateTime.parse(timestamp); // Fallback to default parsing
       }
@@ -88,7 +89,4 @@ class Event {
       throw FormatException('Invalid date format: $timestamp');
     }
   }
-
-
-
 }

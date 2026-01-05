@@ -16,14 +16,13 @@ class IntroScreenOne extends StatefulWidget {
 }
 
 class _IntroScreenOneState extends State<IntroScreenOne> {
-
   Future<void> requestTrackingPermission() async {
     final status = await AppTrackingTransparency.trackingAuthorizationStatus;
 
     if (status == TrackingStatus.notDetermined) {
       // Show the tracking authorization prompt
       final newStatus =
-      await AppTrackingTransparency.requestTrackingAuthorization();
+          await AppTrackingTransparency.requestTrackingAuthorization();
       debugPrint('Tracking Authorization Status: $newStatus');
     } else {
       debugPrint('Tracking Authorization Status: $status');
@@ -40,7 +39,6 @@ class _IntroScreenOneState extends State<IntroScreenOne> {
     super.initState();
     requestTrackingPermission();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,23 +61,38 @@ class _IntroScreenOneState extends State<IntroScreenOne> {
               },
               children: [
                 Stack(
-                    children: [
-                      Opacity(
-                        opacity: 0.1,child: Image.asset('assets/pngs/htmimage1.png',),),
-                      Image.asset('assets/pngs/Group 33331.png')
-                    ],),
+                  children: [
+                    Opacity(
+                      opacity: 0.1,
+                      child: Image.asset(
+                        'assets/pngs/htmimage1.png',
+                      ),
+                    ),
+                    Image.asset('assets/pngs/Group 33331.png')
+                  ],
+                ),
                 Stack(
                   children: [
                     Opacity(
-                      opacity: 0.1,child: Image.asset('assets/pngs/htmimage1.png',),),
+                      opacity: 0.1,
+                      child: Image.asset(
+                        'assets/pngs/htmimage1.png',
+                      ),
+                    ),
                     Image.asset('assets/pngs/Group 333331.png')
-                  ],),
+                  ],
+                ),
                 Stack(
                   children: [
                     Opacity(
-                      opacity: 0.1,child: Image.asset('assets/pngs/htmimage1.png',),),
+                      opacity: 0.1,
+                      child: Image.asset(
+                        'assets/pngs/htmimage1.png',
+                      ),
+                    ),
                     Image.asset('assets/pngs/Group 33331 (1).png'),
-                  ],),
+                  ],
+                ),
                 // Image.asset('assets/pngs/Group 333331.png'),
                 // Image.asset('assets/pngs/Group 33331 (1).png'),
               ],
@@ -199,7 +212,7 @@ class _IntroScreenOneState extends State<IntroScreenOne> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Get.to(() =>  LoginWithEmailScreen());
+                                  Get.to(() => LoginWithEmailScreen());
                                 },
                                 child: Text(
                                   textAlign: TextAlign.center,
@@ -241,7 +254,7 @@ class _IntroScreenOneState extends State<IntroScreenOne> {
                                             const Duration(milliseconds: 300),
                                         curve: Curves.linear);
                                   } else {
-                                    Get.to(() =>  AllowLocationScreen());
+                                    Get.to(() => AllowLocationScreen());
                                   }
                                 },
                                 child: Text(

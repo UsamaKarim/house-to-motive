@@ -82,7 +82,8 @@ class SignupWithPhoneNumberScreen extends StatelessWidget {
                   children: [
                     CountryCodePicker(
                       onChanged: (countryCode) {
-                        print(countryCode.dialCode); // Prints the selected country code
+                        print(countryCode
+                            .dialCode); // Prints the selected country code
                       },
                       initialSelection: 'US',
                       favorite: ['+1', 'US'],

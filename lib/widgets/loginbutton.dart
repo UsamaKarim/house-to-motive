@@ -20,10 +20,11 @@ class CustomButton extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-            fontFamily: 'ProximaNova',
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,),
+              fontFamily: 'ProximaNova',
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

@@ -5,46 +5,23 @@ List Name2 = [
   'F1 Arcade',
   'F1 Arcade',
 ];
-List Category1 = [
-  'EC4M 9AF •',
-  'EC4M 9AF •',
-  'EC4M 9AF •'
-];
-List Category2 = [
-  ' Regular',
-  ' VIP',
-  ' VIP'
-];
+List Category1 = ['EC4M 9AF •', 'EC4M 9AF •', 'EC4M 9AF •'];
+List Category2 = [' Regular', ' VIP', ' VIP'];
 List loc = [
   '540 Manchester Road London',
   '17 Mill Road CHESTER CH14 9BY',
   '17 Mill Road CHESTER CH14 9BY',
 ];
-List price = [
-  '£27.90',
-  '£39.90',
-  '£39.90'
-];
-List disc = [
-
-  'off £2.07',
-  'off £5.07',
-  'off £5.07'
-];
-List member = [
-  3,2,2
-];
+List price = ['£27.90', '£39.90', '£39.90'];
+List disc = ['off £2.07', 'off £5.07', 'off £5.07'];
+List member = [3, 2, 2];
 List date = [
   '12/11/2023 - 5:30 PM',
   '14/11/2023 - 8:30 PM',
   '14/11/2023 - 8:30 PM',
 ];
 
-List FavListt = [
-  'Videos',
-  'Events',
-  'Restaurants'
-];
+List FavListt = ['Videos', 'Events', 'Restaurants'];
 
 List VideoIMg = [
   'assets/assets2/Video_images/v1.png',
@@ -62,14 +39,9 @@ List VideoIMg = [
   'assets/assets2/Video_images/v13.png',
   'assets/assets2/Video_images/v14.png',
   'assets/assets2/Video_images/v15.png',
-
 ];
 
-List CalenderDate1 = [
-  "Nov \n 10",
-  "Nov \n 18",
-  "Nov \n 18"
-];
+List CalenderDate1 = ["Nov \n 10", "Nov \n 18", "Nov \n 18"];
 List CalenderName = [
   "F1 arcade ",
   "Sanzio Restaurant",
@@ -80,4 +52,3 @@ List CalenderDate2 = [
   "Date with Monica Galler",
   "Tuesday, 23 Nov, 2023 - 8:30 PM"
 ];
-

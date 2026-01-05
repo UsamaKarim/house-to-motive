@@ -82,11 +82,11 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
                               controller: descriptionController,
                               maxLines: 4,
                               decoration: const InputDecoration(
-                                hintText: 'Write description about the video you are going to upload',
-                                border:InputBorder.none,
+                                hintText:
+                                    'Write description about the video you are going to upload',
+                                border: InputBorder.none,
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 26),
-
                                 hintStyle: TextStyle(
                                   fontFamily: 'ProximaNova',
                                   fontSize: 12,
@@ -740,8 +740,11 @@ class VideoControllerUpload extends GetxController {
     }
   }
 
-
-  Future<void> uploadVideo(String name, description, priceRange,) async {
+  Future<void> uploadVideo(
+    String name,
+    description,
+    priceRange,
+  ) async {
     if (fieldTextEditingController.text.isEmpty) {
       if (name.isEmpty) {
         Get.snackbar('Error', 'Name field is empty. Please select a Name.',
@@ -750,11 +753,10 @@ class VideoControllerUpload extends GetxController {
         Get.snackbar(
             'Error', 'Description field is empty. Please select a description.',
             colorText: Colors.white, backgroundColor: const Color(0xff025B8F));
-      } else if(priceRange.isEmpty){
-        Get.snackbar(
-            'Error', 'Please enter Price Range',
+      } else if (priceRange.isEmpty) {
+        Get.snackbar('Error', 'Please enter Price Range',
             colorText: Colors.white, backgroundColor: const Color(0xff025B8F));
-      } else{
+      } else {
         Get.snackbar(
             'Error', 'Location field is empty. Please select a location.',
             colorText: Colors.white, backgroundColor: const Color(0xff025B8F));
@@ -796,8 +798,8 @@ class VideoControllerUpload extends GetxController {
         'thumbnailUrl': thumbnailUrl.value,
         'timestamp': FieldValue.serverTimestamp(), // Optional: Add timestamp
         'location': fieldTextEditingController.text,
-        'latitude': lat,  // Storing Latitude
-        'longitude': lng,  // Storing Longitude
+        'latitude': lat, // Storing Latitude
+        'longitude': lng, // Storing Longitude
         'userName': username,
         'videoName': name,
         'description': description,

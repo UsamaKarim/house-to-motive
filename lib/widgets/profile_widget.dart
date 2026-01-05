@@ -10,14 +10,14 @@ class ProfileWidget extends StatelessWidget {
   final String title;
   final VoidCallback? onTap;
   final String svg;
-  const ProfileWidget(
-      {super.key,
-      required this.title,
-      this.isDevider = true,
-      this.red = false,
-      required this.onTap,
-        required this.svg,
-      });
+  const ProfileWidget({
+    super.key,
+    required this.title,
+    this.isDevider = true,
+    this.red = false,
+    required this.onTap,
+    required this.svg,
+  });
 
   @override
   Widget build(BuildContext context) {

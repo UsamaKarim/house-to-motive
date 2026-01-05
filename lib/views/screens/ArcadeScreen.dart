@@ -1,5 +1,3 @@
-
-
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,8 +43,8 @@ class ArcadeScreen extends StatefulWidget {
     this.OrganizerProfilePic,
     this.ticketUid,
     this.isEventFavourite,
-    this.isPaid, this.id,
-
+    this.isPaid,
+    this.id,
   }) : super(key: key);
 
   @override
@@ -54,17 +52,12 @@ class ArcadeScreen extends StatefulWidget {
 }
 
 class _ArcadeScreenState extends State<ArcadeScreen> {
-
-  final  GetVideoController getVideoController=Get.put(GetVideoController());
-
-
+  final GetVideoController getVideoController = Get.put(GetVideoController());
 
   String userId = FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     DateTime date = widget.date.toDate();
-
-
 
     // Format the DateTime to a string
     String formattedDate = DateFormat('yyyy-MM-dd').format(date);
@@ -96,20 +89,20 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                         height: 4.h,
                       ),
                       Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: 2.5.h),
+                        padding: EdgeInsets.symmetric(horizontal: 2.5.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(alignment: Alignment.center,
+                            Container(
+                              alignment: Alignment.center,
                               padding: EdgeInsets.all(1.h),
                               decoration: const BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey,
-                                    blurRadius:3,
-                                    spreadRadius: 0,
-                                    offset: Offset(0, 0)
-                                  )
+                                      color: Colors.grey,
+                                      blurRadius: 3,
+                                      spreadRadius: 0,
+                                      offset: Offset(0, 0))
                                 ],
                                 shape: BoxShape.circle,
                                 color: Colors.white,
@@ -126,23 +119,20 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                               ),
                             ),
                             CircleAvatar(
-                              backgroundColor:
-                              const Color(0xff80ffff),
+                              backgroundColor: const Color(0xff80ffff),
                               radius: 16,
                               child: Icon(
                                 size: 2.5.h,
-                                widget.isEventFavourite==true?
-                                Icons.favorite
+                                widget.isEventFavourite == true
+                                    ? Icons.favorite
                                     : Icons.favorite_border,
-                                color: Colors
-                                    .red, // Customize the color as needed
+                                color:
+                                    Colors.red, // Customize the color as needed
                               ),
                             ),
                           ],
                         ),
                       ),
-
-
                     ],
                   ),
                 ],
@@ -206,7 +196,6 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                     SizedBox(
@@ -227,7 +216,8 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                           SizedBox(height: size.height / 90),
                           Text(
                             widget.oragnizerName.toString(),
-                            style: const TextStyle(color: Colors.black, fontSize: 12),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 12),
                           ),
                           SizedBox(height: size.height / 80),
                           const Text(
@@ -237,47 +227,53 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                           ),
                         ],
                       ),
-                      trailing:FirebaseAuth.instance.currentUser!.uid==widget.ticketUid?const SizedBox.shrink(): Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        height: 35,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey.shade200),
-                        child: ShaderMask(
-                          shaderCallback: (Rect bounds) {
-                            return const LinearGradient(
-                              colors: [
-                                Color(0xffFF0092),
-                                Color(0xff216DFD),
-                              ],
-                            ).createShader(bounds);
-                          },
-                          child: GestureDetector(
-                            onTap: () async {
-                              // Toggle follow status and get the updated status
-                              bool updatedFollowStatus =
-                                  await ticketController.toggleFollowUser(
-                                FirebaseAuth.instance.currentUser!.uid,
-                                widget.ticketUid,
-                              );
+                      trailing: FirebaseAuth.instance.currentUser!.uid ==
+                              widget.ticketUid
+                          ? const SizedBox.shrink()
+                          : Container(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.grey.shade200),
+                              child: ShaderMask(
+                                shaderCallback: (Rect bounds) {
+                                  return const LinearGradient(
+                                    colors: [
+                                      Color(0xffFF0092),
+                                      Color(0xff216DFD),
+                                    ],
+                                  ).createShader(bounds);
+                                },
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    // Toggle follow status and get the updated status
+                                    bool updatedFollowStatus =
+                                        await ticketController.toggleFollowUser(
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                      widget.ticketUid,
+                                    );
 
-                             getVideoController.isFollowing.value=updatedFollowStatus;
-                            },
-                            child:  Obx(()=>
-                               Center(
-                                child: Text(
-                                  getVideoController.isFollowing.value ?"Unfollow" :"Follow",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
+                                    getVideoController.isFollowing.value =
+                                        updatedFollowStatus;
+                                  },
+                                  child: Obx(
+                                    () => Center(
+                                      child: Text(
+                                        getVideoController.isFollowing.value
+                                            ? "Unfollow"
+                                            : "Follow",
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
                     ),
                     // SizedBox(
                     //   height: 2.h,
@@ -761,7 +757,8 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width / 30),
-                child: Align( alignment: Alignment.centerLeft,
+                child: Align(
+                  alignment: Alignment.centerLeft,
                   child: Text(widget.description,
                       style: const TextStyle(
                           color: Color(0XFF7390A1), fontSize: 12)),
@@ -796,8 +793,8 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
               //   ),
               // ),
               //
-        //
-        const SizedBox(
+              //
+              const SizedBox(
                 height: 20,
                 width: 20,
               ),

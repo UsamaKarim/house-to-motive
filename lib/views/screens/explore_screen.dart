@@ -17,7 +17,8 @@ import 'package:http/http.dart' as http;
 class ExploreScreen extends StatefulWidget {
   final String? selectedLocation;
   final Set<Marker> markers;
-  const ExploreScreen({super.key, this.selectedLocation,required this.markers});
+  const ExploreScreen(
+      {super.key, this.selectedLocation, required this.markers});
   @override
   State<ExploreScreen> createState() => _ExploreScreenState();
 }
@@ -26,7 +27,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Future<void> _searchAndMarkLocation(String location) async {
     // Assuming PlacesApi has a method to search location by name and return coordinates
     LatLng coordinates =
-    await placeApiController.searchLocationByName(location);
+        await placeApiController.searchLocationByName(location);
     setState(() {
       widget.markers.add(
         Marker(
@@ -52,13 +53,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-
   @override
   void initState() {
     super.initState();
     _initMap();
-     // _fetchAndMarkLocations().then((value) => _initMap());
-
+    // _fetchAndMarkLocations().then((value) => _initMap());
   }
 
   Future<void> _initMap() async {
@@ -72,97 +71,92 @@ class _ExploreScreenState extends State<ExploreScreen> {
     }
   }
 
-
   final placeApiController = Get.put(PlacesApi());
 
   @override
   Widget build(BuildContext context) {
-    final GetVideoController getVideoController =Get.put(GetVideoController());
+    final GetVideoController getVideoController = Get.put(GetVideoController());
 
-  return Scaffold(
+    return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-
             Center(
                 child: Stack(
-                  children: [
-
-                    SizedBox(
-                      height: Get.height / 1.2,
-                      width: Get.width,
-                      child: GoogleMap(
-                        zoomControlsEnabled: false,
-                        myLocationButtonEnabled: false,
-                        myLocationEnabled: false,
-                        onMapCreated: placeApiController.onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                          target: placeApiController.target,
-                          zoom: placeApiController.defaultZoom,
-                        ),
-                        markers:getVideoController.markers,
-                      ),
+              children: [
+                SizedBox(
+                  height: Get.height / 1.2,
+                  width: Get.width,
+                  child: GoogleMap(
+                    zoomControlsEnabled: false,
+                    myLocationButtonEnabled: false,
+                    myLocationEnabled: false,
+                    onMapCreated: placeApiController.onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: placeApiController.target,
+                      zoom: placeApiController.defaultZoom,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Autocomplete<String>(
-                        optionsBuilder: (TextEditingValue textEditingValue) async {
-                          if (textEditingValue.text == '') {
-                            return const Iterable<String>.empty();
-                          }
-                          return placeApiController
-                              .getSuggestions(textEditingValue.text);
-                        },
-                        onSelected: (String selection) {
-                          placeApiController.searchPlaces(selection);
-                          placeApiController.storeRecentSearch(selection);
-                        },
-                        fieldViewBuilder: (BuildContext context,
-                            TextEditingController fieldTextEditingController,
-                            FocusNode fieldFocusNode,
-                            VoidCallback onFieldSubmitted) {
-                          return Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: TextFormField(
-                              controller: fieldTextEditingController,
-                              focusNode: fieldFocusNode,
-                              decoration: InputDecoration(
-                                hintText: "Search what’s near me",
-                                hintStyle: const TextStyle(
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff424B5A),
-                                ),
-                                isDense: true,
-                                contentPadding:
+                    markers: getVideoController.markers,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Autocomplete<String>(
+                    optionsBuilder: (TextEditingValue textEditingValue) async {
+                      if (textEditingValue.text == '') {
+                        return const Iterable<String>.empty();
+                      }
+                      return placeApiController
+                          .getSuggestions(textEditingValue.text);
+                    },
+                    onSelected: (String selection) {
+                      placeApiController.searchPlaces(selection);
+                      placeApiController.storeRecentSearch(selection);
+                    },
+                    fieldViewBuilder: (BuildContext context,
+                        TextEditingController fieldTextEditingController,
+                        FocusNode fieldFocusNode,
+                        VoidCallback onFieldSubmitted) {
+                      return Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: TextFormField(
+                          controller: fieldTextEditingController,
+                          focusNode: fieldFocusNode,
+                          decoration: InputDecoration(
+                            hintText: "Search what’s near me",
+                            hintStyle: const TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff424B5A),
+                            ),
+                            isDense: true,
+                            contentPadding:
                                 const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                fillColor: Colors.white,
-                                filled: true,
-                                prefixIcon: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
-                                    'assets/svgs/search-normal.svg',
-                                  ),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
+                            fillColor: Colors.white,
+                            filled: true,
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(
+                                'assets/svgs/search-normal.svg',
                               ),
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                )),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )),
           ],
         ),
       ),
-
-
     );
   }
 
@@ -175,7 +169,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 class PlacesApi extends GetxController {
   final TextEditingController eventLocationController = TextEditingController();
-   GoogleMapController? mapController;
+  GoogleMapController? mapController;
   final LatLng target = const LatLng(30.3753, 69.3451);
   final double defaultZoom = 4.0;
   final double searchZoom = 15.0; // Example location
@@ -299,8 +293,6 @@ class PlacesApi extends GetxController {
   final double _zoomLevel = 17.0; // Higher value for closer zoom
   String address = "";
 
-
-
   Future<void> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -354,7 +346,7 @@ class PlacesApi extends GetxController {
       Placemark place = placemarks[0];
 
       address =
-      "${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}";
+          "${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}";
     } catch (e) {
       if (kDebugMode) {
         print(e);

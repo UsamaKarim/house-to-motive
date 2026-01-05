@@ -22,7 +22,6 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-
   final userNameController = TextEditingController();
   final emailController = TextEditingController();
 
@@ -44,28 +43,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> pickImage() async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? selected = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? selected =
+        await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _imageFile = selected;
     });
   }
 
   FirebaseAuth auth = FirebaseAuth.instance;
-RxBool isLoading=false.obs;
+  RxBool isLoading = false.obs;
   Future<void> uploadImage() async {
     if (_imageFile == null) return;
 
     File imageFile = File(_imageFile!.path);
-    String fileName = 'profile/${DateTime.now().millisecondsSinceEpoch}_${_imageFile!.name}';
+    String fileName =
+        'profile/${DateTime.now().millisecondsSinceEpoch}_${_imageFile!.name}';
 
     try {
-      isLoading.value=true;
-      await FirebaseStorage.instance
-          .ref(fileName)
-          .putFile(imageFile);
-      final String downloadUrl = await FirebaseStorage.instance
-          .ref(fileName)
-          .getDownloadURL();
+      isLoading.value = true;
+      await FirebaseStorage.instance.ref(fileName).putFile(imageFile);
+      final String downloadUrl =
+          await FirebaseStorage.instance.ref(fileName).getDownloadURL();
 
       Future<void> addUserDetails() async {
         Map<String, dynamic> updateData = {};
@@ -83,9 +81,12 @@ RxBool isLoading=false.obs;
           await FirebaseFirestore.instance
               .collection('users')
               .doc(auth.currentUser!.uid)
-              .update(updateData).then((value) {
-                isLoading.value=false;
-                Get.snackbar('Status', 'Profile Updated',backgroundColor:  const Color(0xff025B8F),colorText: Colors.white);
+              .update(updateData)
+              .then((value) {
+            isLoading.value = false;
+            Get.snackbar('Status', 'Profile Updated',
+                backgroundColor: const Color(0xff025B8F),
+                colorText: Colors.white);
           });
         }
       }
@@ -93,12 +94,11 @@ RxBool isLoading=false.obs;
       addUserDetails();
       print('Download URL: $downloadUrl');
     } on FirebaseException catch (e) {
-      isLoading.value=false;
+      isLoading.value = false;
 
       // Handle any errors
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -131,11 +131,12 @@ RxBool isLoading=false.obs;
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             Stack(
+            Stack(
               children: [
                 FutureBuilder(
                   future: fetchUserData(),
-                  builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Map<String, dynamic>?> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
@@ -144,32 +145,37 @@ RxBool isLoading=false.obs;
                       String? profilePicUrl = snapshot.data?['profilePic'];
                       return profilePicUrl != null
                           ? CircleAvatar(
-                        radius: 45,
-                        backgroundColor: Colors.transparent,
-                        child: _imageFile != null
-                            ? CircleAvatar(
-                          radius: 35,
-                          backgroundImage: FileImage(File(_imageFile!.path))
-                        )
-                            : CircleAvatar(
-                          radius: 35,
-                          backgroundColor: Colors.black,
-                          backgroundImage: NetworkImage(profilePicUrl.isEmpty?"https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg":profilePicUrl),
-                        ),
-                      ) : CircleAvatar(
-                        radius: 45,
-                        backgroundColor: Colors.transparent,
-                        child: _imageFile != null
-                            ? CircleAvatar(
-                            radius: 35,
-                            backgroundImage: FileImage(File(_imageFile!.path))
-                        )
-                            : const CircleAvatar(
-                          radius: 35,
-                          backgroundColor: Colors.white,
-                          backgroundImage: AssetImage('assets/pngs/user_profile.png'),
-                        ),
-                      );
+                              radius: 45,
+                              backgroundColor: Colors.transparent,
+                              child: _imageFile != null
+                                  ? CircleAvatar(
+                                      radius: 35,
+                                      backgroundImage:
+                                          FileImage(File(_imageFile!.path)))
+                                  : CircleAvatar(
+                                      radius: 35,
+                                      backgroundColor: Colors.black,
+                                      backgroundImage: NetworkImage(profilePicUrl
+                                              .isEmpty
+                                          ? "https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
+                                          : profilePicUrl),
+                                    ),
+                            )
+                          : CircleAvatar(
+                              radius: 45,
+                              backgroundColor: Colors.transparent,
+                              child: _imageFile != null
+                                  ? CircleAvatar(
+                                      radius: 35,
+                                      backgroundImage:
+                                          FileImage(File(_imageFile!.path)))
+                                  : const CircleAvatar(
+                                      radius: 35,
+                                      backgroundColor: Colors.white,
+                                      backgroundImage: AssetImage(
+                                          'assets/pngs/user_profile.png'),
+                                    ),
+                            );
                     } else {
                       return const Text("No user data available");
                     }
@@ -183,7 +189,7 @@ RxBool isLoading=false.obs;
                     radius: 10,
                     backgroundColor: Colors.white,
                     child: InkWell(
-                      onTap: (){
+                      onTap: () {
                         // ticketController.pickedImage();
                         pickImage();
                       },
@@ -205,8 +211,10 @@ RxBool isLoading=false.obs;
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-            CustomEmailField(title: 'User name',textEditingController: userNameController),
-            CustomEmailField(title: 'Email',textEditingController: emailController),
+            CustomEmailField(
+                title: 'User name', textEditingController: userNameController),
+            CustomEmailField(
+                title: 'Email', textEditingController: emailController),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.072,
               child: Container(
@@ -218,7 +226,8 @@ RxBool isLoading=false.obs;
                   children: [
                     CountryCodePicker(
                       onChanged: (countryCode) {
-                        print(countryCode.dialCode); // Prints the selected country code
+                        print(countryCode
+                            .dialCode); // Prints the selected country code
                       },
                       initialSelection: 'US',
                       favorite: ['+1', 'US'],
@@ -244,16 +253,20 @@ RxBool isLoading=false.obs;
                 ),
               ),
             ),
-
-
             const Spacer(),
-Obx(() =>     isLoading.value==true?const Center(child: CircularProgressIndicator(color: Color(0xff025B8F) ,)):
-CustomButton(
-  title: "Update Profile",
-  ontap: () {
-    uploadImage();
-  },
-),)
+            Obx(
+              () => isLoading.value == true
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      color: Color(0xff025B8F),
+                    ))
+                  : CustomButton(
+                      title: "Update Profile",
+                      ontap: () {
+                        uploadImage();
+                      },
+                    ),
+            )
           ],
         ),
       ),

@@ -150,19 +150,18 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                                   isDense: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                          color: Color(0xffD9D9D9))),
+                                      borderSide:
+                                          BorderSide(color: Color(0xffD9D9D9))),
                                   hintText: "Exp date.",
-                                  hintStyle: TextStyle(
-                                      fontSize: 14, color: textColor),
+                                  hintStyle:
+                                      TextStyle(fontSize: 14, color: textColor),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20))),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                          width: 10), // Add spacing between the fields
+                      SizedBox(width: 10), // Add spacing between the fields
                       Expanded(
                         flex: 1,
                         child: Column(
@@ -190,11 +189,11 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                                   isDense: true,
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                          color: Color(0xffD9D9D9))),
+                                      borderSide:
+                                          BorderSide(color: Color(0xffD9D9D9))),
                                   hintText: "CVV",
-                                  hintStyle: TextStyle(
-                                      fontSize: 14, color: textColor),
+                                  hintStyle:
+                                      TextStyle(fontSize: 14, color: textColor),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20))),
                             ),
@@ -210,8 +209,7 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      fixedSize: Size(
-                          MediaQuery.of(context).size.width, 50),
+                      fixedSize: Size(MediaQuery.of(context).size.width, 50),
                       backgroundColor: buttonColor,
                     ),
                     onPressed: () {
@@ -226,7 +224,6 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                                 ? Colors.white
                                 : Color(0xff025BBF))),
                   ),
-
                 ],
               ),
             ),

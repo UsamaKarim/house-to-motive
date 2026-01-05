@@ -13,16 +13,15 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({
-    super.key,
-    required this.name,
-    this.pic,
-    required this.chatRoomId,
-    this.currentUserId,
-    this.urls,
-    required this.receiverEmail,
-    required this.receiverId
-  });
+  const ChatPage(
+      {super.key,
+      required this.name,
+      this.pic,
+      required this.chatRoomId,
+      this.currentUserId,
+      this.urls,
+      required this.receiverEmail,
+      required this.receiverId});
 
   final String name;
   final String? pic;
@@ -140,7 +139,8 @@ class _ChatPageState extends State<ChatPage> {
                 value: isBlocked ? 'unblock' : 'block',
                 child: Row(
                   children: [
-                    Icon(isBlocked ? Icons.check_circle : Icons.block, color: Colors.red),
+                    Icon(isBlocked ? Icons.check_circle : Icons.block,
+                        color: Colors.red),
                     SizedBox(width: 8),
                     Text(isBlocked ? "Unblock" : "Block"),
                   ],
@@ -399,7 +399,6 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-
   void showBlockConfirmationDialog(String blockedUserId) {
     showDialog(
       context: context,
@@ -422,7 +421,6 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
-
 
   void onSendMessage() async {
     String messageText = messageController.text;
@@ -538,25 +536,27 @@ class _ChatPageState extends State<ChatPage> {
         return Wrap(
           children: reportReasons
               .map((reason) => ListTile(
-            title: Text(reason),
-            onTap: () {
-              Navigator.pop(context);
-              showReportConfirmation(context, reportedUserId, reason);
-            },
-          ))
+                    title: Text(reason),
+                    onTap: () {
+                      Navigator.pop(context);
+                      showReportConfirmation(context, reportedUserId, reason);
+                    },
+                  ))
               .toList(),
         );
       },
     );
   }
 
-  void showReportConfirmation(BuildContext context, String reportedUserId, String reason) {
+  void showReportConfirmation(
+      BuildContext context, String reportedUserId, String reason) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text("Confirm Report"),
-          content: Text("Are you sure you want to report this user for '$reason'?"),
+          content:
+              Text("Are you sure you want to report this user for '$reason'?"),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -583,7 +583,8 @@ class _ChatPageState extends State<ChatPage> {
       "reason": reason,
       "timestamp": FieldValue.serverTimestamp(),
     });
-    Utils().ToastMessage("Your report has been submitted. Thank you for helping us keep the community safe.");
+    Utils().ToastMessage(
+        "Your report has been submitted. Thank you for helping us keep the community safe.");
   }
 
   Future<void> updateOtherActiveChatListInFirestore(

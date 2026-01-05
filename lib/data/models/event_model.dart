@@ -48,7 +48,8 @@ class Ticket {
       'id': id,
       'isPaid': isPaid,
       'date': date != null ? Timestamp.fromDate(date!) : null,
-      'startTime': startTime != null ? '${startTime!.hour}:${startTime!.minute}' : null,
+      'startTime':
+          startTime != null ? '${startTime!.hour}:${startTime!.minute}' : null,
       'endTime': endTime != null ? '${endTime!.hour}:${endTime!.minute}' : null,
       'location': location,
       'eventName': eventName,
@@ -72,7 +73,8 @@ class Ticket {
       id: map['id'],
       isPaid: map['isPaid'],
       date: (map['date'] as Timestamp?)?.toDate(),
-      startTime: map['startTime'] != null ? _parseTimeOfDay(map['startTime']) : null,
+      startTime:
+          map['startTime'] != null ? _parseTimeOfDay(map['startTime']) : null,
       endTime: map['endTime'] != null ? _parseTimeOfDay(map['endTime']) : null,
       location: map['location'],
       eventName: map['eventName'],

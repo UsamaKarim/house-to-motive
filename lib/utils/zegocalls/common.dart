@@ -6,11 +6,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 Widget customAvatarBuilder(
-    BuildContext context,
-    Size size,
-    ZegoUIKitUser? user,
-    Map<String, dynamic> extraInfo,
-    ) {
+  BuildContext context,
+  Size size,
+  ZegoUIKitUser? user,
+  Map<String, dynamic> extraInfo,
+) {
   return CachedNetworkImage(
     imageUrl: 'https://robohash.org/${user?.id}.png',
     imageBuilder: (context, imageProvider) => Container(

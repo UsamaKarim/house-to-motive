@@ -21,12 +21,14 @@ class _FollowersScreenState extends State<FollowersScreen> {
   final FirestoreService _firestoreService = FirestoreService();
   List<UserDetail> allUsersDetails = [];
   String chatRoomId(String user1, String user2) {
-    if (user1[0].toLowerCase().codeUnits[0] > user2.toLowerCase().codeUnits[0]) {
+    if (user1[0].toLowerCase().codeUnits[0] >
+        user2.toLowerCase().codeUnits[0]) {
       return "$user1$user2";
     } else {
       return "$user2$user1";
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -97,22 +99,20 @@ class _FollowersScreenState extends State<FollowersScreen> {
 
                 if (userDetails == null) {
                   // Handle the case when userDetails is null
-                  return const SizedBox.shrink(); // Or return a placeholder widget
+                  return const SizedBox
+                      .shrink(); // Or return a placeholder widget
                 }
                 return GestureDetector(
-                  onTap: (){
-
-
+                  onTap: () {
                     Get.to(
-                    ChatPage(
-                      name:    userDetails!.userName,
-                      receiverEmail: userDetails.userId,
-                      receiverId: userDetails.userId,
-                      chatRoomId:  chatRoomId(userDetails.userId, FirebaseAuth.instance.currentUser!.uid),
-                      pic: userDetails.profilePic,
-
-
-                    ),
+                      ChatPage(
+                        name: userDetails!.userName,
+                        receiverEmail: userDetails.userId,
+                        receiverId: userDetails.userId,
+                        chatRoomId: chatRoomId(userDetails.userId,
+                            FirebaseAuth.instance.currentUser!.uid),
+                        pic: userDetails.profilePic,
+                      ),
                     );
                   },
                   child: ListTile(
@@ -147,10 +147,10 @@ class _FollowersScreenState extends State<FollowersScreen> {
                         String currentUserId =
                             FirebaseAuth.instance.currentUser!.uid;
                         String followerUserId = userId;
-                  
+
                         await ticketController.removeFollower(
                             currentUserId, followerUserId);
-                  
+
                         setState(() {});
                       },
                       child: Container(
@@ -194,12 +194,12 @@ class UserDetail {
   final String userName;
   final String profilePic;
 
-  UserDetail(
-      {required this.userId,
-      required this.email,
-      required this.userName,
-      required this.profilePic,
-      });
+  UserDetail({
+    required this.userId,
+    required this.email,
+    required this.userName,
+    required this.profilePic,
+  });
 
   factory UserDetail.fromDocumentSnapshot(DocumentSnapshot doc) {
     return UserDetail(
@@ -226,5 +226,3 @@ class FirestoreService {
     }
   }
 }
-
-

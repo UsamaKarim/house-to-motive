@@ -44,10 +44,11 @@ class NotificationScreen extends StatelessWidget {
             Text(
               'Enable Notifications',
               style: TextStyle(
-                  fontFamily: 'Mont',
-                  fontSize: 28,
-                  fontWeight: FontWeight.w900,
-                  color: Color(0xff025B8F),),
+                fontFamily: 'Mont',
+                fontSize: 28,
+                fontWeight: FontWeight.w900,
+                color: Color(0xff025B8F),
+              ),
             ),
             SizedBox(height: 10),
             Text(
@@ -57,7 +58,8 @@ class NotificationScreen extends StatelessWidget {
                 fontFamily: 'ProximaNova',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: Color(0xff424B5A),),
+                color: Color(0xff424B5A),
+              ),
             )
           ],
         ),

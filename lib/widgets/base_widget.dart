@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class BaseWidget extends StatelessWidget {
   final VoidCallback ontap;
-  const BaseWidget({super.key,required this.ontap});
+  const BaseWidget({super.key, required this.ontap});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +11,6 @@ import '../../../widgets/loginbutton.dart';
 import 'FavEvents.dart';
 import 'FavVideos.dart';
 import 'myfavourite.dart';
-
 
 class FavListController extends GetxController {
   RxBool isSelectedVideos = true.obs;
@@ -76,8 +74,8 @@ class FavListController extends GetxController {
   }
 
   _checkGuestMode() async {
-    bool guestStatus = await checkGuestMode();  // Await the async method
-    if(!guestStatus) {
+    bool guestStatus = await checkGuestMode(); // Await the async method
+    if (!guestStatus) {
       userId = FirebaseAuth.instance.currentUser!.uid;
     }
   }
@@ -88,7 +86,6 @@ class FavListController extends GetxController {
     super.onInit();
     _checkGuestMode();
   }
-
 }
 
 class FavList extends StatefulWidget {
@@ -112,20 +109,20 @@ class _FavListState extends State<FavList> {
   }
 
   _checkGuestMode() async {
-    bool guestStatus = await checkGuestMode();  // Await the async method
+    bool guestStatus = await checkGuestMode(); // Await the async method
     setState(() {
       isGuestLogin = guestStatus;
     });
   }
 
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // controller. fetchFavouriteTickets();
-  _checkGuestMode();
-
+    _checkGuestMode();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,188 +163,192 @@ class _FavListState extends State<FavList> {
           const SizedBox(width: 10),
         ],
       ),
-      body: isGuestLogin ? Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Please Login to continue', style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-          ),),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: CustomButton(
-              title: "Login",
-              ontap: () {
-                Get.offAll(() => LoginWithEmailScreen());
-              },
-            ),
-          ),
-        ],
-      )  : Padding(
-        padding: const EdgeInsets.only(right: 10.0, left: 10.0, top: 10.0),
-        child: Column(
-          children: [
-            Obx(
-              () => Row(
+      body: isGuestLogin
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Please Login to continue',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: CustomButton(
+                    title: "Login",
+                    ontap: () {
+                      Get.offAll(() => LoginWithEmailScreen());
+                    },
+                  ),
+                ),
+              ],
+            )
+          : Padding(
+              padding:
+                  const EdgeInsets.only(right: 10.0, left: 10.0, top: 10.0),
+              child: Column(
                 children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        controller.selectVideos();
-                        setState(() {
-                          flag = 1;
-                        });
-                        //Navigator.push(context, MaterialPageRoute(builder: (context)=>FavVideos()));
-                      },
-                      child: Container(
-                        height: 40,
-                        width: MediaQuery.of(context).size.width / 3,
-                        decoration: BoxDecoration(
-                          borderRadius: controller.isSelectedVideos.value
-                              ? const BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  topLeft: Radius.circular(20),
-                                )
-                              : const BorderRadius.only(
-                                  topRight: Radius.circular(0),
-                                  bottomRight: Radius.circular(0),
-                                  bottomLeft: Radius.circular(20),
-                                  topLeft: Radius.circular(20),
-                                ),
-                          color: controller.isSelectedVideos.value
-                              ? const Color(0xff025B8F)
-                              : Colors.white,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Videos",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: controller.isSelectedVideos.value
-                                  ? Colors.white
-                                  : seagreen,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        controller.selectEvents();
-                        setState(() {
-                          flag = 2;
-                        });
-                      },
-                      child: Container(
-                        height: 40,
-                        width: MediaQuery.of(context).size.width / 3,
-                        decoration: BoxDecoration(
-                          borderRadius: controller.isSelectedVideos.value
-                              ? const BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  topLeft: Radius.circular(10),
-                                )
-                              : const BorderRadius.only(
-                                  topRight: Radius.circular(0),
-                                  topLeft: Radius.circular(0),
-                                  bottomRight: Radius.circular(0),
-                                  bottomLeft: Radius.circular(0)),
-                          color: controller.isSelectedEvents.value
-                              ? const Color(0xff025B8F)
-                              : Colors.white,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Events",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: controller.isSelectedEvents.value
-                                  ? Colors.white
-                                  : seagreen,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        controller.selectRestaurants();
-                        setState(() {
-                          flag = 3;
-                        });
-                      },
-                      child: Container(
-                        height: 40,
-                        width: MediaQuery.of(context).size.width / 3,
-                        decoration: BoxDecoration(
-                          borderRadius: controller.isSelectedVideos.value
-                              ? const BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  topLeft: Radius.circular(10),
-                                )
-                              : const BorderRadius.only(
-                                  topLeft: Radius.circular(0),
-                                  bottomLeft: Radius.circular(0),
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(20)),
-                          color: controller.isSelectedRestaurants.value
-                              ? const Color(0xff025B8F)
-                              : Colors.white,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Restaurants",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: controller.isSelectedRestaurants.value
-                                  ? Colors.white
-                                  : seagreen,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            flag == 1
-                ? Expanded(
-                    child: FavVideos(
-                    userId: controller.userId,
-                  ))
-                : flag == 2
-                    ?  Expanded(
-                        child: FavEvents(),
-                      )
-                    : flag == 3
-                        ? const Expanded(
-                            child: FavRestaurants(),
-                          )
-                        : Expanded(
+                  Obx(
+                    () => Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.selectVideos();
+                              setState(() {
+                                flag = 1;
+                              });
+                              //Navigator.push(context, MaterialPageRoute(builder: (context)=>FavVideos()));
+                            },
                             child: Container(
-                              color: Colors.white,
-                              child: FavVideos(
-                                userId: controller.userId,
+                              height: 40,
+                              width: MediaQuery.of(context).size.width / 3,
+                              decoration: BoxDecoration(
+                                borderRadius: controller.isSelectedVideos.value
+                                    ? const BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                      )
+                                    : const BorderRadius.only(
+                                        topRight: Radius.circular(0),
+                                        bottomRight: Radius.circular(0),
+                                        bottomLeft: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                      ),
+                                color: controller.isSelectedVideos.value
+                                    ? const Color(0xff025B8F)
+                                    : Colors.white,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Videos",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: controller.isSelectedVideos.value
+                                        ? Colors.white
+                                        : seagreen,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-          ],
-        ),
-      ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.selectEvents();
+                              setState(() {
+                                flag = 2;
+                              });
+                            },
+                            child: Container(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width / 3,
+                              decoration: BoxDecoration(
+                                borderRadius: controller.isSelectedVideos.value
+                                    ? const BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        topLeft: Radius.circular(10),
+                                      )
+                                    : const BorderRadius.only(
+                                        topRight: Radius.circular(0),
+                                        topLeft: Radius.circular(0),
+                                        bottomRight: Radius.circular(0),
+                                        bottomLeft: Radius.circular(0)),
+                                color: controller.isSelectedEvents.value
+                                    ? const Color(0xff025B8F)
+                                    : Colors.white,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Events",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: controller.isSelectedEvents.value
+                                        ? Colors.white
+                                        : seagreen,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.selectRestaurants();
+                              setState(() {
+                                flag = 3;
+                              });
+                            },
+                            child: Container(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width / 3,
+                              decoration: BoxDecoration(
+                                borderRadius: controller.isSelectedVideos.value
+                                    ? const BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        topLeft: Radius.circular(10),
+                                      )
+                                    : const BorderRadius.only(
+                                        topLeft: Radius.circular(0),
+                                        bottomLeft: Radius.circular(0),
+                                        topRight: Radius.circular(20),
+                                        bottomRight: Radius.circular(20)),
+                                color: controller.isSelectedRestaurants.value
+                                    ? const Color(0xff025B8F)
+                                    : Colors.white,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Restaurants",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color:
+                                        controller.isSelectedRestaurants.value
+                                            ? Colors.white
+                                            : seagreen,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  flag == 1
+                      ? Expanded(
+                          child: FavVideos(
+                          userId: controller.userId,
+                        ))
+                      : flag == 2
+                          ? Expanded(
+                              child: FavEvents(),
+                            )
+                          : flag == 3
+                              ? const Expanded(
+                                  child: FavRestaurants(),
+                                )
+                              : Expanded(
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: FavVideos(
+                                      userId: controller.userId,
+                                    ),
+                                  ),
+                                ),
+                ],
+              ),
+            ),
     );
   }
 }

@@ -6,7 +6,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../views/screens/video_screen.dart';
 
-
 class FavVideos extends StatelessWidget {
   final String userId;
   const FavVideos({super.key, required this.userId});
@@ -16,7 +15,10 @@ class FavVideos extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0),
       child: StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance.collection('users').doc(userId).snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Show shimmer effect while waiting for data
@@ -75,7 +77,10 @@ class FavVideos extends StatelessWidget {
                     .doc(likedVideos[index])
                     .get(),
                 builder: (context, videoSnapshot) {
-                  if (videoSnapshot.connectionState == ConnectionState.waiting || !videoSnapshot.hasData || !videoSnapshot.data!.exists) {
+                  if (videoSnapshot.connectionState ==
+                          ConnectionState.waiting ||
+                      !videoSnapshot.hasData ||
+                      !videoSnapshot.data!.exists) {
                     return Shimmer.fromColors(
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,
@@ -88,7 +93,8 @@ class FavVideos extends StatelessWidget {
                     );
                   }
 
-                  var videoData = videoSnapshot.data!.data() as Map<String, dynamic>;
+                  var videoData =
+                      videoSnapshot.data!.data() as Map<String, dynamic>;
 
                   if (!videoData.containsKey('thumbnailUrl')) {
                     return const SizedBox(); // Return an empty SizedBox if thumbnailUrl field is missing
@@ -102,27 +108,32 @@ class FavVideos extends StatelessWidget {
 
                       // Fetch video URLs and user IDs for all liked videos
                       for (var likedVideo in likedVideos) {
-                        var videoSnapshot = await FirebaseFirestore.instance.collection('videos').doc(likedVideo).get();
+                        var videoSnapshot = await FirebaseFirestore.instance
+                            .collection('videos')
+                            .doc(likedVideo)
+                            .get();
                         if (videoSnapshot.exists) {
-                          var videoData = videoSnapshot.data() as Map<String, dynamic>;
+                          var videoData =
+                              videoSnapshot.data() as Map<String, dynamic>;
                           if (videoData.containsKey('videoUrl')) {
                             videoUrls.add(videoData['videoUrl']);
                             userIdsList2.add(videoData['userId']);
                             thumbnailList.add(videoData["thumbnailUrl"]);
-                            videoIdList.add(videoSnapshot.id); // Store the document ID
+                            videoIdList
+                                .add(videoSnapshot.id); // Store the document ID
                             log("Document ID: ${videoSnapshot.id}");
-
                           }
                         }
                       }
                       Get.to(() => VideoScreen(
-                        videoUrls: videoUrls,
-                        initialIndex: index,
-                        videoUserIdList: userIdsList2,
-                        title: 'title',
-                        videoIdList: videoIdList, // Pass the video ID list
-                        thumbnail: thumbnailList[index], // Pass the corresponding thumbnail
-                      ));
+                            videoUrls: videoUrls,
+                            initialIndex: index,
+                            videoUserIdList: userIdsList2,
+                            title: 'title',
+                            videoIdList: videoIdList, // Pass the video ID list
+                            thumbnail: thumbnailList[
+                                index], // Pass the corresponding thumbnail
+                          ));
                     },
                     child: Stack(
                       children: [
@@ -149,17 +160,12 @@ class FavVideos extends StatelessWidget {
                 },
               );
             },
-          )
-          ;
+          );
         },
       ),
     );
   }
 }
-
-
-
-
 
 // GridView.builder(
 // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

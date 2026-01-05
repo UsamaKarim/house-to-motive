@@ -5,7 +5,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../core/constants/color.dart';
 
-
 Widget TicketTile(BuildContext context, String name2, String date, String price,
     int members, String location, String cate1, String cate2, String disc) {
   var mqh = MediaQuery.of(context).size.height;
@@ -18,10 +17,10 @@ Widget TicketTile(BuildContext context, String name2, String date, String price,
       child: Container(
         decoration: const BoxDecoration(
           border:
-          BorderDirectional(bottom: BorderSide(color: orange, width: 2)),
+              BorderDirectional(bottom: BorderSide(color: orange, width: 2)),
         ),
         child: Container(
-          // elevation: 0,
+            // elevation: 0,
             height: MediaQuery.of(context).size.height * .28,
             //height: 253.h,
             color: Colors.white,
@@ -30,7 +29,7 @@ Widget TicketTile(BuildContext context, String name2, String date, String price,
             child: Column(
               children: [
                 SizedBox(
-                  height: mqh*0.01,
+                  height: mqh * 0.01,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 13, right: 13),
@@ -70,11 +69,11 @@ Widget TicketTile(BuildContext context, String name2, String date, String price,
                                   fontSize: 10.px,
                                   fontWeight: FontWeight.w500),
                               children: <TextSpan>[
-                                TextSpan(text: cate1),
-                                TextSpan(
-                                    text: cate2,
-                                    style: const TextStyle(color: orange))
-                              ])),
+                            TextSpan(text: cate1),
+                            TextSpan(
+                                text: cate2,
+                                style: const TextStyle(color: orange))
+                          ])),
                       Text(
                         disc,
                         style: GoogleFonts.inter(
@@ -95,8 +94,8 @@ Widget TicketTile(BuildContext context, String name2, String date, String price,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                        height: mqh*.028,
-                        width: mqw*.044,
+                        height: mqh * .028,
+                        width: mqw * .044,
                         margin: const EdgeInsets.only(right: 20),
                         decoration: const BoxDecoration(
                             color: Color(0xffF6F9FF),
@@ -104,11 +103,11 @@ Widget TicketTile(BuildContext context, String name2, String date, String price,
                                 right: Radius.circular(50)))),
                     Expanded(
                         child: MySeparator(
-                          color: Color(0xFFE0E0E0),
-                        )),
+                      color: Color(0xFFE0E0E0),
+                    )),
                     Container(
-                        height: mqh*.028,
-                        width: mqw*.044,
+                        height: mqh * .028,
+                        width: mqw * .044,
                         margin: const EdgeInsets.only(left: 20),
                         decoration: const BoxDecoration(
                             color: Color(0xffF6F9FF),
@@ -121,7 +120,7 @@ Widget TicketTile(BuildContext context, String name2, String date, String price,
                 //   dashColor: Colors.grey,
                 // ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height*.016,
+                  height: MediaQuery.of(context).size.height * .016,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 13, right: 13),
@@ -222,13 +221,13 @@ Widget TicketTile(BuildContext context, String name2, String date, String price,
                   ),
                 ),
                 SizedBox(
-                  height: mqh*.01,
+                  height: mqh * .01,
                 ),
                 GestureDetector(
                   onTap: () {},
                   child: Container(
-                    width: mqw*.872,
-                    height: mqh*.043,
+                    width: mqw * .872,
+                    height: mqh * .043,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(7),
                         color: Color.fromRGBO(2, 91, 143, 0.1)),

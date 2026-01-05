@@ -7,8 +7,6 @@ import 'package:intl/intl.dart';
 
 import '../data/models/user_model.dart';
 
-
-
 class SearchUserController extends GetxController {
   RxList<String> userNameList = <String>[].obs;
   RxList<String> userPicsList = <String>[].obs;

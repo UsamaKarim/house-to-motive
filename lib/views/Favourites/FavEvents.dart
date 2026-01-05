@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,7 +9,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'newFav.dart';
 
 class FavEvents extends StatelessWidget {
-   FavEvents({super.key});
+  FavEvents({super.key});
 
   final FavListController controller = Get.put(FavListController());
 
@@ -21,7 +20,8 @@ class FavEvents extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(children: [
+          child: Column(
+        children: [
           Padding(
             padding: const EdgeInsets.only(left: 12.0, right: 12),
             child: Row(
@@ -62,7 +62,6 @@ class FavEvents extends StatelessWidget {
             ),
           ),
           SizedBox(height: screenHeight * 0.03),
-
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12),
             child: FutureBuilder(
@@ -85,7 +84,7 @@ class FavEvents extends StatelessWidget {
                     itemBuilder: (context, index) {
                       DocumentSnapshot doc = docs[index];
                       Map<String, dynamic>? data =
-                      doc.data() as Map<String, dynamic>?;
+                          doc.data() as Map<String, dynamic>?;
 
                       if (data == null || data.isEmpty) {
                         return Container();
@@ -114,7 +113,7 @@ class FavEvents extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           Get.to(
-                                () => ArcadeScreen(
+                            () => ArcadeScreen(
                               description: description,
                               photoURL: photoURL,
                               startTime: startTime,
@@ -130,7 +129,6 @@ class FavEvents extends StatelessWidget {
                               ticketUid: ticketUid,
                               isPaid: isPaid,
                               isEventFavourite: isFavorite.value,
-
                             ),
                           );
                         },
@@ -149,12 +147,13 @@ class FavEvents extends StatelessWidget {
                                   padding: const EdgeInsets.all(6.0),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             eventName.length > 35
@@ -178,7 +177,8 @@ class FavEvents extends StatelessWidget {
                                                     : location,
                                                 style: GoogleFonts.inter(
                                                   fontWeight: FontWeight.w400,
-                                                  color: const Color(0xff7390A1),
+                                                  color:
+                                                      const Color(0xff7390A1),
                                                   fontSize: 10,
                                                 ),
                                               ),
@@ -217,17 +217,17 @@ class FavEvents extends StatelessWidget {
                                         );
                                       },
                                       child: Obx(() => CircleAvatar(
-                                        backgroundColor:
-                                        const Color(0xff80ffff),
-                                        radius: 16,
-                                        child: Icon(
-                                          size: 2.5.h,
-                                          isFavorite.value
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: Colors.red,
-                                        ),
-                                      )),
+                                            backgroundColor:
+                                                const Color(0xff80ffff),
+                                            radius: 16,
+                                            child: Icon(
+                                              size: 2.5.h,
+                                              isFavorite.value
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                              color: Colors.red,
+                                            ),
+                                          )),
                                     ),
                                   ],
                                 ),
@@ -242,9 +242,8 @@ class FavEvents extends StatelessWidget {
               },
             ),
           ),
-
-        ],)
-      ),
+        ],
+      )),
     );
   }
 }

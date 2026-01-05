@@ -25,12 +25,14 @@ class _ratingstarScreenState extends State<ratingstarScreen> {
     keyboardVisible.value = MediaQuery.of(context).viewInsets.bottom != 0;
     log(keyboardVisible.value.toString());
     final Size size = MediaQuery.of(context).size;
-    return Obx(()=> SingleChildScrollView(
-      child: SizedBox(
-          height: keyboardVisible.value ? size.height / 1.22 : size.height / 1.65,
+    return Obx(
+      () => SingleChildScrollView(
+        child: SizedBox(
+          height:
+              keyboardVisible.value ? size.height / 1.22 : size.height / 1.65,
           child: Column(
             children: [
-              SizedBox(height:size.height/45),
+              SizedBox(height: size.height / 45),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -125,17 +127,19 @@ class _ratingstarScreenState extends State<ratingstarScreen> {
               ),
               TextFormField(
                 scrollPadding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom*2),
+                    bottom: MediaQuery.of(context).viewInsets.bottom * 2),
                 controller: _textController,
                 maxLines: 5,
                 maxLength: maxCharacters,
                 onChanged: (text) {
                   setState(() {
                     // Set background color and text color based on whether there is text entered or not
-                    buttonColor =
-                        text.isNotEmpty ? const Color(0XFF025B8F) : Colors.white;
-                    textColor =
-                        text.isNotEmpty ? Colors.white : const Color(0XFF7390A1);
+                    buttonColor = text.isNotEmpty
+                        ? const Color(0XFF025B8F)
+                        : Colors.white;
+                    textColor = text.isNotEmpty
+                        ? Colors.white
+                        : const Color(0XFF7390A1);
                   });
                 },
                 decoration: InputDecoration(
@@ -163,11 +167,10 @@ class _ratingstarScreenState extends State<ratingstarScreen> {
                 },
                 child: Text("Rate it", style: TextStyle(color: textColor)),
               ),
-
             ],
           ),
         ),
-    ),
+      ),
     );
   }
 }

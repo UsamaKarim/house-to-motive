@@ -45,14 +45,16 @@ class FAQSScreen extends StatelessWidget {
                 Theme(
                   data: ThemeData().copyWith(dividerColor: Colors.transparent),
                   child: Obx(
-                        () => Container(
+                    () => Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: ExpansionTile(
                         trailing: Icon(
-                          isExpandedList[index].value ? Icons.remove : Icons.add,
+                          isExpandedList[index].value
+                              ? Icons.remove
+                              : Icons.add,
                           color: Color(0xff025B8F),
                         ),
                         childrenPadding: EdgeInsets.symmetric(vertical: 4),
@@ -73,7 +75,8 @@ class FAQSScreen extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
                                 child: Column(
                                   children: [
                                     MySeparator(),
@@ -111,8 +114,10 @@ class FAQSScreen extends StatelessWidget {
 }
 
 class MySeparator extends StatelessWidget {
-  const MySeparator({Key? key, this.height = 1,})
-      : super(key: key);
+  const MySeparator({
+    Key? key,
+    this.height = 1,
+  }) : super(key: key);
   final double height;
 
   @override

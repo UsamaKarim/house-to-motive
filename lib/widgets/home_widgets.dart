@@ -9,7 +9,8 @@ class ButtonWidget extends StatefulWidget {
 }
 
 class _ButtonWidgetState extends State<ButtonWidget> {
-  RxBool isSelectedContainer1 = true.obs; // Set this to true for default selection
+  RxBool isSelectedContainer1 =
+      true.obs; // Set this to true for default selection
   RxBool isSelectedContainer2 = false.obs;
 
   @override
@@ -25,7 +26,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
               isSelectedContainer2.value = !isSelectedContainer1.value;
             },
             child: Obx(
-                  () => Container(
+              () => Container(
                 height: screenHeight * 0.07,
                 width: Get.width,
                 decoration: BoxDecoration(
@@ -53,8 +54,8 @@ class _ButtonWidgetState extends State<ButtonWidget> {
               isSelectedContainer1.value = !isSelectedContainer2.value;
             },
             child: Obx(
-                  () => Container(
-                    height: screenHeight * 0.07,
+              () => Container(
+                height: screenHeight * 0.07,
                 width: Get.width,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(

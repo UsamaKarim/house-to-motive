@@ -16,7 +16,7 @@ class CustomButtonWithIcon extends StatelessWidget {
       onTap: ontap,
       child: Container(
         height: MediaQuery.of(context).size.height * 0.060,
-        width:MediaQuery.of(context).size.width / 2,
+        width: MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Color(0xff025B8F),
@@ -27,7 +27,7 @@ class CustomButtonWithIcon extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(svg,height: 22),
+                SvgPicture.asset(svg, height: 22),
                 SizedBox(width: 15),
                 Text(
                   title,
@@ -35,7 +35,8 @@ class CustomButtonWithIcon extends StatelessWidget {
                     fontFamily: 'ProximaNova',
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,),
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -64,7 +65,7 @@ class CustomSocialButton extends StatelessWidget {
           // color: Colors.black,
         ),
         child: Center(
-          child: SvgPicture.asset(svg,height: 22),
+          child: SvgPicture.asset(svg, height: 22),
         ),
       ),
     );

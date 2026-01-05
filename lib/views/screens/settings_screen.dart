@@ -57,12 +57,24 @@ class SettingScreen extends StatelessWidget {
                   // ProfileWidget(title: 'App Language', onTap: () {
                   //
                   // }),
-                  SettingWidget(title: 'App Language',onTap: () {},),
-                  SettingWidget(title: 'App Info',onTap: () {},),
-                  SettingWidget(title: 'Change Password',onTap: () {
-                    Get.to(() =>ChangePassWordScreen());
-                  },),
-                  SettingWidget(title: 'Invite Friends',onTap: () {},),
+                  SettingWidget(
+                    title: 'App Language',
+                    onTap: () {},
+                  ),
+                  SettingWidget(
+                    title: 'App Info',
+                    onTap: () {},
+                  ),
+                  SettingWidget(
+                    title: 'Change Password',
+                    onTap: () {
+                      Get.to(() => ChangePassWordScreen());
+                    },
+                  ),
+                  SettingWidget(
+                    title: 'Invite Friends',
+                    onTap: () {},
+                  ),
 
                   SizedBox(height: 0.7.h),
                 ],
@@ -88,8 +100,7 @@ class SettingScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Invitation',
@@ -101,7 +112,7 @@ class SettingScreen extends StatelessWidget {
                               ),
                               // const Spacer(),
                               Obx(
-                                    () => Switch(
+                                () => Switch(
                                   activeTrackColor: Colors.green,
                                   value: light0.value,
                                   onChanged: (bool value) {
@@ -133,8 +144,7 @@ class SettingScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Invitation',
@@ -146,7 +156,7 @@ class SettingScreen extends StatelessWidget {
                               ),
                               // const Spacer(),
                               Obx(
-                                    () => Switch(
+                                () => Switch(
                                   activeTrackColor: Colors.green,
                                   value: light1.value,
                                   onChanged: (bool value) {
@@ -178,8 +188,7 @@ class SettingScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Invitation',
@@ -191,7 +200,7 @@ class SettingScreen extends StatelessWidget {
                               ),
                               // const Spacer(),
                               Obx(
-                                    () => Switch(
+                                () => Switch(
                                   activeTrackColor: Colors.green,
                                   value: light2.value,
                                   onChanged: (bool value) {
@@ -229,11 +238,7 @@ class SettingScreen extends StatelessWidget {
 class SettingWidget extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
-  SettingWidget(
-      {super.key,
-        required this.title,
-        required this.onTap
-      });
+  SettingWidget({super.key, required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -70,7 +70,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -88,11 +87,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     controller: searchController,
                     onChanged: (value) {
                       searchUserController.combinedQueryChange(value);
-                      if(value.isEmpty){
+                      if (value.isEmpty) {
                         searchUserController.searchEventsResults.clear();
                         searchUserController.searchResults.clear();
                       }
-
                     },
                     decoration: InputDecoration(
                       hintText: "Search what’s near me",
@@ -181,147 +179,197 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       )
                     : const SizedBox.shrink(),
-                Obx(()=>
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 12),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: searchUserController.searchEventsResults.length,
-                        itemBuilder: (context, index) {
-                          Rx<String?> isFavorite = searchUserController.searchEventsResults[index]['isEventFavourite'].obs;
+                Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount:
+                          searchUserController.searchEventsResults.length,
+                      itemBuilder: (context, index) {
+                        Rx<String?> isFavorite = searchUserController
+                            .searchEventsResults[index]['isEventFavourite'].obs;
 
-                          return GestureDetector(
-                            onTap: () {
-                              DateTime parseTime(String timeString) {
-                                final timeParts = timeString.split(':');
-                                final now = DateTime.now();
-                                return DateTime(now.year, now.month, now.day, int.parse(timeParts[0]), int.parse(timeParts[1]));
-                              }
+                        return GestureDetector(
+                          onTap: () {
+                            DateTime parseTime(String timeString) {
+                              final timeParts = timeString.split(':');
+                              final now = DateTime.now();
+                              return DateTime(
+                                  now.year,
+                                  now.month,
+                                  now.day,
+                                  int.parse(timeParts[0]),
+                                  int.parse(timeParts[1]));
+                            }
 
+                            // Function to convert String date to Timestamp
+                            Timestamp parseDateToTimestamp(String dateString) {
+                              // Parse the string into a DateTime object
+                              DateTime dateTime = DateTime.parse(dateString);
+                              // Convert DateTime to Timestamp
+                              return Timestamp.fromMillisecondsSinceEpoch(
+                                  dateTime.millisecondsSinceEpoch);
+                            }
 
-                              // Function to convert String date to Timestamp
-                              Timestamp parseDateToTimestamp(String dateString) {
-                                // Parse the string into a DateTime object
-                                DateTime dateTime = DateTime.parse(dateString);
-                                // Convert DateTime to Timestamp
-                                return Timestamp.fromMillisecondsSinceEpoch(dateTime.millisecondsSinceEpoch);
-                              }
-
-                              Get.to(
-                                    () => ArcadeScreen(
-                                  description: searchUserController.searchEventsResults[index]['description'],
-                                  photoURL: searchUserController.searchEventsResults[index]['photoURL'],
-                                  startTime: parseTime(searchUserController.searchEventsResults[index]['startTime']!).toIso8601String(),
-                                  endTime: parseTime(searchUserController.searchEventsResults[index]['endTime']!).toIso8601String(),
-                                  eventName: searchUserController.searchEventsResults[index]['eventName'],
-                                  location: searchUserController.searchEventsResults[index]['location'],
-                                  date: parseDateToTimestamp(searchUserController.searchEventsResults[index]['date'] ?? ""), // Convert to Timestamp
-                                  familyPrice: searchUserController.searchEventsResults[index]['familyPrice'],
-                                  adultPrice: searchUserController.searchEventsResults[index]['adultPrice'],
-                                  childPrice: searchUserController.searchEventsResults[index]['childPrice'],
-                                  oragnizerName: searchUserController.searchEventsResults[index]['userName'],
-                                  OrganizerProfilePic: searchUserController.searchEventsResults[index]['userProfilePic'],
-                                  ticketUid: searchUserController.searchEventsResults[index]['uid'],
-                                  isPaid: searchUserController.searchEventsResults[index]['isPaid'],
-                                  isEventFavourite: searchUserController.searchEventsResults[index]['isEventFavourite'],
-                                ),
-                              );
-
-
-                            },
-                            child: Stack(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
-                                  child: Container(
-                                    height: screenHeight * 0.32,
-                                    width: screenWidth / 1,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: Colors.white,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(6.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                searchUserController.searchEventsResults[index]['eventName'].toString().length > 35
-                                                    ? '${searchUserController.searchEventsResults[index]['eventName'].toString().substring(0, 35)}..'
-                                                    : searchUserController.searchEventsResults[index]['eventName'].toString(),
-                                                style: GoogleFonts.inter(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              SizedBox(height: 0.3.h),
-                                              Row(
-                                                children: [
-                                                  SvgPicture.asset('assets/svgs/home/map-pin.svg'),
-                                                  const SizedBox(width: 3),
-                                                  Text(
-                                                    searchUserController.searchEventsResults[index]['location'].toString().length > 30
-                                                        ? '${searchUserController.searchEventsResults[index]['location'].toString().substring(0, 30)}..'
-                                                        : searchUserController.searchEventsResults[index]['location'].toString(),
-                                                    style: GoogleFonts.inter(
-                                                      fontWeight: FontWeight.w400,
-                                                      color: const Color(0xff7390A1),
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: screenHeight * 0.27,
-                                  width: Get.width / 1,
+                            Get.to(
+                              () => ArcadeScreen(
+                                description: searchUserController
+                                    .searchEventsResults[index]['description'],
+                                photoURL: searchUserController
+                                    .searchEventsResults[index]['photoURL'],
+                                startTime: parseTime(searchUserController
+                                            .searchEventsResults[index]
+                                        ['startTime']!)
+                                    .toIso8601String(),
+                                endTime: parseTime(searchUserController
+                                        .searchEventsResults[index]['endTime']!)
+                                    .toIso8601String(),
+                                eventName: searchUserController
+                                    .searchEventsResults[index]['eventName'],
+                                location: searchUserController
+                                    .searchEventsResults[index]['location'],
+                                date: parseDateToTimestamp(searchUserController
+                                        .searchEventsResults[index]['date'] ??
+                                    ""), // Convert to Timestamp
+                                familyPrice: searchUserController
+                                    .searchEventsResults[index]['familyPrice'],
+                                adultPrice: searchUserController
+                                    .searchEventsResults[index]['adultPrice'],
+                                childPrice: searchUserController
+                                    .searchEventsResults[index]['childPrice'],
+                                oragnizerName: searchUserController
+                                    .searchEventsResults[index]['userName'],
+                                OrganizerProfilePic: searchUserController
+                                        .searchEventsResults[index]
+                                    ['userProfilePic'],
+                                ticketUid: searchUserController
+                                    .searchEventsResults[index]['uid'],
+                                isPaid: searchUserController
+                                    .searchEventsResults[index]['isPaid'],
+                                isEventFavourite: searchUserController
+                                        .searchEventsResults[index]
+                                    ['isEventFavourite'],
+                              ),
+                            );
+                          },
+                          child: Stack(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
+                                child: Container(
+                                  height: screenHeight * 0.32,
+                                  width: screenWidth / 1,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(searchUserController.searchEventsResults[index]['photoURL'].toString()),
-                                    ),
+                                    color: Colors.white,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(12),
+                                    padding: const EdgeInsets.all(6.0),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        // Optionally add favorite functionality here
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              searchUserController
+                                                          .searchEventsResults[
+                                                              index]
+                                                              ['eventName']
+                                                          .toString()
+                                                          .length >
+                                                      35
+                                                  ? '${searchUserController.searchEventsResults[index]['eventName'].toString().substring(0, 35)}..'
+                                                  : searchUserController
+                                                      .searchEventsResults[
+                                                          index]['eventName']
+                                                      .toString(),
+                                              style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            SizedBox(height: 0.3.h),
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/svgs/home/map-pin.svg'),
+                                                const SizedBox(width: 3),
+                                                Text(
+                                                  searchUserController
+                                                              .searchEventsResults[
+                                                                  index]
+                                                                  ['location']
+                                                              .toString()
+                                                              .length >
+                                                          30
+                                                      ? '${searchUserController.searchEventsResults[index]['location'].toString().substring(0, 30)}..'
+                                                      : searchUserController
+                                                          .searchEventsResults[
+                                                              index]['location']
+                                                          .toString(),
+                                                  style: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w400,
+                                                    color:
+                                                        const Color(0xff7390A1),
+                                                    fontSize: 10,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                              ),
+                              Container(
+                                height: screenHeight * 0.27,
+                                width: Get.width / 1,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: NetworkImage(searchUserController
+                                        .searchEventsResults[index]['photoURL']
+                                        .toString()),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Optionally add favorite functionality here
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
-
+                  ),
                 ),
 
                 SizedBox(height: 8.h),
-
               ],
             ),
           ),
         ),
       ),
-
     );
   }
 }

@@ -8,9 +8,9 @@ class CurrentUserController extends GetxController {
   final BuildContext context;
   CurrentUserController({required this.context});
   //get Current user data from firebase user collection
-  RxString currentUserName="".obs;
-  RxString currentUserProfile="".obs;
-  RxString currentUserId="".obs;
+  RxString currentUserName = "".obs;
+  RxString currentUserProfile = "".obs;
+  RxString currentUserId = "".obs;
   Future<DocumentSnapshot?> getCurrentUser() async {
     User? user = FirebaseAuth.instance.currentUser;
     log("user id :${user?.uid}");
@@ -22,9 +22,9 @@ class CurrentUserController extends GetxController {
             .collection('users')
             .doc(user.uid)
             .get();
-        currentUserName.value=userDoc["User Name"];
-        currentUserProfile.value=userDoc["profilePic"];
-        currentUserId.value=userDoc["userId"];
+        currentUserName.value = userDoc["User Name"];
+        currentUserProfile.value = userDoc["profilePic"];
+        currentUserId.value = userDoc["userId"];
         return userDoc.exists ? userDoc : null;
       } else {
         return null; // User not logged in
@@ -35,6 +35,4 @@ class CurrentUserController extends GetxController {
     }
     return null;
   }
-
-
 }

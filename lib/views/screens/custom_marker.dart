@@ -13,33 +13,30 @@ class TicketInfo {
   String startTime;
   String endTime;
   String description;
-  bool   isPaid;
+  bool isPaid;
   String organizarName;
   String organizarImage;
   String ticketUid;
-  bool   isFollow;
+  bool isFollow;
 
-  TicketInfo({
-    required this.id,
-    required this.eventName,
-    required this.photoURL,
-    required this.location,
-    required this.date, // Making it required and explicitly of type Timestamp
-    required this.adultPrice,
-    required this.familyPrice,
-    required this.childPrice,
-    required this.endTime,
-    required this.startTime,
-    required this.description,
-    required this.isPaid,
-    required this.organizarName,
-    required this.organizarImage,
-    required this.isFollow,
-    required this.ticketUid
-
-  });
+  TicketInfo(
+      {required this.id,
+      required this.eventName,
+      required this.photoURL,
+      required this.location,
+      required this.date, // Making it required and explicitly of type Timestamp
+      required this.adultPrice,
+      required this.familyPrice,
+      required this.childPrice,
+      required this.endTime,
+      required this.startTime,
+      required this.description,
+      required this.isPaid,
+      required this.organizarName,
+      required this.organizarImage,
+      required this.isFollow,
+      required this.ticketUid});
 }
-
 
 class videoInfo {
   // Define your variables with Rx types
@@ -64,7 +61,3 @@ class videoInfo {
     this.userName.value = userName;
   }
 }
-
-
-
-

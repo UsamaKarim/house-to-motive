@@ -45,17 +45,22 @@ class ContactUSScreen extends StatelessWidget {
                   hintText: "Name",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide:  BorderSide(color: Color(0xffD9D9D9),),
+                    borderSide: BorderSide(
+                      color: Color(0xffD9D9D9),
+                    ),
                   ),
                   hintStyle: TextStyle(
                     fontFamily: 'ProximaNova',
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: Color(0xff3F2D20),),
+                    color: Color(0xff3F2D20),
+                  ),
                   contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide:  BorderSide(color: Color(0xffD9D9D9),),
+                    borderSide: BorderSide(
+                      color: Color(0xffD9D9D9),
+                    ),
                   ),
                 ),
               ),
@@ -67,17 +72,22 @@ class ContactUSScreen extends StatelessWidget {
                   hintText: "Emain address",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide:  BorderSide(color: Color(0xffD9D9D9),),
+                    borderSide: BorderSide(
+                      color: Color(0xffD9D9D9),
+                    ),
                   ),
                   hintStyle: TextStyle(
                     fontFamily: 'ProximaNova',
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: Color(0xff3F2D20),),
+                    color: Color(0xff3F2D20),
+                  ),
                   contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide:  BorderSide(color: Color(0xffD9D9D9),),
+                    borderSide: BorderSide(
+                      color: Color(0xffD9D9D9),
+                    ),
                   ),
                 ),
               ),
@@ -89,17 +99,22 @@ class ContactUSScreen extends StatelessWidget {
                   hintText: "Select Subject",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide:  BorderSide(color: Color(0xffD9D9D9),),
+                    borderSide: BorderSide(
+                      color: Color(0xffD9D9D9),
+                    ),
                   ),
                   hintStyle: TextStyle(
                     fontFamily: 'ProximaNova',
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: Color(0xff3F2D20),),
+                    color: Color(0xff3F2D20),
+                  ),
                   contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide:  BorderSide(color: Color(0xffD9D9D9),),
+                    borderSide: BorderSide(
+                      color: Color(0xffD9D9D9),
+                    ),
                   ),
                   suffixIcon: CircleAvatar(
                     backgroundColor: Colors.transparent,
@@ -119,17 +134,22 @@ class ContactUSScreen extends StatelessWidget {
                   hintText: "Write your message here...",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide:  BorderSide(color: Color(0xffD9D9D9),),
+                    borderSide: BorderSide(
+                      color: Color(0xffD9D9D9),
+                    ),
                   ),
                   hintStyle: TextStyle(
                     fontFamily: 'ProximaNova',
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: Color(0xff3F2D20),),
+                    color: Color(0xff3F2D20),
+                  ),
                   contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide:  BorderSide(color: Color(0xffD9D9D9),),
+                    borderSide: BorderSide(
+                      color: Color(0xffD9D9D9),
+                    ),
                   ),
                 ),
               ),
@@ -141,7 +161,7 @@ class ContactUSScreen extends StatelessWidget {
                 children: [
                   Text(
                     '00/250',
-                    style: TextStyle(color: Colors.black38,fontSize: 10),
+                    style: TextStyle(color: Colors.black38, fontSize: 10),
                   ),
                 ],
               ),

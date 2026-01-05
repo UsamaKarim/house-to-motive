@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-final GetVideoController getVideoController=Get.put(GetVideoController());
+  final GetVideoController getVideoController = Get.put(GetVideoController());
 
   @override
   Widget build(BuildContext context) {
@@ -121,37 +120,41 @@ final GetVideoController getVideoController=Get.put(GetVideoController());
                     ],
                   ),
                 ),
-                isSelected.value ? const HomeScreen2() : const EventsNearmeScreen(),
+                isSelected.value
+                    ? const HomeScreen2()
+                    : const EventsNearmeScreen(),
               ],
             ),
           ),
         ),
-        floatingActionButton:FirebaseAuth.instance.currentUser?.email=="sales@housetomotive.com"?
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(_createRoute());
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 80.0),
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xffFF0092),
-                    Color(0xff216DFD),
-                  ],
+        floatingActionButton: FirebaseAuth.instance.currentUser?.email ==
+                "sales@housetomotive.com"
+            ? GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(_createRoute());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 80.0),
+                  child: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xffFF0092),
+                          Color(0xff216DFD),
+                        ],
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ):const SizedBox.shrink(),
+              )
+            : const SizedBox.shrink(),
       ),
     );
   }

@@ -242,7 +242,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
     try {
       // Fetch following list from current user's document
       DocumentSnapshot userDoc =
-      await _firestore.collection('users').doc(currentUserId).get();
+          await _firestore.collection('users').doc(currentUserId).get();
 
       if (userDoc.exists && userDoc.data() != null) {
         List<dynamic> followingIds = userDoc['following'] ?? [];
@@ -272,77 +272,85 @@ class _FollowingScreenState extends State<FollowingScreen> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () => Get.back(),
-          child: const Icon(Icons.arrow_back_ios, color: Colors.white, size: 19),
+          child:
+              const Icon(Icons.arrow_back_ios, color: Colors.white, size: 19),
         ),
         centerTitle: true,
         backgroundColor: const Color(0xff025B8F),
         title: Text(
           'Following',
           style: GoogleFonts.inter(
-            fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
           ),
         ),
       ),
       body: followingUsers.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-        itemCount: followingUsers.length,
-        itemBuilder: (context, index) {
-          final userDetails = followingUsers[index];
+              itemCount: followingUsers.length,
+              itemBuilder: (context, index) {
+                final userDetails = followingUsers[index];
 
-          return ListTile(
-            visualDensity: const VisualDensity(vertical: -1),
-            dense: true,
-            title: Text(
-              userDetails.userName,
-              style: GoogleFonts.nunito(
-                fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xff161616),
-              ),
-            ),
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(
-                userDetails.profilePic.isNotEmpty
-                    ? userDetails.profilePic
-                    : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-              ),
-              radius: 20,
-            ),
-            subtitle: Text(
-              'Lorem Ipsum',
-              style: GoogleFonts.nunito(
-                fontSize: 10, fontWeight: FontWeight.w400, color: const Color(0xffA5A5A5),
-              ),
-            ),
-            trailing: GestureDetector(
-              onTap: () async {
-                await unfollowUser(userDetails.userId);
-                fetchFollowingUsers(); // Refresh UI
-              },
-              child: Container(
-                height: 3.5.h,
-                width: 16.w,
-                decoration: BoxDecoration(
-                  color: const Color(0xffd9e6f2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    "Following",
-                    style: GoogleFonts.inter(
+                return ListTile(
+                  visualDensity: const VisualDensity(vertical: -1),
+                  dense: true,
+                  title: Text(
+                    userDetails.userName,
+                    style: GoogleFonts.nunito(
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      fontSize: 10,
-                      foreground: Paint()
-                        ..shader = const LinearGradient(
-                          colors: [Color(0xffFF0092), Color(0xff216DFD)],
-                        ).createShader(const Rect.fromLTWH(0, 0, 100, 20)),
+                      color: const Color(0xff161616),
                     ),
                   ),
-                ),
-              ),
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      userDetails.profilePic.isNotEmpty
+                          ? userDetails.profilePic
+                          : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                    ),
+                    radius: 20,
+                  ),
+                  subtitle: Text(
+                    'Lorem Ipsum',
+                    style: GoogleFonts.nunito(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xffA5A5A5),
+                    ),
+                  ),
+                  trailing: GestureDetector(
+                    onTap: () async {
+                      await unfollowUser(userDetails.userId);
+                      fetchFollowingUsers(); // Refresh UI
+                    },
+                    child: Container(
+                      height: 3.5.h,
+                      width: 16.w,
+                      decoration: BoxDecoration(
+                        color: const Color(0xffd9e6f2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Following",
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10,
+                            foreground: Paint()
+                              ..shader = const LinearGradient(
+                                colors: [Color(0xffFF0092), Color(0xff216DFD)],
+                              ).createShader(
+                                  const Rect.fromLTWH(0, 0, 100, 20)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 
@@ -364,7 +372,8 @@ class UserDetail {
   final String userName;
   final String profilePic;
 
-  UserDetail({required this.userId, required this.userName, required this.profilePic});
+  UserDetail(
+      {required this.userId, required this.userName, required this.profilePic});
 
   factory UserDetail.fromDocumentSnapshot(DocumentSnapshot doc) {
     return UserDetail(

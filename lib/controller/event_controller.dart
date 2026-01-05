@@ -125,7 +125,22 @@ class TicketController extends GetxController {
     return null;
   }
 
-  Future uploadImageToFirebase({isPaid, date, startTime, endTime, location, eventName, description, private, commentDisable, isEventFavourite, childPriceController, adultPriceController, familyPriceController, uid,}) async {
+  Future uploadImageToFirebase({
+    isPaid,
+    date,
+    startTime,
+    endTime,
+    location,
+    eventName,
+    description,
+    private,
+    commentDisable,
+    isEventFavourite,
+    childPriceController,
+    adultPriceController,
+    familyPriceController,
+    uid,
+  }) async {
     if (selectedImage.value == null) return;
 
     FirebaseStorage storage = FirebaseStorage.instance;
@@ -227,7 +242,8 @@ class TicketController extends GetxController {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<bool> toggleFollowUser(String currentUserUid, String userToToggleUid) async {
+  Future<bool> toggleFollowUser(
+      String currentUserUid, String userToToggleUid) async {
     try {
       // Check if currentUserUid is the same as userToToggleUid
       if (currentUserUid == userToToggleUid) {
@@ -286,10 +302,13 @@ class TicketController extends GetxController {
         await _firestoreService.getFollowingList(currentUserUid);
   }
 
-  void fetchFollowersList(String currentUserUid) async {followersList.value = await _firestoreService.getFollowersList(currentUserUid);
+  void fetchFollowersList(String currentUserUid) async {
+    followersList.value =
+        await _firestoreService.getFollowersList(currentUserUid);
   }
 
-  Future<void> unfollowUser(String currentUserId, String userToUnfollowId) async {
+  Future<void> unfollowUser(
+      String currentUserId, String userToUnfollowId) async {
     // Remove from the local following list
     followingList.remove(userToUnfollowId);
 
@@ -310,7 +329,8 @@ class TicketController extends GetxController {
     });
   }
 
-  Future<void> removeFollower(String currentUserId, String followerUserId) async {
+  Future<void> removeFollower(
+      String currentUserId, String followerUserId) async {
     followersList.remove(followerUserId);
     await FirebaseFirestore.instance
         .collection('users')
@@ -332,7 +352,8 @@ class TicketController extends GetxController {
 
     try {
       // Query to get documents where isEventFavourite is true
-      QuerySnapshot querySnapshot = await firestore.collection('tickets')
+      QuerySnapshot querySnapshot = await firestore
+          .collection('tickets')
           .where('isEventFavourite', isEqualTo: true)
           .get();
 
@@ -351,7 +372,6 @@ class TicketController extends GetxController {
       log('Error fetching tickets: $e');
     }
   }
-
 }
 
 class FirestoreService extends GetxService {
