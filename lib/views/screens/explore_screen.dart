@@ -13,6 +13,7 @@ import 'package:house_to_motive/data/singleton/singleton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/appbar_location.dart';
 import 'package:http/http.dart' as http;
+import '../../utils/debouncer.dart';
 
 class ExploreScreen extends StatefulWidget {
   final String? selectedLocation;
@@ -187,8 +188,18 @@ class PlacesApi extends GetxController {
   final LatLng target = const LatLng(30.3753, 69.3451);
   final double defaultZoom = 4.0;
   final double searchZoom = 15.0; // Example location
-  final key =
-      'AIzaSyDotkOgJK6nWqbYMLFOuQQs8VNpyIOAmGw'; // Replace with your Google API Key
+  final key = String.fromEnvironment(
+    'GOOGLE_MAPS_API_KEY',
+  ); // Replace with your Google API Key
+
+  // Debouncers for API calls
+  final Debouncer _searchPlacesDebouncer = Debouncer();
+  final Debouncer _searchLocationDebouncer = Debouncer();
+  final Debouncer _getSuggestionsDebouncer = Debouncer();
+
+  // Completers for async methods
+  Completer<LatLng>? _searchLocationCompleter;
+  Completer<List<String>>? _getSuggestionsCompleter;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -197,59 +208,89 @@ class PlacesApi extends GetxController {
   // Other code...
 
   void searchPlaces(String query) async {
-    final String encodedQuery = Uri.encodeComponent(query);
-    final String url =
-        'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$encodedQuery&inputtype=textquery&fields=geometry&key=$key';
-    try {
-      final response = await http.get(Uri.parse(url));
-      log('$response', name: 'searchPlaces');
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        if (result['candidates'] != null && result['candidates'].length > 0) {
-          final location = result['candidates'][0]['geometry']['location'];
+    _searchPlacesDebouncer.run(() async {
+      final String encodedQuery = Uri.encodeComponent(query);
+      final String url =
+          'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$encodedQuery&inputtype=textquery&fields=geometry&key=$key';
+      try {
+        final response = await http.get(Uri.parse(url));
+        log('$response', name: 'searchPlaces');
+        if (response.statusCode == 200) {
+          final result = json.decode(response.body);
+          if (result['candidates'] != null && result['candidates'].length > 0) {
+            final location = result['candidates'][0]['geometry']['location'];
 
-          Singleton().updateLocation(location['lat'], location['lng']);
+            Singleton().updateLocation(location['lat'], location['lng']);
 
-          mapController?.animateCamera(
-            CameraUpdate.newCameraPosition(
-              CameraPosition(
-                target: LatLng(location['lat'], location['lng']),
-                zoom: searchZoom,
+            mapController?.animateCamera(
+              CameraUpdate.newCameraPosition(
+                CameraPosition(
+                  target: LatLng(location['lat'], location['lng']),
+                  zoom: searchZoom,
+                ),
               ),
-            ),
-          );
+            );
+          }
+        } else {
+          if (kDebugMode) {
+            print('Failed to load locations: ${response.body}');
+          }
         }
-      } else {
+      } catch (e) {
         if (kDebugMode) {
-          print('Failed to load locations: ${response.body}');
+          print('Error occurred while fetching places: $e');
         }
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error occurred while fetching places: $e');
-      }
-    }
+    });
   }
 
   Future<LatLng> searchLocationByName(String location) async {
-    final String url =
-        'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$location&inputtype=textquery&fields=geometry&key=$key';
-    final response = await http.get(Uri.parse(url));
-    log('$response', name: 'searchLocationByName');
+    // Create new completer for this request
+    final completer = Completer<LatLng>();
+    _searchLocationCompleter = completer;
 
-    if (response.statusCode == 200) {
-      final result = json.decode(response.body);
-      if (result['candidates'].isNotEmpty) {
-        final location = result['candidates'][0]['geometry']['location'];
-        final double lat = location['lat'];
-        final double lng = location['lng'];
-        return LatLng(lat, lng);
-      } else {
-        throw Exception('Location not found');
+    // Capture location and completer in closure to avoid race conditions
+    _searchLocationDebouncer.run(() async {
+      try {
+        final String url =
+            'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$location&inputtype=textquery&fields=geometry&key=$key';
+        final response = await http.get(Uri.parse(url));
+        log('$response', name: 'searchLocationByName');
+
+        // Check if this completer is still the current one and not completed
+        if (completer != _searchLocationCompleter || completer.isCompleted) {
+          return;
+        }
+
+        if (response.statusCode == 200) {
+          final result = json.decode(response.body);
+          if (result['candidates'].isNotEmpty) {
+            final locationData =
+                result['candidates'][0]['geometry']['location'];
+            final double lat = locationData['lat'];
+            final double lng = locationData['lng'];
+            final resultLatLng = LatLng(lat, lng);
+            if (!completer.isCompleted) {
+              completer.complete(resultLatLng);
+            }
+          } else {
+            if (!completer.isCompleted) {
+              completer.completeError(Exception('Location not found'));
+            }
+          }
+        } else {
+          if (!completer.isCompleted) {
+            completer.completeError(Exception('Failed to load location'));
+          }
+        }
+      } catch (e) {
+        if (!completer.isCompleted) {
+          completer.completeError(e);
+        }
       }
-    } else {
-      throw Exception('Failed to load location');
-    }
+    });
+
+    return completer.future;
   }
 
   RxList<String> recentSearches = <String>[].obs;
@@ -280,34 +321,59 @@ class PlacesApi extends GetxController {
   }
 
   Future<List<String>> getSuggestions(String query) async {
-    final String encodedQuery = Uri.encodeComponent(query);
-    final String url =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$encodedQuery&key=$key';
-    try {
-      final response = await http.get(Uri.parse(url));
-      log('$response', name: 'getSuggestions');
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        if (result['predictions'] != null) {
-          return List<String>.from(
-            result['predictions'].map(
-              (prediction) => prediction['description'],
-            ),
-          );
+    // Create new completer for this request
+    final completer = Completer<List<String>>();
+    _getSuggestionsCompleter = completer;
+
+    // Capture query and completer in closure to avoid race conditions
+    _getSuggestionsDebouncer.run(() async {
+      try {
+        final String encodedQuery = Uri.encodeComponent(query);
+        final String url =
+            'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$encodedQuery&key=$key';
+        final response = await http.get(Uri.parse(url));
+        log('$response', name: 'getSuggestions');
+
+        // Check if this completer is still the current one and not completed
+        if (completer != _getSuggestionsCompleter || completer.isCompleted) {
+          return;
         }
-        return [];
-      } else {
+
+        if (response.statusCode == 200) {
+          final result = json.decode(response.body);
+          if (result['predictions'] != null) {
+            final suggestions = List<String>.from(
+              result['predictions'].map(
+                (prediction) => prediction['description'],
+              ),
+            );
+            if (!completer.isCompleted) {
+              completer.complete(suggestions);
+            }
+          } else {
+            if (!completer.isCompleted) {
+              completer.complete([]);
+            }
+          }
+        } else {
+          if (kDebugMode) {
+            print('Failed to load suggestions: ${response.body}');
+          }
+          if (!completer.isCompleted) {
+            completer.complete([]);
+          }
+        }
+      } catch (e) {
         if (kDebugMode) {
-          print('Failed to load suggestions: ${response.body}');
+          print('Error occurred while fetching suggestions: $e');
         }
-        return [];
+        if (!completer.isCompleted) {
+          completer.complete([]);
+        }
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error occurred while fetching suggestions: $e');
-      }
-      return [];
-    }
+    });
+
+    return completer.future;
   }
 
   // GoogleMapController? _mapController;
@@ -375,5 +441,13 @@ class PlacesApi extends GetxController {
         print(e);
       }
     }
+  }
+
+  @override
+  void onClose() {
+    _searchPlacesDebouncer.dispose();
+    _searchLocationDebouncer.dispose();
+    _getSuggestionsDebouncer.dispose();
+    super.onClose();
   }
 }

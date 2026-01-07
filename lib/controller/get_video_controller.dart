@@ -13,6 +13,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:geocoding/geocoding.dart';
 import '../views/screens/video_screen.dart';
+import '../utils/debouncer.dart';
 
 class GetVideoController extends GetxController {
   final Set<Marker> markers = <Marker>{}.obs;
@@ -326,26 +327,60 @@ class GetVideoController extends GetxController {
     }
   }
 
+  final Debouncer _getRoadDistanceDebouncer = Debouncer();
+  Completer<double>? _roadDistanceCompleter;
+
   Future<double> getRoadDistance(
     double lat1,
     double lon1,
     double lat2,
     double lon2,
   ) async {
-    const String apiKey = "AIzaSyDotkOgJK6nWqbYMLFOuQQs8VNpyIOAmGw";
-    String url =
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$lat1,$lon1&destinations=$lat2,$lon2&key=$apiKey";
+    // Create new completer for this request
+    final completer = Completer<double>();
+    _roadDistanceCompleter = completer;
 
-    final response = await http.get(Uri.parse(url));
-    log('$response', name: 'getRoadDistance');
+    // Capture parameters and completer in closure to avoid race conditions
+    _getRoadDistanceDebouncer.run(() async {
+      try {
+        const String apiKey = String.fromEnvironment('GOOGLE_MAPS_API_KEY');
+        String url =
+            "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$lat1,$lon1&destinations=$lat2,$lon2&key=$apiKey";
 
-    if (response.statusCode == 200) {
-      var jsonResponse = json.decode(response.body);
-      var distanceInMeters =
-          jsonResponse["rows"][0]["elements"][0]["distance"]["value"];
-      return distanceInMeters / 1000; // Convert to km
-    } else {
-      throw Exception("Failed to fetch road distance");
-    }
+        final response = await http.get(Uri.parse(url));
+        log('$response', name: 'getRoadDistance');
+
+        // Check if this completer is still the current one and not completed
+        if (completer != _roadDistanceCompleter || completer.isCompleted) {
+          return;
+        }
+
+        if (response.statusCode == 200) {
+          var jsonResponse = json.decode(response.body);
+          var distanceInMeters =
+              jsonResponse["rows"][0]["elements"][0]["distance"]["value"];
+          final result = distanceInMeters / 1000; // Convert to km
+          if (!completer.isCompleted) {
+            completer.complete(result);
+          }
+        } else {
+          if (!completer.isCompleted) {
+            completer.completeError(Exception("Failed to fetch road distance"));
+          }
+        }
+      } catch (e) {
+        if (!completer.isCompleted) {
+          completer.completeError(e);
+        }
+      }
+    });
+
+    return completer.future;
+  }
+
+  @override
+  void onClose() {
+    _getRoadDistanceDebouncer.dispose();
+    super.onClose();
   }
 }

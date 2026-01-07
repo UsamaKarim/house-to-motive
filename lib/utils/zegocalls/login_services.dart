@@ -38,20 +38,20 @@ void onUserLogin() {
     requireConfig: (ZegoCallInvitationData data) {
       final config =
           (data.invitees.length > 1)
-              ? ZegoCallType.videoCall == data.type
+              ? ZegoCallInvitationType.videoCall == data.type
                   ? ZegoUIKitPrebuiltCallConfig.groupVideoCall()
                   : ZegoUIKitPrebuiltCallConfig.groupVoiceCall()
-              : ZegoCallType.videoCall == data.type
+              : ZegoCallInvitationType.videoCall == data.type
               ? ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall()
               : ZegoUIKitPrebuiltCallConfig.oneOnOneVoiceCall();
 
       config.avatarBuilder = customAvatarBuilder;
 
       /// support minimizing, show minimizing button
-      config.topMenuBarConfig.isVisible = true;
-      config.topMenuBarConfig.buttons.insert(
+      config.topMenuBar.isVisible = true;
+      config.topMenuBar.buttons.insert(
         0,
-        ZegoMenuBarButtonName.minimizingButton,
+        ZegoCallMenuBarButtonName.minimizingButton,
       );
 
       return config;

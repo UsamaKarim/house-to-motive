@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Share.share('house_to_motive');
   }
 
-  Future<DocumentSnapshot> getUserDetails(String userId) async {
+  Future<DocumentSnapshot> getUserDetails(String? userId) async {
     return FirebaseFirestore.instance.collection('users').doc(userId).get();
   }
 
@@ -82,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _checkGuestMode(); // Call the async method to update isGuestLogin
   }
 
-  _checkGuestMode() async {
+  Future<void> _checkGuestMode() async {
     bool guestStatus = await checkGuestMode(); // Await the async method
     setState(() {
       isGuestLogin = guestStatus;
@@ -222,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             SizedBox(height: 1.h),
                                             FutureBuilder<DocumentSnapshot>(
                                               future: getUserDetails(
-                                                auth.currentUser?.uid ?? "",
+                                                auth.currentUser?.uid,
                                               ),
                                               builder: (
                                                 BuildContext context,
@@ -242,7 +242,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           as Map<
                                                             String,
                                                             dynamic
-                                                          >;
+                                                          >?;
+                                                  if (data == null) {
+                                                    return const Text(
+                                                      "User not found",
+                                                    );
+                                                  }
                                                   return Text(
                                                     data!['User Name']
                                                                 .toString()
