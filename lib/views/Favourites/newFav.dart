@@ -76,7 +76,7 @@ class FavListController extends GetxController {
   _checkGuestMode() async {
     bool guestStatus = await checkGuestMode(); // Await the async method
     if (!guestStatus) {
-      userId = FirebaseAuth.instance.currentUser!.uid;
+      userId = FirebaseAuth.instance.currentUser?.uid ?? '';
     }
   }
 

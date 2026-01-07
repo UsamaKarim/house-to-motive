@@ -111,7 +111,7 @@ class TicketController extends GetxController {
 
   Future<Map<String, dynamic>?> getCurrentUserDetails() async {
     // Assuming you have a way to get the current user's ID
-    String userId = FirebaseAuth.instance.currentUser!.uid;
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
     DocumentSnapshot userSnapshot =
         await FirebaseFirestore.instance.collection('users').doc(userId).get();
     if (userSnapshot.exists) {
@@ -134,7 +134,7 @@ class TicketController extends GetxController {
     childPriceController,
     adultPriceController,
     familyPriceController,
-    uid,
+    String? uid,
   }) async {
     if (selectedImage.value == null) return;
 
@@ -170,7 +170,7 @@ class TicketController extends GetxController {
         adultPriceController: adultPriceController.text,
         userName: userDetails?['User Name'],
         userProfilePic: userDetails?['profilePic'] ?? "",
-        uid: FirebaseAuth.instance.currentUser!.uid,
+        uid: uid,
       );
     }
   }
@@ -201,7 +201,7 @@ class TicketController extends GetxController {
     required String familyPriceController,
     required String userName,
     required String userProfilePic,
-    required String uid,
+    required String? uid,
   }) {
     String id = ticketsCollection.doc().id;
     bool isPaid = isSelected.value;
@@ -224,7 +224,7 @@ class TicketController extends GetxController {
       familyPrice: familyPriceController,
       userName: userName,
       userProfilePic: userProfilePic,
-      uid: FirebaseAuth.instance.currentUser?.uid,
+      uid: uid,
     );
 
     ticketsCollection

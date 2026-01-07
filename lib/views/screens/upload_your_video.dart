@@ -640,7 +640,7 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
                         onTap: () {
                           videoController
                               .getUsername(
-                                FirebaseAuth.instance.currentUser!.uid,
+                                FirebaseAuth.instance.currentUser?.uid,
                               )
                               .then(
                                 (value) => videoController
@@ -735,10 +735,10 @@ class VideoControllerUpload extends GetxController {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<String?> getUsername(String userId) async {
+  Future<String?> getUsername(String? userId) async {
     try {
       DocumentSnapshot userDoc =
-          await _firestore.collection('users').doc(userId).get();
+          await _firestore.collection('users').doc(userId ?? 'anonymous').get();
       if (userDoc.exists) {
         username = userDoc['User Name'];
         print("userName: $username");

@@ -227,7 +227,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             ],
                           ),
                           widget.userId ==
-                                  FirebaseAuth.instance.currentUser!.uid
+                                  FirebaseAuth.instance.currentUser?.uid
                               ? const SizedBox.shrink()
                               : Row(
                                 children: [

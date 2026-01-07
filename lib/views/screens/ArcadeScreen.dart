@@ -54,7 +54,7 @@ class ArcadeScreen extends StatefulWidget {
 class _ArcadeScreenState extends State<ArcadeScreen> {
   final GetVideoController getVideoController = Get.put(GetVideoController());
 
-  String userId = FirebaseAuth.instance.currentUser!.uid;
+  String? userId = FirebaseAuth.instance.currentUser?.uid;
   @override
   Widget build(BuildContext context) {
     DateTime date = widget.date.toDate();
@@ -220,8 +220,7 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                         ],
                       ),
                       trailing:
-                          FirebaseAuth.instance.currentUser!.uid ==
-                                  widget.ticketUid
+                          userId == widget.ticketUid
                               ? const SizedBox.shrink()
                               : Container(
                                 width: MediaQuery.of(context).size.width * 0.2,

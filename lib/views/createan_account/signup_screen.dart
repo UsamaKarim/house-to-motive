@@ -65,7 +65,7 @@ class SignupController extends GetxController {
         deviceToken: "",
         profilePic: '',
         activeChatList: [], // You can set the profile picture here
-        userId: FirebaseAuth.instance.currentUser!.uid,
+        userId: FirebaseAuth.instance.currentUser?.uid,
       );
 
       await addUserDetails(newUser);
@@ -84,14 +84,14 @@ class SignupController extends GetxController {
 
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser?.uid)
         .set({
           'User Name': user.userName,
           'Email': user.email,
           'profilePic': user.profilePic,
           'Device Token': "",
           'activeChatList': [], // Use the awaited value here
-          'userId': FirebaseAuth.instance.currentUser!.uid,
+          'userId': FirebaseAuth.instance.currentUser?.uid,
         });
   }
 

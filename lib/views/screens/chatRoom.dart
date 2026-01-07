@@ -49,11 +49,11 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void checkIfUserIsBlocked() async {
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
     DocumentSnapshot currentUserDoc =
         await FirebaseFirestore.instance
             .collection("users")
-            .doc(currentUserId)
+            .doc(currentUserId ?? 'anonymous')
             .get();
 
     DocumentSnapshot otherUserDoc =
@@ -366,7 +366,7 @@ class _ChatPageState extends State<ChatPage> {
   ).format(DateTime.now());
 
   Future<void> blockUser(String blockedUserId) async {
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
     try {
       await FirebaseFirestore.instance
           .collection("users")
@@ -386,7 +386,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> unblockUser(String blockedUserId) async {
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
     try {
       await FirebaseFirestore.instance
           .collection("users")
@@ -432,7 +432,8 @@ class _ChatPageState extends State<ChatPage> {
   void onSendMessage() async {
     String messageText = messageController.text;
     if (messageText.isNotEmpty) {
-      String currentUserID = FirebaseAuth.instance.currentUser!.uid;
+      String currentUserID =
+          FirebaseAuth.instance.currentUser?.uid ?? 'anonymous';
 
       Map<String, dynamic> messageData = {
         "sendBy": currentUserID,
@@ -448,9 +449,7 @@ class _ChatPageState extends State<ChatPage> {
           .collection("chats")
           .add(messageData);
       updateActiveChatListInFirestore(widget.receiverEmail);
-      updateOtherActiveChatListInFirestore(
-        FirebaseAuth.instance.currentUser!.uid,
-      );
+      updateOtherActiveChatListInFirestore(currentUserID);
       updateLastMessage(messageText, formattedTime.toString());
       messageController.clear();
 
@@ -493,7 +492,7 @@ class _ChatPageState extends State<ChatPage> {
     try {
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .doc(FirebaseAuth.instance.currentUser?.uid)
           .update({
             "activeChatUser": FieldValue.arrayUnion([activeChatUser]),
           });
@@ -593,7 +592,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> submitReport(String reportedUserId, String reason) async {
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
     await FirebaseFirestore.instance.collection("reports").add({
       "reportedBy": currentUserId,
       "reportedUser": reportedUserId,
@@ -614,7 +613,7 @@ class _ChatPageState extends State<ChatPage> {
           .doc(widget.receiverEmail)
           .update({
             "activeChatUser": FieldValue.arrayUnion([
-              FirebaseAuth.instance.currentUser!.uid,
+              FirebaseAuth.instance.currentUser?.uid ?? 'anonymous',
             ]),
           });
     } catch (e) {
@@ -647,7 +646,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget messages(Size size, Map<String, dynamic> map, BuildContext context) {
-    bool isSender = map["sendBy"] == FirebaseAuth.instance.currentUser!.uid;
+    bool isSender = map["sendBy"] == FirebaseAuth.instance.currentUser?.uid;
 
     return Container(
       width: size.width,

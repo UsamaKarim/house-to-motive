@@ -237,7 +237,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
   }
 
   Future<void> fetchFollowingUsers() async {
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
 
     try {
       // Fetch following list from current user's document
@@ -366,7 +366,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
   }
 
   Future<void> unfollowUser(String userToUnfollowId) async {
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
 
     await _firestore.collection('users').doc(currentUserId).update({
       'following': FieldValue.arrayRemove([userToUnfollowId]),

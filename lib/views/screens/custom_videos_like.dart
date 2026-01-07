@@ -10,8 +10,8 @@ class VideoListScreen extends StatefulWidget {
 }
 
 class _VideoListScreenState extends State<VideoListScreen> {
-  final String userId =
-      FirebaseAuth.instance.currentUser!.uid; // Replace with actual user ID
+  final String? userId =
+      FirebaseAuth.instance.currentUser?.uid; // Replace with actual user ID
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class _VideoListScreenState extends State<VideoListScreen> {
   Future<DocumentSnapshot> checkIfUserLikedVideo(String videoId) {
     return FirebaseFirestore.instance
         .collection('userLikes')
-        .doc(userId + '_' + videoId)
+        .doc('${userId ?? 'anonymous'}_$videoId')
         .get();
   }
 
@@ -72,7 +72,7 @@ class _VideoListScreenState extends State<VideoListScreen> {
         .doc(videoId);
     final DocumentReference likeRef = FirebaseFirestore.instance
         .collection('userLikes')
-        .doc(userId + '_' + videoId);
+        .doc('${userId ?? 'anonymous'}_$videoId');
 
     FirebaseFirestore.instance
         .runTransaction((transaction) async {
@@ -82,7 +82,10 @@ class _VideoListScreenState extends State<VideoListScreen> {
               'likesCount': FieldValue.increment(-1),
             });
           } else {
-            transaction.set(likeRef, {'userId': userId, 'videoId': videoId});
+            transaction.set(likeRef, {
+              'userId': userId ?? 'anonymous',
+              'videoId': videoId,
+            });
             transaction.update(videoRef, {
               'likesCount': FieldValue.increment(1),
             });

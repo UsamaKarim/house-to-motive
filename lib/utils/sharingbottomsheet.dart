@@ -66,7 +66,7 @@ void openBottomSheetSharing(String url, BuildContext context) {
                                   firestoreService.userList[index]['userId']!,
                               chatRoomId: chatRoomId(
                                 firestoreService.userList[index]['userId']!,
-                                FirebaseAuth.instance.currentUser!.uid,
+                                FirebaseAuth.instance.currentUser?.uid ?? '',
                               ),
                               receiverEmail:
                                   firestoreService.userList[index]['userId']!,

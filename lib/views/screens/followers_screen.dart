@@ -43,7 +43,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ticketController.fetchFollowersList(FirebaseAuth.instance.currentUser!.uid);
+    ticketController.fetchFollowersList(
+      FirebaseAuth.instance.currentUser?.uid ?? '',
+    );
     _firestoreService.fetchAllUserDetails();
     return Scaffold(
       appBar: AppBar(
@@ -110,7 +112,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                         receiverId: userDetails.userId,
                         chatRoomId: chatRoomId(
                           userDetails.userId,
-                          FirebaseAuth.instance.currentUser!.uid,
+                          FirebaseAuth.instance.currentUser?.uid ?? '',
                         ),
                         pic: userDetails.profilePic,
                       ),
@@ -146,7 +148,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                     trailing: GestureDetector(
                       onTap: () async {
                         String currentUserId =
-                            FirebaseAuth.instance.currentUser!.uid;
+                            FirebaseAuth.instance.currentUser?.uid ?? '';
                         String followerUserId = userId;
 
                         await ticketController.removeFollower(

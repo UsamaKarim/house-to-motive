@@ -119,8 +119,9 @@ class GetVideoController extends GetxController {
     DocumentSnapshot currentUserDoc =
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .doc(FirebaseAuth.instance.currentUser?.uid)
             .get();
+    log('$currentUserDoc', name: 'checkFollowingStatus');
 
     // Check if the current user is following the other user
     bool isAlreadyFollowing =
@@ -336,6 +337,7 @@ class GetVideoController extends GetxController {
         "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$lat1,$lon1&destinations=$lat2,$lon2&key=$apiKey";
 
     final response = await http.get(Uri.parse(url));
+    log('$response', name: 'getRoadDistance');
 
     if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);

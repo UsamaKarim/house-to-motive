@@ -817,10 +817,10 @@ void submitReport(
   String reportedUserName,
   String reason,
 ) async {
-  String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
 
   await FirebaseFirestore.instance.collection("reports").add({
-    "reportedBy": currentUserId,
+    "reportedBy": currentUserId ?? 'anonymous',
     "reportedUser": reportedUserId,
     "reportedUserName": reportedUserName,
     "reason": reason,
@@ -855,7 +855,9 @@ void showBlockConfirmationDialog(
             TextButton(
               onPressed: () async {
                 await blockUser(commentUserId);
-                Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               },
               child: const Text("Block"),
             ),
@@ -865,7 +867,7 @@ void showBlockConfirmationDialog(
 }
 
 Future<void> blockUser(String commentUserId) async {
-  String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  String currentUserId = FirebaseAuth.instance.currentUser?.uid ?? 'anonymous';
   DocumentReference userDocRef = FirebaseFirestore.instance
       .collection('users')
       .doc(currentUserId);

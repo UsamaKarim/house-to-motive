@@ -202,6 +202,7 @@ class PlacesApi extends GetxController {
         'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$encodedQuery&inputtype=textquery&fields=geometry&key=$key';
     try {
       final response = await http.get(Uri.parse(url));
+      log('$response', name: 'searchPlaces');
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
         if (result['candidates'] != null && result['candidates'].length > 0) {
@@ -234,6 +235,7 @@ class PlacesApi extends GetxController {
     final String url =
         'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$location&inputtype=textquery&fields=geometry&key=$key';
     final response = await http.get(Uri.parse(url));
+    log('$response', name: 'searchLocationByName');
 
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
@@ -281,9 +283,9 @@ class PlacesApi extends GetxController {
     final String encodedQuery = Uri.encodeComponent(query);
     final String url =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$encodedQuery&key=$key';
-
     try {
       final response = await http.get(Uri.parse(url));
+      log('$response', name: 'getSuggestions');
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
         if (result['predictions'] != null) {
