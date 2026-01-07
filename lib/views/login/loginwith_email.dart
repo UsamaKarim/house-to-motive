@@ -29,16 +29,14 @@ class LoginWithEmailScreen extends StatelessWidget {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  final AuthenticationController authenticationController =
-      Get.put(AuthenticationController());
+  final AuthenticationController authenticationController = Get.put(
+    AuthenticationController(),
+  );
 
   void continueAsGuest() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isGuest', true);
-    Get.to(
-      () => HomePage(),
-      transition: Transition.downToUp,
-    );
+    Get.to(() => HomePage(), transition: Transition.downToUp);
   }
 
   void Login() async {
@@ -48,29 +46,29 @@ class LoginWithEmailScreen extends StatelessWidget {
 
     auth
         .signInWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text)
+          email: emailController.text,
+          password: passwordController.text,
+        )
         .then((value) async {
-      // final fCMToken = await _firebaseMessaging.getToken();
-      updateDeviceToken();
-      login(
-        userID: FirebaseAuth.instance.currentUser!.uid,
-        userName: 'user_${FirebaseAuth.instance.currentUser!.uid}',
-      ).then((value) {
-        onUserLogin();
-      });
-      prefs.setBool('isLogin', true);
-      prefs.setBool('isGuest', false);
-      Get.to(
-        () => HomePage(),
-        transition: Transition.downToUp,
-      );
-      isLoading.value = false;
-      Utils().ToastMessage('Login Successfully');
-    }).onError((error, stackTrace) {
-      isLoading.value = false;
-      debugPrint(error.toString());
-      Utils().ToastMessage(error.toString());
-    });
+          // final fCMToken = await _firebaseMessaging.getToken();
+          updateDeviceToken();
+          login(
+            userID: FirebaseAuth.instance.currentUser!.uid,
+            userName: 'user_${FirebaseAuth.instance.currentUser!.uid}',
+          ).then((value) {
+            onUserLogin();
+          });
+          prefs.setBool('isLogin', true);
+          prefs.setBool('isGuest', false);
+          Get.to(() => HomePage(), transition: Transition.downToUp);
+          isLoading.value = false;
+          Utils().ToastMessage('Login Successfully');
+        })
+        .onError((error, stackTrace) {
+          isLoading.value = false;
+          debugPrint(error.toString());
+          Utils().ToastMessage(error.toString());
+        });
   }
 
   Future<void> updateDeviceToken() async {
@@ -125,9 +123,7 @@ class LoginWithEmailScreen extends StatelessWidget {
                     children: [
                       Opacity(
                         opacity: 0.1,
-                        child: Image.asset(
-                          'assets/pngs/htmimage1.png',
-                        ),
+                        child: Image.asset('assets/pngs/htmimage1.png'),
                       ),
                       Center(
                         child: Image.asset(
@@ -140,12 +136,11 @@ class LoginWithEmailScreen extends StatelessWidget {
                         left: 10,
                         top: 50,
                         child: InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: SvgPicture.asset(
-                              'assets/svgs/back_btn.svg',
-                            )),
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: SvgPicture.asset('assets/svgs/back_btn.svg'),
+                        ),
                       ),
                     ],
                   ),
@@ -185,10 +180,11 @@ class LoginWithEmailScreen extends StatelessWidget {
                             svg: "assets/svgs/social/Mail.svg",
                           ),
                           CustomSocialButton(
-                              svg: "assets/svgs/social/google.svg",
-                              ontap: () {
-                                authenticationController.signInWithGoogle();
-                              }),
+                            svg: "assets/svgs/social/google.svg",
+                            ontap: () {
+                              authenticationController.signInWithGoogle();
+                            },
+                          ),
                           CustomSocialButton(
                             svg: "assets/apple.svg",
                             ontap: () {
@@ -215,31 +211,34 @@ class LoginWithEmailScreen extends StatelessWidget {
                       ),
                       SizedBox(height: screenHeight * 0.01),
                       CustomPasswordField(
-                          title: 'Enter password',
-                          textEditingController: passwordController),
+                        title: 'Enter password',
+                        textEditingController: passwordController,
+                      ),
                       SizedBox(height: screenHeight * 0.01),
                       Obx(
-                        () => isLoading.value == true
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Color(0xff025B8F),
+                        () =>
+                            isLoading.value == true
+                                ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color(0xff025B8F),
+                                  ),
+                                )
+                                : CustomButton(
+                                  title: "Login",
+                                  ontap: () {
+                                    if (loginFormKey.currentState!.validate()) {
+                                      Login();
+                                    }
+                                  },
                                 ),
-                              )
-                            : CustomButton(
-                                title: "Login",
-                                ontap: () {
-                                  if (loginFormKey.currentState!.validate()) {
-                                    Login();
-                                  }
-                                },
-                              ),
                       ),
                       SizedBox(height: screenHeight * 0.03),
                       CustomButton(
-                          title: 'Continue as Guest',
-                          ontap: () {
-                            continueAsGuest();
-                          }),
+                        title: 'Continue as Guest',
+                        ontap: () {
+                          continueAsGuest();
+                        },
+                      ),
                       SizedBox(height: screenHeight * 0.03),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -271,7 +270,7 @@ class LoginWithEmailScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -290,8 +289,9 @@ class AuthenticationController extends GetxController {
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
       try {
-        final UserCredential userCredential =
-            await auth.signInWithPopup(authProvider);
+        final UserCredential userCredential = await auth.signInWithPopup(
+          authProvider,
+        );
 
         user = userCredential.user;
       } catch (e) {
@@ -312,8 +312,9 @@ class AuthenticationController extends GetxController {
       );
 
       try {
-        final UserCredential userCredential =
-            await auth.signInWithCredential(credential);
+        final UserCredential userCredential = await auth.signInWithCredential(
+          credential,
+        );
 
         user = userCredential.user;
 
@@ -345,8 +346,9 @@ class AuthenticationController extends GetxController {
       // Web-specific implementation
       try {
         final OAuthProvider authProvider = OAuthProvider("apple.com");
-        final UserCredential userCredential =
-            await auth.signInWithPopup(authProvider);
+        final UserCredential userCredential = await auth.signInWithPopup(
+          authProvider,
+        );
         user = userCredential.user;
       } catch (e) {
         if (kDebugMode) {
@@ -359,22 +361,24 @@ class AuthenticationController extends GetxController {
         // Request Apple ID credentials
         final AuthorizationCredentialAppleID appleCredential =
             await SignInWithApple.getAppleIDCredential(
-          scopes: [
-            AppleIDAuthorizationScopes.email,
-            AppleIDAuthorizationScopes.fullName,
-          ],
-        );
+              scopes: [
+                AppleIDAuthorizationScopes.email,
+                AppleIDAuthorizationScopes.fullName,
+              ],
+            );
 
         // Create Firebase credential
-        final OAuthCredential credential =
-            OAuthProvider("apple.com").credential(
+        final OAuthCredential credential = OAuthProvider(
+          "apple.com",
+        ).credential(
           idToken: appleCredential.identityToken,
           accessToken: appleCredential.authorizationCode,
         );
 
         // Sign in to Firebase
-        final UserCredential userCredential =
-            await auth.signInWithCredential(credential);
+        final UserCredential userCredential = await auth.signInWithCredential(
+          credential,
+        );
 
         user = userCredential.user;
 

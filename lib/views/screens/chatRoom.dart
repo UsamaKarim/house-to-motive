@@ -14,15 +14,16 @@ import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit/zego_uikit.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage(
-      {super.key,
-      required this.name,
-      this.pic,
-      required this.chatRoomId,
-      this.currentUserId,
-      this.urls,
-      required this.receiverEmail,
-      required this.receiverId});
+  const ChatPage({
+    super.key,
+    required this.name,
+    this.pic,
+    required this.chatRoomId,
+    this.currentUserId,
+    this.urls,
+    required this.receiverEmail,
+    required this.receiverId,
+  });
 
   final String name;
   final String? pic;
@@ -49,15 +50,17 @@ class _ChatPageState extends State<ChatPage> {
 
   void checkIfUserIsBlocked() async {
     String currentUserId = FirebaseAuth.instance.currentUser!.uid;
-    DocumentSnapshot currentUserDoc = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(currentUserId)
-        .get();
+    DocumentSnapshot currentUserDoc =
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(currentUserId)
+            .get();
 
-    DocumentSnapshot otherUserDoc = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(widget.receiverId)
-        .get();
+    DocumentSnapshot otherUserDoc =
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(widget.receiverId)
+            .get();
 
     // Get blocked users list, if it doesn't exist, set to empty list
     List<dynamic> myBlockedUsers =
@@ -98,29 +101,30 @@ class _ChatPageState extends State<ChatPage> {
             CircleAvatar(
               radius: 18,
               backgroundImage: NetworkImage(
-                  widget.pic!.isEmpty
-                      ? 'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg'
-                      : widget.pic!,
-                  scale: 1.0),
+                widget.pic!.isEmpty
+                    ? 'https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg'
+                    : widget.pic!,
+                scale: 1.0,
+              ),
             ),
             SizedBox(width: 1.h),
             widget.name.length > 8
                 ? Text(
-                    widget.name,
-                    style: GoogleFonts.inter(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13.px,
-                    ),
-                  )
-                : Text(
-                    widget.name,
-                    style: GoogleFonts.inter(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14.px,
-                    ),
+                  widget.name,
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13.px,
                   ),
+                )
+                : Text(
+                  widget.name,
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14.px,
+                  ),
+                ),
           ],
         ),
         actions: [
@@ -135,29 +139,32 @@ class _ChatPageState extends State<ChatPage> {
               }
             },
             icon: const Icon(Icons.more_vert, color: Colors.white),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: isBlocked ? 'unblock' : 'block',
-                child: Row(
-                  children: [
-                    Icon(isBlocked ? Icons.check_circle : Icons.block,
-                        color: Colors.red),
-                    SizedBox(width: 8),
-                    Text(isBlocked ? "Unblock" : "Block"),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'report',
-                child: Row(
-                  children: [
-                    Icon(Icons.report, color: Colors.red),
-                    SizedBox(width: 8),
-                    Text("Report"),
-                  ],
-                ),
-              ),
-            ],
+            itemBuilder:
+                (context) => [
+                  PopupMenuItem(
+                    value: isBlocked ? 'unblock' : 'block',
+                    child: Row(
+                      children: [
+                        Icon(
+                          isBlocked ? Icons.check_circle : Icons.block,
+                          color: Colors.red,
+                        ),
+                        SizedBox(width: 8),
+                        Text(isBlocked ? "Unblock" : "Block"),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'report',
+                    child: Row(
+                      children: [
+                        Icon(Icons.report, color: Colors.red),
+                        SizedBox(width: 8),
+                        Text("Report"),
+                      ],
+                    ),
+                  ),
+                ],
           ),
           // PopupMenuButton<String>(
           //   onSelected: (value) {
@@ -198,19 +205,20 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("chatRoom")
-                  .doc(widget.chatRoomId)
-                  .collection("chats")
-                  .orderBy("time", descending: false)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
+              stream:
+                  FirebaseFirestore.instance
+                      .collection("chatRoom")
+                      .doc(widget.chatRoomId)
+                      .collection("chats")
+                      .orderBy("time", descending: false)
+                      .snapshots(),
+              builder: (
+                BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot,
+              ) {
                 if (snapshot.hasData) {
                   if (snapshot.data!.docs.isEmpty) {
-                    return const Center(
-                      child: Text("No messages"),
-                    );
+                    return const Center(child: Text("No messages"));
                   }
                   snapshot.data!.docs.last;
                   return ListView.builder(
@@ -218,8 +226,9 @@ class _ChatPageState extends State<ChatPage> {
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
-                      Map<String, dynamic> map = snapshot.data!.docs[index]
-                          .data() as Map<String, dynamic>;
+                      Map<String, dynamic> map =
+                          snapshot.data!.docs[index].data()
+                              as Map<String, dynamic>;
                       return messages(size, map, context);
                     },
                   );
@@ -286,7 +295,7 @@ class _ChatPageState extends State<ChatPage> {
           //     ),
           //   ),
           // ),
-          messageInputField()
+          messageInputField(),
         ],
       ),
     );
@@ -335,9 +344,7 @@ class _ChatPageState extends State<ChatPage> {
                     horizontal: 2.h,
                     vertical: 1.h,
                   ),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  ),
+                  border: const OutlineInputBorder(borderSide: BorderSide.none),
                 ),
               ),
             ),
@@ -346,10 +353,7 @@ class _ChatPageState extends State<ChatPage> {
               onTap: () {
                 onSendMessage();
               },
-              child: Image.asset(
-                'assets/pngs/send.png',
-                height: 4.5.h,
-              ),
+              child: Image.asset('assets/pngs/send.png', height: 4.5.h),
             ),
           ],
         ),
@@ -357,8 +361,9 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  String formattedTime =
-      DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+  String formattedTime = DateFormat(
+    'yyyy-MM-dd HH:mm:ss',
+  ).format(DateTime.now());
 
   Future<void> blockUser(String blockedUserId) async {
     String currentUserId = FirebaseAuth.instance.currentUser!.uid;
@@ -367,8 +372,8 @@ class _ChatPageState extends State<ChatPage> {
           .collection("users")
           .doc(currentUserId)
           .update({
-        "blockedUsers": FieldValue.arrayUnion([blockedUserId])
-      });
+            "blockedUsers": FieldValue.arrayUnion([blockedUserId]),
+          });
 
       setState(() {
         isBlocked = true;
@@ -387,8 +392,8 @@ class _ChatPageState extends State<ChatPage> {
           .collection("users")
           .doc(currentUserId)
           .update({
-        "blockedUsers": FieldValue.arrayRemove([blockedUserId])
-      });
+            "blockedUsers": FieldValue.arrayRemove([blockedUserId]),
+          });
 
       setState(() {
         isBlocked = false;
@@ -403,23 +408,24 @@ class _ChatPageState extends State<ChatPage> {
   void showBlockConfirmationDialog(String blockedUserId) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Block User"),
-        content: const Text("Are you sure you want to block this user?"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
+      builder:
+          (context) => AlertDialog(
+            title: const Text("Block User"),
+            content: const Text("Are you sure you want to block this user?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () {
+                  blockUser(blockedUserId);
+                  Navigator.pop(context);
+                },
+                child: const Text("Block", style: TextStyle(color: Colors.red)),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              blockUser(blockedUserId);
-              Navigator.pop(context);
-            },
-            child: const Text("Block", style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
     );
   }
 
@@ -443,7 +449,8 @@ class _ChatPageState extends State<ChatPage> {
           .add(messageData);
       updateActiveChatListInFirestore(widget.receiverEmail);
       updateOtherActiveChatListInFirestore(
-          FirebaseAuth.instance.currentUser!.uid);
+        FirebaseAuth.instance.currentUser!.uid,
+      );
       updateLastMessage(messageText, formattedTime.toString());
       messageController.clear();
 
@@ -452,23 +459,23 @@ class _ChatPageState extends State<ChatPage> {
       List<String> allUserIds = uniqueUserIds.toList();
 
       for (String userId in allUserIds) {
-        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-            .collection("users")
-            .doc(userId)
-            .get();
+        DocumentSnapshot userSnapshot =
+            await FirebaseFirestore.instance
+                .collection("users")
+                .doc(userId)
+                .get();
 
         if (userSnapshot.exists) {
-          List<String> userChatRooms =
-              List<String>.from(userSnapshot["chatRooms"] ?? []);
+          List<String> userChatRooms = List<String>.from(
+            userSnapshot["chatRooms"] ?? [],
+          );
 
           userChatRooms.add(widget.chatRoomId);
 
           await FirebaseFirestore.instance
               .collection("users")
               .doc(userId)
-              .update({
-            "chatRooms": userChatRooms,
-          });
+              .update({"chatRooms": userChatRooms});
         } else {
           log("User document does not exist for ID: $userId");
         }
@@ -488,8 +495,8 @@ class _ChatPageState extends State<ChatPage> {
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({
-        "activeChatUser": FieldValue.arrayUnion([activeChatUser])
-      });
+            "activeChatUser": FieldValue.arrayUnion([activeChatUser]),
+          });
     } catch (e) {
       if (kDebugMode) {
         print("Error updating active chat user list: $e");
@@ -498,15 +505,17 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> updateLastMessage(
-      String? lastMessage, String? lastMessageTime) async {
+    String? lastMessage,
+    String? lastMessageTime,
+  ) async {
     try {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(widget.receiverEmail)
           .update({
-        "lastMessage": lastMessage,
-        'lastMessageTime': lastMessageTime,
-      });
+            "lastMessage": lastMessage,
+            'lastMessageTime': lastMessageTime,
+          });
     } catch (e) {
       if (kDebugMode) {
         print("Error updating active chat user list: $e");
@@ -525,7 +534,7 @@ class _ChatPageState extends State<ChatPage> {
       "Scam or fraud",
       "Intellectual property violation",
       "Suicide or self-injury",
-      "Other"
+      "Other",
     ];
 
     showModalBottomSheet(
@@ -535,29 +544,36 @@ class _ChatPageState extends State<ChatPage> {
       ),
       builder: (context) {
         return Wrap(
-          children: reportReasons
-              .map((reason) => ListTile(
-                    title: Text(reason),
-                    onTap: () {
-                      Navigator.pop(context);
-                      showReportConfirmation(context, reportedUserId, reason);
-                    },
-                  ))
-              .toList(),
+          children:
+              reportReasons
+                  .map(
+                    (reason) => ListTile(
+                      title: Text(reason),
+                      onTap: () {
+                        Navigator.pop(context);
+                        showReportConfirmation(context, reportedUserId, reason);
+                      },
+                    ),
+                  )
+                  .toList(),
         );
       },
     );
   }
 
   void showReportConfirmation(
-      BuildContext context, String reportedUserId, String reason) {
+    BuildContext context,
+    String reportedUserId,
+    String reason,
+  ) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text("Confirm Report"),
-          content:
-              Text("Are you sure you want to report this user for '$reason'?"),
+          content: Text(
+            "Are you sure you want to report this user for '$reason'?",
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -585,19 +601,22 @@ class _ChatPageState extends State<ChatPage> {
       "timestamp": FieldValue.serverTimestamp(),
     });
     Utils().ToastMessage(
-        "Your report has been submitted. Thank you for helping us keep the community safe.");
+      "Your report has been submitted. Thank you for helping us keep the community safe.",
+    );
   }
 
   Future<void> updateOtherActiveChatListInFirestore(
-      String? activeChatUser) async {
+    String? activeChatUser,
+  ) async {
     try {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(widget.receiverEmail)
           .update({
-        "activeChatUser":
-            FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
-      });
+            "activeChatUser": FieldValue.arrayUnion([
+              FirebaseAuth.instance.currentUser!.uid,
+            ]),
+          });
     } catch (e) {
       if (kDebugMode) {
         print("Error updating active chat user list: $e");
@@ -612,18 +631,12 @@ class _ChatPageState extends State<ChatPage> {
   }) {
     return ZegoSendCallInvitationButton(
       icon: ButtonIcon(
-          backgroundColor: Colors.transparent,
-          icon: isVideoCall
-              ? const Icon(
-                  Icons.video_call,
-                  size: 24,
-                  color: Colors.white,
-                )
-              : const Icon(
-                  Icons.call,
-                  size: 20,
-                  color: Colors.white,
-                )),
+        backgroundColor: Colors.transparent,
+        icon:
+            isVideoCall
+                ? const Icon(Icons.video_call, size: 24, color: Colors.white)
+                : const Icon(Icons.call, size: 20, color: Colors.white),
+      ),
       isVideoCall: isVideoCall,
       invitees: [ZegoUIKitUser(id: inviteeUserID, name: widget.name)],
       resourceID: 'zego_call',
@@ -642,9 +655,7 @@ class _ChatPageState extends State<ChatPage> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 1.6.h, vertical: 0.6.h),
         child: Container(
-          constraints: BoxConstraints(
-            maxWidth: size.width * 0.8,
-          ),
+          constraints: BoxConstraints(maxWidth: size.width * 0.8),
           padding: EdgeInsets.symmetric(horizontal: 2.h, vertical: 1.6.h),
           decoration: BoxDecoration(
             color: isSender ? const Color(0xff4DA6FF) : Colors.white,

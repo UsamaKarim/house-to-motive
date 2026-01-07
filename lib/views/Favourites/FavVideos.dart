@@ -15,10 +15,11 @@ class FavVideos extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0),
       child: StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(userId)
-            .snapshots(),
+        stream:
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(userId)
+                .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Show shimmer effect while waiting for data
@@ -46,9 +47,7 @@ class FavVideos extends StatelessWidget {
           }
 
           if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
 
           if (!snapshot.hasData || !snapshot.data!.exists) {
@@ -72,10 +71,11 @@ class FavVideos extends StatelessWidget {
             itemCount: likedVideos.length,
             itemBuilder: (context, index) {
               return FutureBuilder<DocumentSnapshot>(
-                future: FirebaseFirestore.instance
-                    .collection('videos')
-                    .doc(likedVideos[index])
-                    .get(),
+                future:
+                    FirebaseFirestore.instance
+                        .collection('videos')
+                        .doc(likedVideos[index])
+                        .get(),
                 builder: (context, videoSnapshot) {
                   if (videoSnapshot.connectionState ==
                           ConnectionState.waiting ||
@@ -108,10 +108,11 @@ class FavVideos extends StatelessWidget {
 
                       // Fetch video URLs and user IDs for all liked videos
                       for (var likedVideo in likedVideos) {
-                        var videoSnapshot = await FirebaseFirestore.instance
-                            .collection('videos')
-                            .doc(likedVideo)
-                            .get();
+                        var videoSnapshot =
+                            await FirebaseFirestore.instance
+                                .collection('videos')
+                                .doc(likedVideo)
+                                .get();
                         if (videoSnapshot.exists) {
                           var videoData =
                               videoSnapshot.data() as Map<String, dynamic>;
@@ -119,21 +120,24 @@ class FavVideos extends StatelessWidget {
                             videoUrls.add(videoData['videoUrl']);
                             userIdsList2.add(videoData['userId']);
                             thumbnailList.add(videoData["thumbnailUrl"]);
-                            videoIdList
-                                .add(videoSnapshot.id); // Store the document ID
+                            videoIdList.add(
+                              videoSnapshot.id,
+                            ); // Store the document ID
                             log("Document ID: ${videoSnapshot.id}");
                           }
                         }
                       }
-                      Get.to(() => VideoScreen(
-                            videoUrls: videoUrls,
-                            initialIndex: index,
-                            videoUserIdList: userIdsList2,
-                            title: 'title',
-                            videoIdList: videoIdList, // Pass the video ID list
-                            thumbnail: thumbnailList[
-                                index], // Pass the corresponding thumbnail
-                          ));
+                      Get.to(
+                        () => VideoScreen(
+                          videoUrls: videoUrls,
+                          initialIndex: index,
+                          videoUserIdList: userIdsList2,
+                          title: 'title',
+                          videoIdList: videoIdList, // Pass the video ID list
+                          thumbnail:
+                              thumbnailList[index], // Pass the corresponding thumbnail
+                        ),
+                      );
                     },
                     child: Stack(
                       children: [

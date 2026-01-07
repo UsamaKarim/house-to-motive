@@ -32,8 +32,9 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceRangeController = TextEditingController();
 
-  final VideoControllerUpload videoController =
-      Get.put(VideoControllerUpload());
+  final VideoControllerUpload videoController = Get.put(
+    VideoControllerUpload(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,9 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
                                     'Write description about the video you are going to upload',
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 26),
+                                  vertical: 10,
+                                  horizontal: 26,
+                                ),
                                 hintStyle: TextStyle(
                                   fontFamily: 'ProximaNova',
                                   fontSize: 12,
@@ -109,40 +112,49 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   color: Colors.orange,
                                 ),
-                                child: videoController.isLoading.value == true
-                                    ? const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Color(0xff025B8F),
-                                        ),
-                                      )
-                                    : ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Center(
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              Image.network(
-                                                videoController
-                                                    .thumbnailUrl.value!,
-                                                fit: BoxFit.cover,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height,
-                                              ),
-                                              CircularProgressIndicator(
-                                                  value: videoController
+                                child:
+                                    videoController.isLoading.value == true
+                                        ? const Center(
+                                          child: CircularProgressIndicator(
+                                            color: Color(0xff025B8F),
+                                          ),
+                                        )
+                                        : ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          child: Center(
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Image.network(
+                                                  videoController
+                                                      .thumbnailUrl
+                                                      .value!,
+                                                  fit: BoxFit.cover,
+                                                  width:
+                                                      MediaQuery.of(
+                                                        context,
+                                                      ).size.width,
+                                                  height:
+                                                      MediaQuery.of(
+                                                        context,
+                                                      ).size.height,
+                                                ),
+                                                CircularProgressIndicator(
+                                                  value:
+                                                      videoController
                                                           .uploadProgress
                                                           .value /
-                                                      100),
-                                              Text(
-                                                  "${videoController.uploadProgress.value.toStringAsFixed(0)}%"),
-                                            ],
+                                                      100,
+                                                ),
+                                                Text(
+                                                  "${videoController.uploadProgress.value.toStringAsFixed(0)}%",
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
                               ); // Show loading indicator
                             } else {
                               return Container(
@@ -152,37 +164,42 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   color: Colors.orange,
                                 ),
-                                child: videoController.isLoading.value == true
-                                    ? const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Color(0xff025B8F),
+                                child:
+                                    videoController.isLoading.value == true
+                                        ? const Center(
+                                          child: CircularProgressIndicator(
+                                            color: Color(0xff025B8F),
+                                          ),
+                                        )
+                                        : ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          child: Obx(() {
+                                            if (videoController
+                                                    .thumbnailUrl
+                                                    .value !=
+                                                null) {
+                                              return SizedBox(
+                                                width:
+                                                    128, // Set the width based on your requirements
+                                                height:
+                                                    128, // Set the height based on your requirements
+                                                child: Image.network(
+                                                  videoController
+                                                      .thumbnailUrl
+                                                      .value!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            } else {
+                                              return Image.asset(
+                                                'assets/pngs/Rectangle 19345.png',
+                                                fit: BoxFit.fill,
+                                              );
+                                            }
+                                          }),
                                         ),
-                                      )
-                                    : ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Obx(() {
-                                          if (videoController
-                                                  .thumbnailUrl.value !=
-                                              null) {
-                                            return SizedBox(
-                                              width:
-                                                  128, // Set the width based on your requirements
-                                              height:
-                                                  128, // Set the height based on your requirements
-                                              child: Image.network(
-                                                videoController
-                                                    .thumbnailUrl.value!,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            );
-                                          } else {
-                                            return Image.asset(
-                                              'assets/pngs/Rectangle 19345.png',
-                                              fit: BoxFit.fill,
-                                            );
-                                          }
-                                        }),
-                                      ),
                               ); // Show nothing when not uploading
                             }
                           }),
@@ -204,15 +221,16 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
                                       .clear();
                                 },
                                 child: const Center(
-                                    child: Text(
-                                  'Choose Cover',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 10,
-                                    color: Color(0xffF6F9FF),
+                                  child: Text(
+                                    'Choose Cover',
+                                    style: TextStyle(
+                                      fontFamily: 'ProximaNova',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 10,
+                                      color: Color(0xffF6F9FF),
+                                    ),
                                   ),
-                                )),
+                                ),
                               ),
                             ),
                           ),
@@ -241,17 +259,58 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
               //   ),
               // ),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 1.8.h, vertical: 1.9.h),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 1.8.h,
+                  vertical: 1.9.h,
+                ),
                 child: TextFormField(
                   controller: nameController,
                   decoration: InputDecoration(
                     hintText: 'Video Name',
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(2.5.h),
-                        borderSide: const BorderSide(color: Color(0xffD9D9D9))),
+                      borderRadius: BorderRadius.circular(2.5.h),
+                      borderSide: const BorderSide(color: Color(0xffD9D9D9)),
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 26),
+                      vertical: 10,
+                      horizontal: 26,
+                    ),
+
+                    hintStyle: const TextStyle(
+                      fontFamily: 'ProximaNova',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xff424B5A),
+                    ),
+                    // prefixIcon: Container(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       horizontal: 29), // Adjust padding for icon positioning
+                    //   child: const Icon(
+                    //     Icons.person,
+                    //     color: Color(0xff424B5A),
+                    //   ),
+                    // ),
+                    // suffixIcon: Container(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 37),
+                    //   child:const Icon(Icons.description)
+                    // ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 1.8.h),
+                child: TextFormField(
+                  controller: priceRangeController,
+                  decoration: InputDecoration(
+                    hintText: 'Price range',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2.5.h),
+                      borderSide: const BorderSide(color: Color(0xffD9D9D9)),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 26,
+                    ),
 
                     hintStyle: const TextStyle(
                       fontFamily: 'ProximaNova',
@@ -277,68 +336,42 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 1.8.h,
+                  vertical: 1.9.h,
                 ),
-                child: TextFormField(
-                  controller: priceRangeController,
-                  decoration: InputDecoration(
-                    hintText: 'Price range',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(2.5.h),
-                        borderSide: const BorderSide(color: Color(0xffD9D9D9))),
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 26),
-
-                    hintStyle: const TextStyle(
-                      fontFamily: 'ProximaNova',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff424B5A),
-                    ),
-                    // prefixIcon: Container(
-                    //   padding: const EdgeInsets.symmetric(
-                    //       horizontal: 29), // Adjust padding for icon positioning
-                    //   child: const Icon(
-                    //     Icons.person,
-                    //     color: Color(0xff424B5A),
-                    //   ),
-                    // ),
-                    // suffixIcon: Container(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 37),
-                    //   child:const Icon(Icons.description)
-                    // ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 1.8.h, vertical: 1.9.h),
                 child: Autocomplete<String>(
                   optionsBuilder: (TextEditingValue textEditingValue) async {
                     if (textEditingValue.text == '') {
                       return const Iterable<String>.empty();
                     }
-                    return placeApiController
-                        .getSuggestions(textEditingValue.text);
+                    return placeApiController.getSuggestions(
+                      textEditingValue.text,
+                    );
                   },
                   onSelected: (String selection) {
                     placeApiController.searchPlaces(selection);
                     videoController.fieldTextEditingController.text = selection;
                   },
-                  fieldViewBuilder: (BuildContext context,
-                      fieldTextEditingController,
-                      fieldFocusNode,
-                      onFieldSubmitted) {
+                  fieldViewBuilder: (
+                    BuildContext context,
+                    fieldTextEditingController,
+                    fieldFocusNode,
+                    onFieldSubmitted,
+                  ) {
                     return TextFormField(
                       controller: fieldTextEditingController,
                       focusNode: fieldFocusNode,
                       decoration: InputDecoration(
                         hintText: 'Location',
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(2.5.h),
-                            borderSide:
-                                const BorderSide(color: Color(0xffD9D9D9))),
+                          borderRadius: BorderRadius.circular(2.5.h),
+                          borderSide: const BorderSide(
+                            color: Color(0xffD9D9D9),
+                          ),
+                        ),
                         contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
+                          vertical: 10,
+                          horizontal: 20,
+                        ),
                         isDense: true,
                         hintStyle: const TextStyle(
                           fontFamily: 'ProximaNova',
@@ -358,8 +391,8 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
                         // ),
                         suffixIcon: Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  2.h), // Adjust padding for icon positioning
+                            horizontal: 2.h,
+                          ), // Adjust padding for icon positioning
                           child: SvgPicture.asset(
                             'assets/svgs/Locationn.svg',
                             height: 10, // Adjust the size as needed
@@ -585,15 +618,17 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgPicture.asset(
-                                  'assets/svgs/carbon_rule-draft.svg'),
+                                'assets/svgs/carbon_rule-draft.svg',
+                              ),
                               SizedBox(width: 1.w),
                               Text(
                                 'Draft',
                                 style: GoogleFonts.inter(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black),
-                              )
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -605,48 +640,56 @@ class _UploadYourVideoScreenState extends State<UploadYourVideoScreen> {
                         onTap: () {
                           videoController
                               .getUsername(
-                                  FirebaseAuth.instance.currentUser!.uid)
-                              .then((value) => videoController
-                                      .uploadVideo(
-                                    nameController.text.trim(),
-                                    descriptionController.text.trim(),
-                                    priceRangeController.text,
-                                  )
-                                      .then((value) {
-                                    getVideoController.fetchAndMarkLocations();
-                                  }));
-                        },
-                        child: videoController.isUploading1.value == true
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Color(0xff025B8F),
-                                ),
+                                FirebaseAuth.instance.currentUser!.uid,
                               )
-                            : Container(
-                                height: 5.5.h,
-                                width: screenWidth / 2,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: const Color(0xff025B8F),
-                                ),
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/svgs/eva_upload-outline.svg'),
-                                      SizedBox(width: 1.w),
-                                      Text(
-                                        'Post',
-                                        style: GoogleFonts.inter(
+                              .then(
+                                (value) => videoController
+                                    .uploadVideo(
+                                      nameController.text.trim(),
+                                      descriptionController.text.trim(),
+                                      priceRangeController.text,
+                                    )
+                                    .then((value) {
+                                      getVideoController
+                                          .fetchAndMarkLocations();
+                                    }),
+                              );
+                        },
+                        child:
+                            videoController.isUploading1.value == true
+                                ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color(0xff025B8F),
+                                  ),
+                                )
+                                : Container(
+                                  height: 5.5.h,
+                                  width: screenWidth / 2,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: const Color(0xff025B8F),
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/svgs/eva_upload-outline.svg',
+                                        ),
+                                        SizedBox(width: 1.w),
+                                        Text(
+                                          'Post',
+                                          style: GoogleFonts.inter(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
-                                            color: Colors.white),
-                                      ),
-                                    ],
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
                       ),
                     ),
                   ],
@@ -682,7 +725,7 @@ class VideoControllerUpload extends GetxController {
       videoFile.value = File(result.files.single.path!);
       await generateThumbnail(videoFile.value!);
       isLoading.value = false;
-// Generate thumbnail
+      // Generate thumbnail
     } else {
       isLoading.value = false;
 
@@ -726,8 +769,9 @@ class VideoControllerUpload extends GetxController {
       // Upload thumbnail to Firebase Storage
       String thumbnailFileName =
           'thumbnail_${DateTime.now().millisecondsSinceEpoch}.jpg';
-      Reference thumbnailStorageRef =
-          FirebaseStorage.instance.ref().child('thumbnails/$thumbnailFileName');
+      Reference thumbnailStorageRef = FirebaseStorage.instance.ref().child(
+        'thumbnails/$thumbnailFileName',
+      );
       UploadTask thumbnailUploadTask = thumbnailStorageRef.putData(uint8list);
       isLoading.value = true;
 
@@ -740,26 +784,36 @@ class VideoControllerUpload extends GetxController {
     }
   }
 
-  Future<void> uploadVideo(
-    String name,
-    description,
-    priceRange,
-  ) async {
+  Future<void> uploadVideo(String name, description, priceRange) async {
     if (fieldTextEditingController.text.isEmpty) {
       if (name.isEmpty) {
-        Get.snackbar('Error', 'Name field is empty. Please select a Name.',
-            colorText: Colors.white, backgroundColor: const Color(0xff025B8F));
+        Get.snackbar(
+          'Error',
+          'Name field is empty. Please select a Name.',
+          colorText: Colors.white,
+          backgroundColor: const Color(0xff025B8F),
+        );
       } else if (description.isEmpty) {
         Get.snackbar(
-            'Error', 'Description field is empty. Please select a description.',
-            colorText: Colors.white, backgroundColor: const Color(0xff025B8F));
+          'Error',
+          'Description field is empty. Please select a description.',
+          colorText: Colors.white,
+          backgroundColor: const Color(0xff025B8F),
+        );
       } else if (priceRange.isEmpty) {
-        Get.snackbar('Error', 'Please enter Price Range',
-            colorText: Colors.white, backgroundColor: const Color(0xff025B8F));
+        Get.snackbar(
+          'Error',
+          'Please enter Price Range',
+          colorText: Colors.white,
+          backgroundColor: const Color(0xff025B8F),
+        );
       } else {
         Get.snackbar(
-            'Error', 'Location field is empty. Please select a location.',
-            colorText: Colors.white, backgroundColor: const Color(0xff025B8F));
+          'Error',
+          'Location field is empty. Please select a location.',
+          colorText: Colors.white,
+          backgroundColor: const Color(0xff025B8F),
+        );
         log('Location field is empty. Please select a location.');
         return;
       }
@@ -775,8 +829,9 @@ class VideoControllerUpload extends GetxController {
       String userId = FirebaseAuth.instance.currentUser?.uid ?? 'anonymous';
       String fileName = basename(videoFile.value!.path);
       // Upload the video to Firebase Storage
-      Reference videoStorageRef =
-          FirebaseStorage.instance.ref().child('user_videos/$userId/$fileName');
+      Reference videoStorageRef = FirebaseStorage.instance.ref().child(
+        'user_videos/$userId/$fileName',
+      );
       UploadTask videoUploadTask = videoStorageRef.putFile(videoFile.value!);
       // Listen for changes in upload progress
       videoUploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
@@ -792,27 +847,35 @@ class VideoControllerUpload extends GetxController {
       double lat = Singleton().selectedLatitude;
       double lng = Singleton().selectedLongitude;
       // Add the video metadata to Firestore
-      await FirebaseFirestore.instance.collection('videos').add({
-        'userId': userId,
-        'videoUrl': videoDownloadUrl,
-        'thumbnailUrl': thumbnailUrl.value,
-        'timestamp': FieldValue.serverTimestamp(), // Optional: Add timestamp
-        'location': fieldTextEditingController.text,
-        'latitude': lat, // Storing Latitude
-        'longitude': lng, // Storing Longitude
-        'userName': username,
-        'videoName': name,
-        'description': description,
-        'priceRange': priceRange,
-        // 'username' : data!['User Name'],
-      }).then((value) {
-        isUploading1.value = false;
+      await FirebaseFirestore.instance
+          .collection('videos')
+          .add({
+            'userId': userId,
+            'videoUrl': videoDownloadUrl,
+            'thumbnailUrl': thumbnailUrl.value,
+            'timestamp':
+                FieldValue.serverTimestamp(), // Optional: Add timestamp
+            'location': fieldTextEditingController.text,
+            'latitude': lat, // Storing Latitude
+            'longitude': lng, // Storing Longitude
+            'userName': username,
+            'videoName': name,
+            'description': description,
+            'priceRange': priceRange,
+            // 'username' : data!['User Name'],
+          })
+          .then((value) {
+            isUploading1.value = false;
 
-        Get.snackbar('Status', 'video uploaded',
-            colorText: Colors.white, backgroundColor: const Color(0xff025B8F));
-        Get.off(() => HomePage());
-        isLoading.value = false;
-      });
+            Get.snackbar(
+              'Status',
+              'video uploaded',
+              colorText: Colors.white,
+              backgroundColor: const Color(0xff025B8F),
+            );
+            Get.off(() => HomePage());
+            isLoading.value = false;
+          });
     } on FirebaseException catch (e) {
       log("Unexpected error occurred :${e.toString()}");
       isUploading1.value = false;

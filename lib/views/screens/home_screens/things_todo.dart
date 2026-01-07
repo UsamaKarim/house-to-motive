@@ -31,8 +31,9 @@ class _HomeScreen2State extends State<HomeScreen2> {
   List<String> urls = [];
 
   final GetVideoController getVideoController = Get.put(GetVideoController());
-  final SearchUserController searchUserController =
-      Get.put(SearchUserController());
+  final SearchUserController searchUserController = Get.put(
+    SearchUserController(),
+  );
 
   // @override
   // void initState() {
@@ -70,9 +71,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
               Text(
                 'Near Me',
                 style: GoogleFonts.inter(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
               ),
               // InkWell(
               //     onTap: () {
@@ -84,95 +86,113 @@ class _HomeScreen2State extends State<HomeScreen2> {
           ),
         ),
         SizedBox(height: screenHeight * 0.02),
-        Obx(() => getVideoController.isLoading.value
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Padding(
-                padding: const EdgeInsets.only(left: 12),
-                child: getVideoController.nearByVideos.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'No Locations Near Me',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      )
-                    : SizedBox(
-                        height: screenHeight * 0.16,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: min(getVideoController.nearByVideos.length,
-                              userDataList.length),
-                          itemBuilder: (context, index) {
-                            videoInfo video =
-                                getVideoController.nearByVideos[index];
-                            return GestureDetector(
-                              onTap: () {
-                                searchUserController
-                                    .getApplicationUsers()
-                                    .then((value) {
-                                  searchUserController.getCurrentUserData(
-                                      getVideoController
-                                          .videoUserIdsList[index]);
-                                }).then((value) {
-                                  Get.to(() => VideoScreen(
-                                        videoUrls: getVideoController
-                                            .videoUrlsNearByLocation,
-                                        initialIndex: index,
-                                        videoUserIdList:
-                                            getVideoController.videoUserIdsList,
-                                        title: 'near',
-                                        thumbnail: getVideoController
-                                            .thumbnailList[index],
-                                        userId: getVideoController
-                                            .videoUserIdsList[index],
-                                        videoIdList: getVideoController.idList,
-                                      ));
-                                });
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 6, right: 6),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor:
-                                          Colors.grey.withOpacity(0.2),
-                                      backgroundImage:
-                                          NetworkImage("${video.thumbnailUrl}"),
-                                      maxRadius: 5.h,
-                                    ),
-                                    SizedBox(height: 0.5.h),
-                                    Text(
-                                      "${video.location.value.length <= 8 ? video.userName : '${video.location.value.substring(0, 8)}..'}",
-                                      style: GoogleFonts.inter(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    Text(
-                                      (getVideoController.kilometersList[index]
-                                                      .toString())
-                                                  .length <
-                                              5
-                                          ? ('(${getVideoController.kilometersList[index].toString()} km)')
-                                          : '(${getVideoController.kilometersList[index].toString().substring(0, 3)} km)',
-                                      style: GoogleFonts.inter(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xff7390A1),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+        Obx(
+          () =>
+              getVideoController.isLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child:
+                        getVideoController.nearByVideos.isEmpty
+                            ? const Center(
+                              child: Text(
+                                'No Locations Near Me',
+                                style: TextStyle(fontSize: 16),
                               ),
-                            );
-                          },
-                        ),
-                      ),
-              )),
+                            )
+                            : SizedBox(
+                              height: screenHeight * 0.16,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: min(
+                                  getVideoController.nearByVideos.length,
+                                  userDataList.length,
+                                ),
+                                itemBuilder: (context, index) {
+                                  videoInfo video =
+                                      getVideoController.nearByVideos[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      searchUserController
+                                          .getApplicationUsers()
+                                          .then((value) {
+                                            searchUserController
+                                                .getCurrentUserData(
+                                                  getVideoController
+                                                      .videoUserIdsList[index],
+                                                );
+                                          })
+                                          .then((value) {
+                                            Get.to(
+                                              () => VideoScreen(
+                                                videoUrls:
+                                                    getVideoController
+                                                        .videoUrlsNearByLocation,
+                                                initialIndex: index,
+                                                videoUserIdList:
+                                                    getVideoController
+                                                        .videoUserIdsList,
+                                                title: 'near',
+                                                thumbnail:
+                                                    getVideoController
+                                                        .thumbnailList[index],
+                                                userId:
+                                                    getVideoController
+                                                        .videoUserIdsList[index],
+                                                videoIdList:
+                                                    getVideoController.idList,
+                                              ),
+                                            );
+                                          });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 6,
+                                        right: 6,
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: Colors.grey
+                                                .withOpacity(0.2),
+                                            backgroundImage: NetworkImage(
+                                              "${video.thumbnailUrl}",
+                                            ),
+                                            maxRadius: 5.h,
+                                          ),
+                                          SizedBox(height: 0.5.h),
+                                          Text(
+                                            "${video.location.value.length <= 8 ? video.userName : '${video.location.value.substring(0, 8)}..'}",
+                                            style: GoogleFonts.inter(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          Text(
+                                            (getVideoController
+                                                            .kilometersList[index]
+                                                            .toString())
+                                                        .length <
+                                                    5
+                                                ? ('(${getVideoController.kilometersList[index].toString()} km)')
+                                                : '(${getVideoController.kilometersList[index].toString().substring(0, 3)} km)',
+                                            style: GoogleFonts.inter(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w400,
+                                              color: const Color(0xff7390A1),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                  ),
+        ),
         SizedBox(height: screenHeight * 0.03),
         Padding(
           padding: const EdgeInsets.only(left: 12.0, right: 12),
@@ -182,9 +202,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
               Text(
                 'Latest Videos',
                 style: GoogleFonts.inter(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
               ),
               // InkWell(
               //     onTap: () {
@@ -218,13 +239,16 @@ class _HomeScreen2State extends State<HomeScreen2> {
           child: Padding(
             padding: const EdgeInsets.only(left: 12),
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('videos')
-                  .where('timestamp',
-                      isGreaterThanOrEqualTo: DateTime.now().toUtc().subtract(
-                          const Duration(
-                              days: 7))) // Filter videos from the last 24 hours
-                  .snapshots(),
+              stream:
+                  FirebaseFirestore.instance
+                      .collection('videos')
+                      .where(
+                        'timestamp',
+                        isGreaterThanOrEqualTo: DateTime.now().toUtc().subtract(
+                          const Duration(days: 7),
+                        ),
+                      ) // Filter videos from the last 24 hours
+                      .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   // Show shimmer effect while waiting for data
@@ -289,19 +313,23 @@ class _HomeScreen2State extends State<HomeScreen2> {
                         searchUserController
                             .getApplicationUsers()
                             .then((value) {
-                          searchUserController
-                              .getCurrentUserData(userIds[index]);
-                        }).then((value) {
-                          Get.to(() => VideoScreen(
-                                videoUrls: videoUrls,
-                                initialIndex: index,
-                                videoUserIdList: userIds,
-                                title: 'latest',
-                                userId: userIds[index],
-                                thumbnail: thumbnailsList[index],
-                                videoIdList: videoIdList,
-                              ));
-                        });
+                              searchUserController.getCurrentUserData(
+                                userIds[index],
+                              );
+                            })
+                            .then((value) {
+                              Get.to(
+                                () => VideoScreen(
+                                  videoUrls: videoUrls,
+                                  initialIndex: index,
+                                  videoUserIdList: userIds,
+                                  title: 'latest',
+                                  userId: userIds[index],
+                                  thumbnail: thumbnailsList[index],
+                                  videoIdList: videoIdList,
+                                ),
+                              );
+                            });
                         // Open VideoScreen with the selected video index
                       },
                       child: Container(
@@ -342,9 +370,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
               Text(
                 'Videos',
                 style: GoogleFonts.inter(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
               ),
               // InkWell(
               //   onTap: () {
@@ -377,9 +406,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
         SizedBox(
           height: 25.37.h,
           child: Padding(
-            padding: const EdgeInsets.only(
-              left: 12,
-            ),
+            padding: const EdgeInsets.only(left: 12),
             child: FutureBuilder(
               future: FirebaseFirestore.instance.collection('videos').get(),
               builder: (context, snapshot) {
@@ -432,19 +459,23 @@ class _HomeScreen2State extends State<HomeScreen2> {
                         searchUserController
                             .getApplicationUsers()
                             .then((value) {
-                          searchUserController
-                              .getCurrentUserData(userIdsList[index]);
-                        }).then((value) {
-                          // Open VideoScreen with the selected video index
-                          Get.to(() => VideoScreen(
-                                videoUrls: videoUrls,
-                                initialIndex: index,
-                                videoUserIdList: userIdsList,
-                                title: 'title',
-                                userId: userIdsList[index],
-                                videoIdList: idList,
-                              ));
-                        });
+                              searchUserController.getCurrentUserData(
+                                userIdsList[index],
+                              );
+                            })
+                            .then((value) {
+                              // Open VideoScreen with the selected video index
+                              Get.to(
+                                () => VideoScreen(
+                                  videoUrls: videoUrls,
+                                  initialIndex: index,
+                                  videoUserIdList: userIdsList,
+                                  title: 'title',
+                                  userId: userIdsList[index],
+                                  videoIdList: idList,
+                                ),
+                              );
+                            });
                       },
                       child: Container(
                         width: 35.w,
@@ -520,187 +551,187 @@ class _HomeScreen2State extends State<HomeScreen2> {
         ),
         SizedBox(height: screenHeight * 0.02),
         SizedBox(
-            height: 26.h,
-            // height: 250,
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("restaurants")
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                }
-                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(child: Text('No Data Available'));
-                }
-                final data = snapshot.data!.docs;
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    final docData = data[index].data() as Map<String, dynamic>;
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(() => SanzioRestaurant(
-                              imageUrl: docData["imageUrl"],
-                              location: docData["location"],
-                              description: docData["description"],
-                              closingTime: docData["closingTime"],
-                              imageName: docData["imageName"],
-                              openingTime: docData["openingTime"],
-                              restaurantName: docData["restaurantName"],
-                            ));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: screenHeight * 0.26,
-                              width: Get.width / 1.8,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    // SizedBox(height: 1.h),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          docData["restaurantName"]
-                                                      .toString()
-                                                      .length >
-                                                  15
-                                              ? "${docData["restaurantName"].toString().substring(0, 15)}..."
-                                              : docData["restaurantName"],
-                                          style: GoogleFonts.inter(
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        // Text(
-                                        //   '£${docData["location"]}',
-                                        //   style: const TextStyle(
-                                        //     fontSize: 14,
-                                        //     fontWeight: FontWeight.w500,
-                                        //     color: Color(0xff025B8F),
-                                        //   ),
-                                        // )
-                                      ],
-                                    ),
-                                    SizedBox(height: 0.3.h),
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.start,
-                                    //   children: [
-                                    //     GradientText(
-                                    //       text: "${foodnearby[index].mile} mile",
-                                    //       gradient: const LinearGradient(colors: [
-                                    //         Color(0xffFF0092),
-                                    //         Color(0xff216DFD),
-                                    //       ]),
-                                    //       style: GoogleFonts.inter(
-                                    //         fontWeight: FontWeight.w400,
-                                    //         fontSize: 10,
-                                    //       ),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                    SizedBox(height: 0.3.h),
-                                    Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            'assets/svgs/home/map-pin.svg'),
-                                        SizedBox(width: 0.3.h),
-                                        Text(
-                                          docData["location"]
-                                                      .toString()
-                                                      .length >
-                                                  15
-                                              ? "${docData["location"].toString().substring(0, 15)}..."
-                                              : docData["location"],
-                                          style: GoogleFonts.inter(
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xff7390A1),
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: Get.height / 6,
-                              width: Get.width / 1.8,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: NetworkImage(
-                                    docData["imageUrl"],
-                                  ),
-                                ),
-                                // color: Colors.white,
-                              ),
-                              // child: Padding(
-                              //   padding: const EdgeInsets.all(12),
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       Container(
-                              //         height: 3.5.h,
-                              //         width: 8.h,
-                              //         decoration: BoxDecoration(
-                              //             borderRadius: BorderRadius.circular(20),
-                              //             color: const Color(0xff80ffff),
-                              //             border:
-                              //             Border.all(color: Colors.white60)),
-                              //         child: Row(
-                              //           mainAxisAlignment:
-                              //           MainAxisAlignment.spaceEvenly,
-                              //           children: [
-                              //             SvgPicture.asset(
-                              //                 'assets/svgs/home/Star 2.svg'),
-                              //             Text(
-                              //               foodnearby[index].rating,
-                              //               style: GoogleFonts.inter(
-                              //                   fontSize: 10,
-                              //                   fontWeight: FontWeight.w400,
-                              //                   color: Colors.white),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //       CircleAvatar(
-                              //         backgroundColor: const Color(0xff80FFFF),
-                              //         radius: 16,
-                              //         child: SvgPicture.asset(
-                              //             'assets/svgs/home/Vector.svg'),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                            ),
-                          ],
+          height: 26.h,
+          // height: 250,
+          child: StreamBuilder<QuerySnapshot>(
+            stream:
+                FirebaseFirestore.instance
+                    .collection("restaurants")
+                    .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return const Center(child: Text('No Data Available'));
+              }
+              final data = snapshot.data!.docs;
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final docData = data[index].data() as Map<String, dynamic>;
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(
+                        () => SanzioRestaurant(
+                          imageUrl: docData["imageUrl"],
+                          location: docData["location"],
+                          description: docData["description"],
+                          closingTime: docData["closingTime"],
+                          imageName: docData["imageName"],
+                          openingTime: docData["openingTime"],
+                          restaurantName: docData["restaurantName"],
                         ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: screenHeight * 0.26,
+                            width: Get.width / 1.8,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  // SizedBox(height: 1.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        docData["restaurantName"]
+                                                    .toString()
+                                                    .length >
+                                                15
+                                            ? "${docData["restaurantName"].toString().substring(0, 15)}..."
+                                            : docData["restaurantName"],
+                                        style: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      // Text(
+                                      //   '£${docData["location"]}',
+                                      //   style: const TextStyle(
+                                      //     fontSize: 14,
+                                      //     fontWeight: FontWeight.w500,
+                                      //     color: Color(0xff025B8F),
+                                      //   ),
+                                      // )
+                                    ],
+                                  ),
+                                  SizedBox(height: 0.3.h),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.start,
+                                  //   children: [
+                                  //     GradientText(
+                                  //       text: "${foodnearby[index].mile} mile",
+                                  //       gradient: const LinearGradient(colors: [
+                                  //         Color(0xffFF0092),
+                                  //         Color(0xff216DFD),
+                                  //       ]),
+                                  //       style: GoogleFonts.inter(
+                                  //         fontWeight: FontWeight.w400,
+                                  //         fontSize: 10,
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  SizedBox(height: 0.3.h),
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/svgs/home/map-pin.svg',
+                                      ),
+                                      SizedBox(width: 0.3.h),
+                                      Text(
+                                        docData["location"].toString().length >
+                                                15
+                                            ? "${docData["location"].toString().substring(0, 15)}..."
+                                            : docData["location"],
+                                        style: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xff7390A1),
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: Get.height / 6,
+                            width: Get.width / 1.8,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: NetworkImage(docData["imageUrl"]),
+                              ),
+                              // color: Colors.white,
+                            ),
+                            // child: Padding(
+                            //   padding: const EdgeInsets.all(12),
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       Container(
+                            //         height: 3.5.h,
+                            //         width: 8.h,
+                            //         decoration: BoxDecoration(
+                            //             borderRadius: BorderRadius.circular(20),
+                            //             color: const Color(0xff80ffff),
+                            //             border:
+                            //             Border.all(color: Colors.white60)),
+                            //         child: Row(
+                            //           mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //           children: [
+                            //             SvgPicture.asset(
+                            //                 'assets/svgs/home/Star 2.svg'),
+                            //             Text(
+                            //               foodnearby[index].rating,
+                            //               style: GoogleFonts.inter(
+                            //                   fontSize: 10,
+                            //                   fontWeight: FontWeight.w400,
+                            //                   color: Colors.white),
+                            //             ),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       CircleAvatar(
+                            //         backgroundColor: const Color(0xff80FFFF),
+                            //         radius: 16,
+                            //         child: SvgPicture.asset(
+                            //             'assets/svgs/home/Vector.svg'),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                );
-              },
-            )),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
         SizedBox(height: screenHeight * 0.03),
         Padding(
           padding: const EdgeInsets.only(left: 12.0, right: 12),
@@ -710,9 +741,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
               Text(
                 'Events',
                 style: GoogleFonts.inter(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
               ),
               // InkWell(
               //   onTap: () {
@@ -745,10 +777,11 @@ class _HomeScreen2State extends State<HomeScreen2> {
         Padding(
           padding: const EdgeInsets.only(left: 12, right: 12),
           child: FutureBuilder(
-            future: FirebaseFirestore.instance
-                .collection('tickets')
-                .where('private', isEqualTo: false)
-                .get(),
+            future:
+                FirebaseFirestore.instance
+                    .collection('tickets')
+                    .where('private', isEqualTo: false)
+                    .get(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -760,16 +793,19 @@ class _HomeScreen2State extends State<HomeScreen2> {
                 List<DocumentSnapshot> docs = snapshot.data!.docs;
 
                 // **Filter upcoming events**
-                List<DocumentSnapshot> upcomingEvents = docs.where((doc) {
-                  Timestamp dateTimestamp = doc['date'] ?? Timestamp.now();
-                  DateTime eventDate = dateTimestamp.toDate();
-                  return eventDate
-                      .isAfter(DateTime.now()); // Only keep future events
-                }).toList();
+                List<DocumentSnapshot> upcomingEvents =
+                    docs.where((doc) {
+                      Timestamp dateTimestamp = doc['date'] ?? Timestamp.now();
+                      DateTime eventDate = dateTimestamp.toDate();
+                      return eventDate.isAfter(
+                        DateTime.now(),
+                      ); // Only keep future events
+                    }).toList();
 
                 if (upcomingEvents.isEmpty) {
                   return const Center(
-                      child: Text('No upcoming events available.'));
+                    child: Text('No upcoming events available.'),
+                  );
                 }
 
                 return ListView.builder(
@@ -863,7 +899,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                         Row(
                                           children: [
                                             SvgPicture.asset(
-                                                'assets/svgs/home/map-pin.svg'),
+                                              'assets/svgs/home/map-pin.svg',
+                                            ),
                                             const SizedBox(width: 3),
                                             Text(
                                               location.length > 30
@@ -905,22 +942,25 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                       isFavorite.toggle();
                                       await ticketController
                                           .updateTicketCollection(
-                                        id.obs,
-                                        isFavorite.value.obs,
-                                      );
+                                            id.obs,
+                                            isFavorite.value.obs,
+                                          );
                                     },
-                                    child: Obx(() => CircleAvatar(
-                                          backgroundColor:
-                                              const Color(0xff80ffff),
-                                          radius: 16,
-                                          child: Icon(
-                                            size: 2.5.h,
-                                            isFavorite.value
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            color: Colors.red,
-                                          ),
-                                        )),
+                                    child: Obx(
+                                      () => CircleAvatar(
+                                        backgroundColor: const Color(
+                                          0xff80ffff,
+                                        ),
+                                        radius: 16,
+                                        child: Icon(
+                                          size: 2.5.h,
+                                          isFavorite.value
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -935,9 +975,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
             },
           ),
         ),
-        SizedBox(
-          height: 12.h,
-        ),
+        SizedBox(height: 12.h),
       ],
     );
   }

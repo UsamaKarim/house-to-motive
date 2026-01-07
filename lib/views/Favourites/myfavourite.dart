@@ -58,7 +58,7 @@ class FavRestaurants extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xff025B8F),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                               SizedBox(height: 0.3.h),
@@ -67,10 +67,12 @@ class FavRestaurants extends StatelessWidget {
                                 children: [
                                   GradientText(
                                     text: "${foodnearby[index].mile} mile",
-                                    gradient: const LinearGradient(colors: [
-                                      Color(0xffFF0092),
-                                      Color(0xff216DFD),
-                                    ]),
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0xffFF0092),
+                                        Color(0xff216DFD),
+                                      ],
+                                    ),
                                     style: GoogleFonts.inter(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 10,
@@ -82,7 +84,8 @@ class FavRestaurants extends StatelessWidget {
                               Row(
                                 children: [
                                   SvgPicture.asset(
-                                      'assets/svgs/home/map-pin.svg'),
+                                    'assets/svgs/home/map-pin.svg',
+                                  ),
                                   SizedBox(width: 0.3.h),
                                   Text(
                                     foodnearby[index].location,
@@ -105,9 +108,7 @@ class FavRestaurants extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: NetworkImage(
-                              foodnearby[index].image,
-                            ),
+                            image: NetworkImage(foodnearby[index].image),
                           ),
                           // color: Colors.white,
                         ),
@@ -121,21 +122,24 @@ class FavRestaurants extends StatelessWidget {
                                 height: 3.5.h,
                                 width: 8.h,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: const Color(0xff80FFFF),
-                                    border: Border.all(color: Colors.white60)),
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: const Color(0xff80FFFF),
+                                  border: Border.all(color: Colors.white60),
+                                ),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SvgPicture.asset(
-                                        'assets/svgs/home/Star 2.svg'),
+                                      'assets/svgs/home/Star 2.svg',
+                                    ),
                                     Text(
                                       foodnearby[index].rating,
                                       style: GoogleFonts.inter(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.white),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -144,7 +148,8 @@ class FavRestaurants extends StatelessWidget {
                                 backgroundColor: const Color(0xff80FFFF),
                                 radius: 16,
                                 child: SvgPicture.asset(
-                                    'assets/svgs/home/Vector.svg'),
+                                  'assets/svgs/home/Vector.svg',
+                                ),
                               ),
                             ],
                           ),

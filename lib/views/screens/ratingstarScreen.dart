@@ -64,10 +64,9 @@ class _ratingstarScreenState extends State<ratingstarScreen> {
                   allowHalfRating: true,
                   itemCount: 5,
                   itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => const Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
+                  itemBuilder:
+                      (context, _) =>
+                          const Icon(Icons.star, color: Colors.amber),
                   onRatingUpdate: (rating) {
                     print(rating);
                   },
@@ -87,9 +86,7 @@ class _ratingstarScreenState extends State<ratingstarScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: size.height / 50,
-              ),
+              SizedBox(height: size.height / 50),
               Align(
                 alignment: Alignment.centerLeft,
                 child: RatingBar.builder(
@@ -99,18 +96,15 @@ class _ratingstarScreenState extends State<ratingstarScreen> {
                   allowHalfRating: true,
                   itemCount: 5,
                   itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => const Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
+                  itemBuilder:
+                      (context, _) =>
+                          const Icon(Icons.star, color: Colors.amber),
                   onRatingUpdate: (rating) {
                     print(rating);
                   },
                 ),
               ),
-              SizedBox(
-                height: size.height / 50,
-              ),
+              SizedBox(height: size.height / 50),
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -122,24 +116,25 @@ class _ratingstarScreenState extends State<ratingstarScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: size.height / 40,
-              ),
+              SizedBox(height: size.height / 40),
               TextFormField(
                 scrollPadding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom * 2),
+                  bottom: MediaQuery.of(context).viewInsets.bottom * 2,
+                ),
                 controller: _textController,
                 maxLines: 5,
                 maxLength: maxCharacters,
                 onChanged: (text) {
                   setState(() {
                     // Set background color and text color based on whether there is text entered or not
-                    buttonColor = text.isNotEmpty
-                        ? const Color(0XFF025B8F)
-                        : Colors.white;
-                    textColor = text.isNotEmpty
-                        ? Colors.white
-                        : const Color(0XFF7390A1);
+                    buttonColor =
+                        text.isNotEmpty
+                            ? const Color(0XFF025B8F)
+                            : Colors.white;
+                    textColor =
+                        text.isNotEmpty
+                            ? Colors.white
+                            : const Color(0XFF7390A1);
                   });
                 },
                 decoration: InputDecoration(
@@ -151,9 +146,7 @@ class _ratingstarScreenState extends State<ratingstarScreen> {
                   counterText: "${_textController.text.length}/$maxCharacters",
                 ),
               ),
-              SizedBox(
-                height: size.height / 40,
-              ),
+              SizedBox(height: size.height / 40),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

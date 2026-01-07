@@ -1,10 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-List Name2 = [
-  'NQ64 Arcade',
-  'F1 Arcade',
-  'F1 Arcade',
-];
+List Name2 = ['NQ64 Arcade', 'F1 Arcade', 'F1 Arcade'];
 List Category1 = ['EC4M 9AF •', 'EC4M 9AF •', 'EC4M 9AF •'];
 List Category2 = [' Regular', ' VIP', ' VIP'];
 List loc = [
@@ -42,13 +38,9 @@ List VideoIMg = [
 ];
 
 List CalenderDate1 = ["Nov \n 10", "Nov \n 18", "Nov \n 18"];
-List CalenderName = [
-  "F1 arcade ",
-  "Sanzio Restaurant",
-  "Sanzio Restaurant",
-];
+List CalenderName = ["F1 arcade ", "Sanzio Restaurant", "Sanzio Restaurant"];
 List CalenderDate2 = [
   "Friday, 10th Nov, 2023 - 5:30 PM",
   "Date with Monica Galler",
-  "Tuesday, 23 Nov, 2023 - 8:30 PM"
+  "Tuesday, 23 Nov, 2023 - 8:30 PM",
 ];

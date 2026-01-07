@@ -31,9 +31,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     // Image.asset('assets/pngs/htmimage.png'),
                     Opacity(
                       opacity: 0.1,
-                      child: Image.asset(
-                        'assets/pngs/htmimage1.png',
-                      ),
+                      child: Image.asset('assets/pngs/htmimage1.png'),
                     ),
                     Center(
                       child: Image.asset(
@@ -46,12 +44,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                       left: 10,
                       top: 50,
                       child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: SvgPicture.asset(
-                            'assets/svgs/back_btn.svg',
-                          )),
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: SvgPicture.asset('assets/svgs/back_btn.svg'),
+                      ),
                     ),
                   ],
                 ),
@@ -82,20 +79,24 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ),
                     SizedBox(height: screenHeight * 0.02),
                     CustomEmailField(
-                        title: 'Email', textEditingController: emailController),
+                      title: 'Email',
+                      textEditingController: emailController,
+                    ),
                     SizedBox(height: screenHeight * 0.03),
                     CustomButton(
                       title: 'Reset Password',
                       ontap: () {
                         auth
                             .sendPasswordResetEmail(
-                                email: emailController.text.toString())
+                              email: emailController.text.toString(),
+                            )
                             .then((value) {
-                          Get.to(() => LoginWithEmailScreen());
-                          Utils().ToastMessage('please check your email');
-                        }).onError((error, stackTrace) {
-                          Utils().ToastMessage(error.toString());
-                        });
+                              Get.to(() => LoginWithEmailScreen());
+                              Utils().ToastMessage('please check your email');
+                            })
+                            .onError((error, stackTrace) {
+                              Utils().ToastMessage(error.toString());
+                            });
                       },
                     ),
                     SizedBox(height: screenHeight * 0.03),

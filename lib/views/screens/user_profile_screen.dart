@@ -13,11 +13,12 @@ import 'chatRoom.dart';
 import 'notification_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen(
-      {super.key,
-      required this.userId,
-      required this.userName,
-      required this.profilePic});
+  const UserProfileScreen({
+    super.key,
+    required this.userId,
+    required this.userName,
+    required this.profilePic,
+  });
   final String userId;
   final String userName;
   final String profilePic;
@@ -74,16 +75,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ),
         actions: [
           GestureDetector(
-              onTap: () {
-                Get.to(() => FavList());
-              },
-              child: SvgPicture.asset('assets/appbar/heart.svg')),
+            onTap: () {
+              Get.to(() => FavList());
+            },
+            child: SvgPicture.asset('assets/appbar/heart.svg'),
+          ),
           const SizedBox(width: 10),
           GestureDetector(
-              onTap: () {
-                Get.to(() => const NotificationScreen());
-              },
-              child: SvgPicture.asset('assets/appbar/Notification.svg')),
+            onTap: () {
+              Get.to(() => const NotificationScreen());
+            },
+            child: SvgPicture.asset('assets/appbar/Notification.svg'),
+          ),
           const SizedBox(width: 10),
         ],
       ),
@@ -92,9 +95,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
             children: [
-              SizedBox(
-                height: 10.px,
-              ),
+              SizedBox(height: 10.px),
               Container(
                 height: Get.height / 6,
                 width: Get.width,
@@ -114,10 +115,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           CircleAvatar(
                             radius: 30,
                             backgroundImage: NetworkImage(
-                                widget.profilePic.isNotEmpty
-                                    ? widget.profilePic
-                                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-                                scale: 1.0),
+                              widget.profilePic.isNotEmpty
+                                  ? widget.profilePic
+                                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                              scale: 1.0,
+                            ),
                             backgroundColor: Colors.black,
                           ),
                           Text(
@@ -228,36 +230,85 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   FirebaseAuth.instance.currentUser!.uid
                               ? const SizedBox.shrink()
                               : Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.to(
-                                          () => ChatPage(
-                                            name: widget.userName,
-                                            receiverEmail: widget.userId,
-                                            receiverId: widget.userId,
-                                            chatRoomId: chatRoomId(
-                                                widget.userId,
-                                                FirebaseAuth
-                                                    .instance.currentUser!.uid),
-                                            pic: widget.profilePic,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.to(
+                                        () => ChatPage(
+                                          name: widget.userName,
+                                          receiverEmail: widget.userId,
+                                          receiverId: widget.userId,
+                                          chatRoomId: chatRoomId(
+                                            widget.userId,
+                                            FirebaseAuth
+                                                .instance
+                                                .currentUser!
+                                                .uid,
                                           ),
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 25,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: const Color(0xff025B8F),
-                                              width: 1),
-                                          borderRadius:
-                                              BorderRadius.circular(20.px),
+                                          pic: widget.profilePic,
                                         ),
-                                        child: const Center(
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 25,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: const Color(0xff025B8F),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          20.px,
+                                        ),
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          'Chat',
+                                          style: TextStyle(
+                                            fontFamily: 'ProximaNova',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff025B8F),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 20.px),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      bool updatedFollowStatus =
+                                          await ticketController
+                                              .toggleFollowUser(
+                                                FirebaseAuth
+                                                    .instance
+                                                    .currentUser!
+                                                    .uid,
+                                                widget.userId,
+                                              );
+
+                                      getVideoController.isFollowing.value =
+                                          updatedFollowStatus;
+                                    },
+                                    child: Container(
+                                      height: 25,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: const Color(0xff025B8F),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          20.px,
+                                        ),
+                                      ),
+                                      child: Obx(
+                                        () => Center(
                                           child: Text(
-                                            'Chat',
-                                            style: TextStyle(
+                                            getVideoController.isFollowing.value
+                                                ? "Unfollow"
+                                                : "Follow",
+                                            style: const TextStyle(
                                               fontFamily: 'ProximaNova',
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,
@@ -267,59 +318,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 20.px),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        bool updatedFollowStatus =
-                                            await ticketController
-                                                .toggleFollowUser(
-                                          FirebaseAuth
-                                              .instance.currentUser!.uid,
-                                          widget.userId,
-                                        );
-
-                                        getVideoController.isFollowing.value =
-                                            updatedFollowStatus;
-                                      },
-                                      child: Container(
-                                        height: 25,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: const Color(0xff025B8F),
-                                              width: 1),
-                                          borderRadius:
-                                              BorderRadius.circular(20.px),
-                                        ),
-                                        child: Obx(
-                                          () => Center(
-                                            child: Text(
-                                              getVideoController
-                                                      .isFollowing.value
-                                                  ? "Unfollow"
-                                                  : "Follow",
-                                              style: const TextStyle(
-                                                fontFamily: 'ProximaNova',
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color(0xff025B8F),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10.px,
-              ),
+              SizedBox(height: 10.px),
               Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -334,14 +342,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     final String thumbnailUrl = videoData['thumbnailUrl'] ?? '';
                     return GestureDetector(
                       onTap: () {
-                        Get.to(() => VideoScreen(
-                              videoUrls: getVideoController.videoUrlList,
-                              initialIndex: index,
-                              videoUserIdList:
-                                  getVideoController.videoUserIdList,
-                              title: 'title',
-                              videoIdList: getVideoController.videoIdList,
-                            ));
+                        Get.to(
+                          () => VideoScreen(
+                            videoUrls: getVideoController.videoUrlList,
+                            initialIndex: index,
+                            videoUserIdList: getVideoController.videoUserIdList,
+                            title: 'title',
+                            videoIdList: getVideoController.videoIdList,
+                          ),
+                        );
                       },
                       child: Stack(
                         children: [

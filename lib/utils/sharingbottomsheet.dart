@@ -6,10 +6,7 @@ import 'package:house_to_motive/views/screens/chatRoom.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
-void openBottomSheetSharing(
-  String url,
-  BuildContext context,
-) {
+void openBottomSheetSharing(String url, BuildContext context) {
   final TextEditingController searchController = TextEditingController();
 
   final FirestoreService firestoreService = Get.put(FirestoreService());
@@ -32,21 +29,20 @@ void openBottomSheetSharing(
             TextFormField(
               controller: searchController,
               decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 2.h, vertical: 1.3.h),
-                  isCollapsed: true,
-                  hintText: 'Search',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.h),
-                      borderSide: const BorderSide(color: Colors.grey)),
-                  suffixIcon: Icon(
-                    Icons.person_add_alt_outlined,
-                    size: 20.px,
-                  )),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 2.h,
+                  vertical: 1.3.h,
+                ),
+                isCollapsed: true,
+                hintText: 'Search',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4.h),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                suffixIcon: Icon(Icons.person_add_alt_outlined, size: 20.px),
+              ),
             ),
-            SizedBox(
-              height: 2.h,
-            ),
+            SizedBox(height: 2.h),
             Expanded(
               child: GridView.builder(
                 padding: EdgeInsets.zero,
@@ -63,27 +59,30 @@ void openBottomSheetSharing(
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Get.to(() => ChatPage(
-                                name: firestoreService.userList[index]['Name']!,
-                                receiverId: firestoreService.userList[index]
-                                    ['userId']!,
-                                chatRoomId: chatRoomId(
+                          Get.to(
+                            () => ChatPage(
+                              name: firestoreService.userList[index]['Name']!,
+                              receiverId:
                                   firestoreService.userList[index]['userId']!,
-                                  FirebaseAuth.instance.currentUser!.uid,
-                                ),
-                                receiverEmail: firestoreService.userList[index]
-                                    ['userId']!,
-                                urls: url,
-                              ));
+                              chatRoomId: chatRoomId(
+                                firestoreService.userList[index]['userId']!,
+                                FirebaseAuth.instance.currentUser!.uid,
+                              ),
+                              receiverEmail:
+                                  firestoreService.userList[index]['userId']!,
+                              urls: url,
+                            ),
+                          );
                         },
                         child: CircleAvatar(
                           radius: 30,
                           backgroundColor: Colors.grey,
                           backgroundImage: NetworkImage(
                             firestoreService
-                                    .userList[index]['profileImage']!.isNotEmpty
-                                ? firestoreService.userList[index]
-                                    ['profileImage']!
+                                    .userList[index]['profileImage']!
+                                    .isNotEmpty
+                                ? firestoreService
+                                    .userList[index]['profileImage']!
                                 : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
                             scale: 1.0,
                           ),
@@ -104,32 +103,25 @@ void openBottomSheetSharing(
                 },
               ),
             ),
-            SizedBox(
-              height: 5.h,
-            ),
+            SizedBox(height: 5.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   'Share',
                   style: TextStyle(
-                      fontFamily: 'bold',
-                      fontSize: 18.px,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w500),
+                    fontFamily: 'bold',
+                    fontSize: 18.px,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                SizedBox(
-                  width: 1.h,
-                ),
+                SizedBox(width: 1.h),
                 GestureDetector(
                   onTap: () {
                     Share.share(url); // Share the URL with external apps
                   },
-                  child: Icon(
-                    Icons.share,
-                    size: 40.px,
-                    color: Colors.blue,
-                  ),
+                  child: Icon(Icons.share, size: 40.px, color: Colors.blue),
                 ),
               ],
             ),

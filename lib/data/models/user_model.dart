@@ -80,8 +80,13 @@ class Event {
       final parts = timestamp.split(':');
       if (parts.length == 2) {
         final now = DateTime.now();
-        return DateTime(now.year, now.month, now.day, int.parse(parts[0]),
-            int.parse(parts[1]));
+        return DateTime(
+          now.year,
+          now.month,
+          now.day,
+          int.parse(parts[0]),
+          int.parse(parts[1]),
+        );
       } else {
         return DateTime.parse(timestamp); // Fallback to default parsing
       }

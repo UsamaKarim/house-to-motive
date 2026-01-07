@@ -57,24 +57,15 @@ class SettingScreen extends StatelessWidget {
                   // ProfileWidget(title: 'App Language', onTap: () {
                   //
                   // }),
-                  SettingWidget(
-                    title: 'App Language',
-                    onTap: () {},
-                  ),
-                  SettingWidget(
-                    title: 'App Info',
-                    onTap: () {},
-                  ),
+                  SettingWidget(title: 'App Language', onTap: () {}),
+                  SettingWidget(title: 'App Info', onTap: () {}),
                   SettingWidget(
                     title: 'Change Password',
                     onTap: () {
                       Get.to(() => ChangePassWordScreen());
                     },
                   ),
-                  SettingWidget(
-                    title: 'Invite Friends',
-                    onTap: () {},
-                  ),
+                  SettingWidget(title: 'Invite Friends', onTap: () {}),
 
                   SizedBox(height: 0.7.h),
                 ],
@@ -275,10 +266,8 @@ class SettingWidget extends StatelessWidget {
               SizedBox(height: 0.5.h),
               Padding(
                 padding: const EdgeInsets.only(left: 12),
-                child: Divider(
-                  color: Colors.black38,
-                ),
-              )
+                child: Divider(color: Colors.black38),
+              ),
             ],
           ),
         ),

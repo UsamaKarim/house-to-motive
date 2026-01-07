@@ -24,8 +24,11 @@ class GetVideoController extends GetxController {
     final http.Response response = await http.get(Uri.parse(url));
     final Uint8List bytes = response.bodyBytes;
 
-    final ui.Codec codec = await ui.instantiateImageCodec(bytes,
-        targetWidth: 100, targetHeight: 150);
+    final ui.Codec codec = await ui.instantiateImageCodec(
+      bytes,
+      targetWidth: 100,
+      targetHeight: 150,
+    );
     final ui.FrameInfo fi = await codec.getNextFrame();
 
     final ui.Image image = fi.image;
@@ -40,10 +43,13 @@ class GetVideoController extends GetxController {
     canvas.clipRRect(clipRect);
     canvas.drawImage(image, Offset.zero, paint);
 
-    final ui.Image finalImage =
-        await pictureRecorder.endRecording().toImage(100, 150);
-    final ByteData? byteData =
-        await finalImage.toByteData(format: ui.ImageByteFormat.png);
+    final ui.Image finalImage = await pictureRecorder.endRecording().toImage(
+      100,
+      150,
+    );
+    final ByteData? byteData = await finalImage.toByteData(
+      format: ui.ImageByteFormat.png,
+    );
     final Uint8List finalBytes = byteData!.buffer.asUint8List();
 
     return BitmapDescriptor.fromBytes(finalBytes);
@@ -74,8 +80,9 @@ class GetVideoController extends GetxController {
 
     try {
       final List<Location> locations = await locationFromAddress(address);
-      final BitmapDescriptor customIcon =
-          await getBitmapDescriptorFromUrl(imageURL);
+      final BitmapDescriptor customIcon = await getBitmapDescriptorFromUrl(
+        imageURL,
+      );
       final Location location = locations.first;
 
       final marker = Marker(
@@ -109,13 +116,15 @@ class GetVideoController extends GetxController {
   RxBool isFollowing = false.obs;
   Future<void> checkFollowingStatus(String ticketUid) async {
     // Fetch the current user's document from Firestore
-    DocumentSnapshot currentUserDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
+    DocumentSnapshot currentUserDoc =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get();
 
     // Check if the current user is following the other user
-    bool isAlreadyFollowing = currentUserDoc['following'] != null &&
+    bool isAlreadyFollowing =
+        currentUserDoc['following'] != null &&
         currentUserDoc['following'].contains(ticketUid);
 
     isFollowing = isAlreadyFollowing.obs;
@@ -158,9 +167,7 @@ class GetVideoController extends GetxController {
       // Split documents into batches
       List<List<QueryDocumentSnapshot>> batches = [];
       for (int i = 0; i < querySnapshot.docs.length; i += batchSize) {
-        batches.add(
-          querySnapshot.docs.skip(i).take(batchSize).toList(),
-        );
+        batches.add(querySnapshot.docs.skip(i).take(batchSize).toList());
       }
 
       // Process each batch in parallel
@@ -168,13 +175,9 @@ class GetVideoController extends GetxController {
         List<Future<void>> batchFutures = [];
 
         for (var video in batch) {
-          batchFutures.add(_processVideo(
-            video,
-            userLat,
-            userLon,
-            tempVideos,
-            tempDistances,
-          ));
+          batchFutures.add(
+            _processVideo(video, userLat, userLon, tempVideos, tempDistances),
+          );
         }
 
         // Wait for all videos in the batch to be processed
@@ -216,7 +219,7 @@ class GetVideoController extends GetxController {
       // Calculate distance using Geolocator (returns meters, so convert to km)
       double roadDistance =
           Geolocator.distanceBetween(userLat, userLon, videoLat, videoLon) /
-              1000;
+          1000;
 
       if (roadDistance <= 15 && !idList.contains(video.id)) {
         // Create a videoInfo object
@@ -262,11 +265,13 @@ class GetVideoController extends GetxController {
 
     if (permission == LocationPermission.deniedForever) {
       throw Exception(
-          'Location permissions are permanently denied, we cannot request permissions.');
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
     }
 
     return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+      desiredAccuracy: LocationAccuracy.high,
+    );
   }
 
   //get user Videos
@@ -279,10 +284,11 @@ class GetVideoController extends GetxController {
     final QuerySnapshot<Map<String, dynamic>> userSnapshot =
         await FirebaseFirestore.instance.collection('videos').get();
 
-    final List<Map<String, dynamic>> filteredVideos = userSnapshot.docs
-        .map((doc) => doc.data())
-        .where((data) => data['userId'] == userId)
-        .toList();
+    final List<Map<String, dynamic>> filteredVideos =
+        userSnapshot.docs
+            .map((doc) => doc.data())
+            .where((data) => data['userId'] == userId)
+            .toList();
 
     userVideos.value = filteredVideos; // Use .value to set the value of RxList
 
@@ -296,9 +302,12 @@ class GetVideoController extends GetxController {
       if (data['userId'] == userId) {
         videoIdList.add(doc.id); // Store document ID
         videoUserIdList.add(data['userId']); // Store user ID
-        videoUrlList.add(data[
-            'videoUrl']); // Store video URL (assuming 'videoUrl' is the field name)
-        log("Document ID: ${doc.id}, User ID: ${data['userId']}, Video URL: ${data['videoUrl']}");
+        videoUrlList.add(
+          data['videoUrl'],
+        ); // Store video URL (assuming 'videoUrl' is the field name)
+        log(
+          "Document ID: ${doc.id}, User ID: ${data['userId']}, Video URL: ${data['videoUrl']}",
+        );
       }
     }
   }
@@ -317,7 +326,11 @@ class GetVideoController extends GetxController {
   }
 
   Future<double> getRoadDistance(
-      double lat1, double lon1, double lat2, double lon2) async {
+    double lat1,
+    double lon1,
+    double lat2,
+    double lon2,
+  ) async {
     const String apiKey = "AIzaSyDotkOgJK6nWqbYMLFOuQQs8VNpyIOAmGw";
     String url =
         "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$lat1,$lon1&destinations=$lat2,$lon2&key=$apiKey";

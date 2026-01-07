@@ -102,7 +102,9 @@ class GetChatSController extends GetxController {
         });
         log('The Total Length of nameList are ${nameList.length}');
         log('The Total Length of picList are ${picList.length}');
-        log('The Total Length of lastMessageTime are ${lastMessageTimeList.length}');
+        log(
+          'The Total Length of lastMessageTime are ${lastMessageTimeList.length}',
+        );
         log('The Total Length of lastMessage are ${lastMessageList.length}');
         log('The  lastMessage are $lastMessage');
         log('The lastMessageTime are $lastMessageTime');
@@ -164,8 +166,9 @@ class GetChatSController extends GetxController {
     DateFormat formatter = DateFormat(pattern);
     for (int i = 0; i < lastMessageTimeList.length; i++) {
       DateTime dateTime = DateTime.parse(lastMessageTimeList[i]);
-      String formattedHour =
-          formatter.format(dateTime); // Get the hour from the datetime
+      String formattedHour = formatter.format(
+        dateTime,
+      ); // Get the hour from the datetime
       log('This is the hour of the last message: ${int.parse(formattedHour)}');
       log('Current hour: ${DateTime.now().hour}');
       if (int.parse(formattedHour) == DateTime.now().hour) {

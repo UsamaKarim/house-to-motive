@@ -77,10 +77,9 @@ class _CreateEvent2ScreenState extends State<CreateEvent2Screen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          ticketController
-                              .getSelectedDay()
-                              .toString()
-                              .split(" ")[0],
+                          ticketController.getSelectedDay().toString().split(
+                            " ",
+                          )[0],
                           style: const TextStyle(
                             fontFamily: 'ProximaNova',
                             fontSize: 14,
@@ -142,8 +141,9 @@ class _CreateEvent2ScreenState extends State<CreateEvent2Screen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                ticketController.selectedTime.value
-                                    .format(context),
+                                ticketController.selectedTime.value.format(
+                                  context,
+                                ),
                                 style: const TextStyle(
                                   fontFamily: 'ProximaNova',
                                   fontSize: 14,
@@ -177,8 +177,9 @@ class _CreateEvent2ScreenState extends State<CreateEvent2Screen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                ticketController.selectedTimeEnd.value
-                                    .format(context),
+                                ticketController.selectedTimeEnd.value.format(
+                                  context,
+                                ),
                                 style: const TextStyle(
                                   fontFamily: 'ProximaNova',
                                   fontSize: 14,
@@ -214,17 +215,20 @@ class _CreateEvent2ScreenState extends State<CreateEvent2Screen> {
                     if (textEditingValue.text == '') {
                       return const Iterable<String>.empty();
                     }
-                    return placeApiController
-                        .getSuggestions(textEditingValue.text);
+                    return placeApiController.getSuggestions(
+                      textEditingValue.text,
+                    );
                   },
                   onSelected: (String selection) {
                     placeApiController.searchPlaces(selection);
                     ticketController.locationController.text = selection;
                   },
-                  fieldViewBuilder: (BuildContext context,
-                      eventLocationController,
-                      fieldFocusNode,
-                      onFieldSubmitted) {
+                  fieldViewBuilder: (
+                    BuildContext context,
+                    eventLocationController,
+                    fieldFocusNode,
+                    onFieldSubmitted,
+                  ) {
                     return Row(
                       children: [
                         Expanded(
@@ -233,14 +237,18 @@ class _CreateEvent2ScreenState extends State<CreateEvent2Screen> {
                             focusNode: fieldFocusNode,
                             controller: eventLocationController,
                             decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.black12),
-                                  borderRadius: BorderRadius.circular(20.px),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.black12,
                                 ),
-                                isCollapsed: true,
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 1.h, vertical: 1.h)),
+                                borderRadius: BorderRadius.circular(20.px),
+                              ),
+                              isCollapsed: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 1.h,
+                                vertical: 1.h,
+                              ),
+                            ),
                           ),
                         ),
                         SizedBox(width: 1.h),
@@ -254,7 +262,8 @@ class _CreateEvent2ScreenState extends State<CreateEvent2Screen> {
                           ),
                           child: Center(
                             child: SvgPicture.asset(
-                                'assets/svgs/teenyicons_location-solid.svg'),
+                              'assets/svgs/teenyicons_location-solid.svg',
+                            ),
                           ),
                         ),
                       ],
@@ -341,9 +350,10 @@ class _CreateEvent2ScreenState extends State<CreateEvent2Screen> {
                             child: Text(
                               'Next',
                               style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -377,9 +387,7 @@ class CustomDialog extends StatelessWidget {
             lastDay: DateTime.utc(2030, 3, 14),
             focusedDay: ticketController.selectedDay.value,
             calendarStyle: const CalendarStyle(
-              defaultTextStyle: TextStyle(
-                color: Color(0xff7390A1),
-              ),
+              defaultTextStyle: TextStyle(color: Color(0xff7390A1)),
             ),
             daysOfWeekStyle: DaysOfWeekStyle(
               weekdayStyle: GoogleFonts.inter(
@@ -396,15 +404,9 @@ class CustomDialog extends StatelessWidget {
             headerStyle: HeaderStyle(
               rightChevronIcon: Row(
                 children: [
-                  const Icon(
-                    Icons.arrow_back_ios,
-                    size: 15,
-                  ),
+                  const Icon(Icons.arrow_back_ios, size: 15),
                   SizedBox(width: 10.w),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 15,
-                  ),
+                  const Icon(Icons.arrow_forward_ios, size: 15),
                 ],
               ),
               formatButtonVisible: false,
@@ -414,8 +416,8 @@ class CustomDialog extends StatelessWidget {
                 fontWeight: FontWeight.w100,
               ),
             ),
-            selectedDayPredicate: (day) =>
-                isSameDay(ticketController.selectedDay.value, day),
+            selectedDayPredicate:
+                (day) => isSameDay(ticketController.selectedDay.value, day),
             onDaySelected: ticketController.onDaySelected,
           ),
         ),

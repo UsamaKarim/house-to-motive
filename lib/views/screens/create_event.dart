@@ -62,9 +62,7 @@ class CreateEventScreen extends StatelessWidget {
                     color: const Color(0xff025B8F),
                   ),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 Row(
                   children: [
                     GestureDetector(
@@ -82,9 +80,10 @@ class CreateEventScreen extends StatelessWidget {
                             topLeft: Radius.circular(12),
                             bottomLeft: Radius.circular(12),
                           ),
-                          color: isSelected.value
-                              ? const Color(0xff025B8F)
-                              : Colors.white,
+                          color:
+                              isSelected.value
+                                  ? const Color(0xff025B8F)
+                                  : Colors.white,
                         ),
                         child: Center(
                           child: Text(
@@ -92,9 +91,10 @@ class CreateEventScreen extends StatelessWidget {
                             style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w900,
-                              color: isSelected.value
-                                  ? Colors.white
-                                  : const Color(0xff025B8F),
+                              color:
+                                  isSelected.value
+                                      ? Colors.white
+                                      : const Color(0xff025B8F),
                             ),
                           ),
                         ),
@@ -115,9 +115,10 @@ class CreateEventScreen extends StatelessWidget {
                             topRight: Radius.circular(12),
                             bottomRight: Radius.circular(12),
                           ),
-                          color: isSelected.value
-                              ? Colors.white
-                              : const Color(0xff025B8F),
+                          color:
+                              isSelected.value
+                                  ? Colors.white
+                                  : const Color(0xff025B8F),
                         ),
                         child: Center(
                           child: Text(
@@ -125,9 +126,10 @@ class CreateEventScreen extends StatelessWidget {
                             style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w900,
-                              color: isSelected.value
-                                  ? const Color(0xff025B8F)
-                                  : Colors.white,
+                              color:
+                                  isSelected.value
+                                      ? const Color(0xff025B8F)
+                                      : Colors.white,
                             ),
                           ),
                         ),
@@ -135,9 +137,7 @@ class CreateEventScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 4.h,
-                ),
+                SizedBox(height: 4.h),
                 Text(
                   'Max Participants',
                   style: GoogleFonts.inter(
@@ -146,9 +146,7 @@ class CreateEventScreen extends StatelessWidget {
                     color: const Color(0xff025B8F),
                   ),
                 ),
-                SizedBox(
-                  height: 4.h,
-                ),
+                SizedBox(height: 4.h),
                 Row(
                   children: [
                     GestureDetector(
@@ -157,8 +155,9 @@ class CreateEventScreen extends StatelessWidget {
                         height: 6.h,
                         width: 50.w,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xff025B8F)),
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(0xff025B8F),
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -197,24 +196,23 @@ class CreateEventScreen extends StatelessWidget {
                     ),
                     SizedBox(width: 2.w),
                     GestureDetector(
-                        onTap: () {
-                          controller.decrement();
-                        },
-                        child: CircleAvatar(
-                          radius: 3.3.h,
-                          backgroundColor: Colors.white,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              'assets/svgs/-.svg',
-                              color: const Color(0xff025B8F),
-                            ),
+                      onTap: () {
+                        controller.decrement();
+                      },
+                      child: CircleAvatar(
+                        radius: 3.3.h,
+                        backgroundColor: Colors.white,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            'assets/svgs/-.svg',
+                            color: const Color(0xff025B8F),
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(
-                  height: 4.h,
-                ),
+                SizedBox(height: 4.h),
                 // Text(
                 //   'Add Ticket price',
                 //   style: GoogleFonts.inter(
@@ -291,9 +289,10 @@ class CreateEventScreen extends StatelessWidget {
                             child: Text(
                               'Next',
                               style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -338,20 +337,17 @@ class PaidContainer extends StatelessWidget {
           height: 8.h,
           width: 17.h,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: const Color(0xffE45900)),
+            borderRadius: BorderRadius.circular(8.0),
+            color: const Color(0xffE45900),
+          ),
           child: Column(
             children: [
-              SizedBox(
-                height: 1.h,
-              ),
+              SizedBox(height: 1.h),
               const Text(
                 "Child",
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
-              const SizedBox(
-                height: 5,
-              ),
+              const SizedBox(height: 5),
               Expanded(
                 child: TextField(
                   controller: ticketController.childPriceController,
@@ -362,7 +358,8 @@ class PaidContainer extends StatelessWidget {
                     hintStyle: TextStyle(color: Colors.white, fontSize: 10),
                     border: OutlineInputBorder(borderSide: BorderSide.none),
                     contentPadding: EdgeInsets.only(
-                        bottom: 8), // Adjust the padding as needed
+                      bottom: 8,
+                    ), // Adjust the padding as needed
                   ),
                   textAlign: TextAlign.center,
                   // cursorHeight: 15,
@@ -377,25 +374,21 @@ class PaidContainer extends StatelessWidget {
           height: 8.h,
           width: 17.h,
           decoration: BoxDecoration(
-              gradient: const LinearGradient(colors: [
-                Color(0XFF4ADE80),
-                Color(0XFF256F40),
-              ]),
-              borderRadius: BorderRadius.circular(8.0),
-              color: const Color(0xffE45900)),
+            gradient: const LinearGradient(
+              colors: [Color(0XFF4ADE80), Color(0XFF256F40)],
+            ),
+            borderRadius: BorderRadius.circular(8.0),
+            color: const Color(0xffE45900),
+          ),
           child: Column(
             children: [
-              SizedBox(
-                height: 1.h,
+              SizedBox(height: 1.h),
+              const Text(
+                "Adult",
+                style: TextStyle(color: Colors.white, fontSize: 12),
               ),
-              const Text("Adult",
-                  style: TextStyle(color: Colors.white, fontSize: 12)),
-              const SizedBox(
-                height: 5,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
+              const SizedBox(height: 5),
+              const SizedBox(height: 5),
               Expanded(
                 child: TextField(
                   controller: ticketController.adultPriceController,
@@ -420,23 +413,21 @@ class PaidContainer extends StatelessWidget {
           height: 8.h,
           width: 17.h,
           decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                  colors: [Color(0XFFFBD22F), Color(0XFFC89F00)]),
-              borderRadius: BorderRadius.circular(8.0),
-              color: const Color(0xffE45900)),
+            gradient: const LinearGradient(
+              colors: [Color(0XFFFBD22F), Color(0XFFC89F00)],
+            ),
+            borderRadius: BorderRadius.circular(8.0),
+            color: const Color(0xffE45900),
+          ),
           child: Column(
             children: [
-              SizedBox(
-                height: 1.h,
+              SizedBox(height: 1.h),
+              const Text(
+                "Family",
+                style: TextStyle(color: Colors.white, fontSize: 12),
               ),
-              const Text("Family",
-                  style: TextStyle(color: Colors.white, fontSize: 12)),
-              const SizedBox(
-                height: 5,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
+              const SizedBox(height: 5),
+              const SizedBox(height: 5),
               Expanded(
                 child: TextField(
                   controller: ticketController.familyPriceController,

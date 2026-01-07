@@ -23,18 +23,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/appbar/Vector@2x.png',
-                height: 9,
-                width: 9,
-              ),
+              Image.asset('assets/appbar/Vector@2x.png', height: 9, width: 9),
               const SizedBox(width: 5),
               const Text(
                 'My Location',
                 style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
@@ -48,16 +45,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ? placeApiController.address.substring(0, 35) + '..'
                       : placeApiController.address,
                   style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
                 ),
                 const SizedBox(width: 5),
-                Image.asset(
-                  'assets/appbar/Vector1.png',
-                  height: 9,
-                  width: 9,
-                ),
+                Image.asset('assets/appbar/Vector1.png', height: 9, width: 9),
               ],
             ),
           ),
@@ -65,16 +59,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         GestureDetector(
-            onTap: () {
-              Get.to(() => FavList());
-            },
-            child: SvgPicture.asset('assets/appbar/heart.svg')),
+          onTap: () {
+            Get.to(() => FavList());
+          },
+          child: SvgPicture.asset('assets/appbar/heart.svg'),
+        ),
         const SizedBox(width: 10),
         GestureDetector(
-            onTap: () {
-              Get.to(() => const NotificationScreen());
-            },
-            child: SvgPicture.asset('assets/appbar/Notification.svg')),
+          onTap: () {
+            Get.to(() => const NotificationScreen());
+          },
+          child: SvgPicture.asset('assets/appbar/Notification.svg'),
+        ),
         const SizedBox(width: 10),
       ],
     );

@@ -113,21 +113,22 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
             familyPriceController: ticketController.familyPriceController,
             uid: FirebaseAuth.instance.currentUser?.uid,
           )
-          .then((value) => {
-                isLoading.value = false,
+          .then(
+            (value) => {
+              isLoading.value = false,
 
-                // notificationServices.sendNotification(
-                //     _deviceTokens,
-                //     'Home to motive',
-                //     'Event: ${ticketController.eventNameController.text}'),
-
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const BottomSheetEventDialog();
-                  },
-                ),
-              });
+              // notificationServices.sendNotification(
+              //     _deviceTokens,
+              //     'Home to motive',
+              //     'Event: ${ticketController.eventNameController.text}'),
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return const BottomSheetEventDialog();
+                },
+              ),
+            },
+          );
     }
   }
 
@@ -185,8 +186,10 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
                       color: Color(0xff090808),
                     ),
                     isCollapsed: true,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2.h, vertical: 1.5.h),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 2.h,
+                      vertical: 1.5.h,
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.black12),
                       borderRadius: BorderRadius.circular(20),
@@ -218,8 +221,10 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
                       color: Color(0xff090808),
                     ),
                     isCollapsed: true,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 2.h, vertical: 1.5.h),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 2.h,
+                      vertical: 1.5.h,
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.black12),
                       borderRadius: BorderRadius.circular(20),
@@ -274,36 +279,43 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
                     ticketController.pickedImage();
                   },
                   child: Container(
-                      height: 18.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.black12),
-                        color: Colors.white,
-                        image: ticketController.selectedImage.value != null
-                            ? DecorationImage(
+                    height: 18.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.black12),
+                      color: Colors.white,
+                      image:
+                          ticketController.selectedImage.value != null
+                              ? DecorationImage(
                                 image: FileImage(
-                                    ticketController.selectedImage.value!),
+                                  ticketController.selectedImage.value!,
+                                ),
                                 fit: BoxFit.cover,
                               )
-                            : null,
-                        // color: Colors.blue,
-                      ),
-                      child: ticketController.selectedImage.value == null
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
+                              : null,
+                      // color: Colors.blue,
+                    ),
+                    child:
+                        ticketController.selectedImage.value == null
+                            ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                      'assets/svgs/Document Upload 4.svg'),
+                                    'assets/svgs/Document Upload 4.svg',
+                                  ),
                                   SizedBox(width: 2.h),
                                   const GradientText(
                                     text: "Upload Photos",
-                                    gradient: LinearGradient(colors: [
-                                      Color(0xffFF0092),
-                                      Color(0xff216DFD),
-                                    ]),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xffFF0092),
+                                        Color(0xff216DFD),
+                                      ],
+                                    ),
                                     style: TextStyle(
                                       fontFamily: 'ProximaNova',
                                       fontSize: 18,
@@ -314,7 +326,8 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
                                 ],
                               ),
                             )
-                          : Container()),
+                            : Container(),
+                  ),
                 ),
                 SizedBox(height: 12.h),
                 Row(
@@ -348,29 +361,33 @@ class _CreateEvent3ScreenState extends State<CreateEvent3Screen> {
                           // getAllDeviceTokens();
                           // print('d token: $_deviceTokens');
                         },
-                        child: Obx(() => isLoading.value == true
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Color(0xff025B8F),
-                                ),
-                              )
-                            : Container(
-                                height: 5.5.h,
-                                width: screenWidth / 2,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: const Color(0xff025B8F),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Post',
-                                    style: GoogleFonts.inter(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white),
+                        child: Obx(
+                          () =>
+                              isLoading.value == true
+                                  ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Color(0xff025B8F),
+                                    ),
+                                  )
+                                  : Container(
+                                    height: 5.5.h,
+                                    width: screenWidth / 2,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: const Color(0xff025B8F),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Post',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              )),
+                        ),
                       ),
                     ),
                   ],
@@ -408,12 +425,14 @@ class BottomSheetEventDialog extends StatelessWidget {
             children: [
               SvgPicture.asset('assets/svgs/Ticket 2.svg'),
               SizedBox(height: 1.7.h),
-              Text('Event Created Successfully !',
-                  style: GoogleFonts.inter(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                    color: Colors.black,
-                  )),
+              Text(
+                'Event Created Successfully !',
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
               SizedBox(height: 1.7.h),
               Text(
                 textAlign: TextAlign.center,

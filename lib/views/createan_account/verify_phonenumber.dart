@@ -22,9 +22,7 @@ class CreateaccVerifyNumberScreen extends StatelessWidget {
                 children: [
                   Opacity(
                     opacity: 0.1,
-                    child: Image.asset(
-                      'assets/pngs/htmimage1.png',
-                    ),
+                    child: Image.asset('assets/pngs/htmimage1.png'),
                   ),
                   Center(
                     child: Image.asset(
@@ -37,12 +35,11 @@ class CreateaccVerifyNumberScreen extends StatelessWidget {
                     left: 10,
                     top: 50,
                     child: InkWell(
-                        onTap: () {
-                          // Get.back();
-                        },
-                        child: SvgPicture.asset(
-                          'assets/svgs/back_btn.svg',
-                        )),
+                      onTap: () {
+                        // Get.back();
+                      },
+                      child: SvgPicture.asset('assets/svgs/back_btn.svg'),
+                    ),
                   ),
                 ],
               ),

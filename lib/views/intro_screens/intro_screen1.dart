@@ -64,31 +64,25 @@ class _IntroScreenOneState extends State<IntroScreenOne> {
                   children: [
                     Opacity(
                       opacity: 0.1,
-                      child: Image.asset(
-                        'assets/pngs/htmimage1.png',
-                      ),
+                      child: Image.asset('assets/pngs/htmimage1.png'),
                     ),
-                    Image.asset('assets/pngs/Group 33331.png')
+                    Image.asset('assets/pngs/Group 33331.png'),
                   ],
                 ),
                 Stack(
                   children: [
                     Opacity(
                       opacity: 0.1,
-                      child: Image.asset(
-                        'assets/pngs/htmimage1.png',
-                      ),
+                      child: Image.asset('assets/pngs/htmimage1.png'),
                     ),
-                    Image.asset('assets/pngs/Group 333331.png')
+                    Image.asset('assets/pngs/Group 333331.png'),
                   ],
                 ),
                 Stack(
                   children: [
                     Opacity(
                       opacity: 0.1,
-                      child: Image.asset(
-                        'assets/pngs/htmimage1.png',
-                      ),
+                      child: Image.asset('assets/pngs/htmimage1.png'),
                     ),
                     Image.asset('assets/pngs/Group 33331 (1).png'),
                   ],
@@ -237,22 +231,30 @@ class _IntroScreenOneState extends State<IntroScreenOne> {
                                 onTap: () {
                                   if (currentIndex == 0) {
                                     pageController.value.nextPage(
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        curve: Curves.linear);
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      curve: Curves.linear,
+                                    );
                                     pageController1.value.nextPage(
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        curve: Curves.linear);
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      curve: Curves.linear,
+                                    );
                                   } else if (currentIndex == 1) {
                                     pageController.value.nextPage(
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        curve: Curves.linear);
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      curve: Curves.linear,
+                                    );
                                     pageController1.value.nextPage(
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        curve: Curves.linear);
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      curve: Curves.linear,
+                                    );
                                   } else {
                                     Get.to(() => AllowLocationScreen());
                                   }
@@ -275,9 +277,7 @@ class _IntroScreenOneState extends State<IntroScreenOne> {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Image.asset('assets/pngs/Group 1171274984.png'),
-                    ],
+                    children: [Image.asset('assets/pngs/Group 1171274984.png')],
                   ),
                 ],
               ),

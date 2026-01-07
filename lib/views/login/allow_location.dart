@@ -30,25 +30,25 @@ class AllowLocationScreen extends StatelessWidget {
                     child: const Text(
                       'Skip',
                       style: TextStyle(
-                          color: Color(0xff424B5A),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16),
+                        color: Color(0xff424B5A),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ],
               ),
               SizedBox(height: 15.h),
               SvgPicture.asset("assets/svgs/location.svg"),
-              SizedBox(
-                height: 8.h,
-              ),
+              SizedBox(height: 8.h),
               const Text(
                 'Enable Your Location',
                 style: TextStyle(
-                    fontFamily: 'Mont',
-                    fontSize: 28,
-                    fontWeight: FontWeight.w900,
-                    color: Color(0xff025B8F)),
+                  fontFamily: 'Mont',
+                  fontSize: 28,
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xff025B8F),
+                ),
               ),
               SizedBox(height: 2.h),
               const Text(

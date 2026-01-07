@@ -7,8 +7,11 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class CustomPasswordField extends StatelessWidget {
   final String title;
   final TextEditingController? textEditingController;
-  const CustomPasswordField(
-      {super.key, required this.title, this.textEditingController});
+  const CustomPasswordField({
+    super.key,
+    required this.title,
+    this.textEditingController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,43 +31,40 @@ class CustomPasswordField extends StatelessWidget {
           return null;
         },
         decoration: InputDecoration(
-            hintText: title,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(
-                color: Color(0xffD9D9D9),
-              ),
-            ),
-            hintStyle: TextStyle(
-              fontFamily: 'ProximaNova',
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Color(0xff7390A1),
-            ),
-            contentPadding: EdgeInsets.all(10),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(
-                color: Color(0xffD9D9D9),
-              ),
-            ),
-            suffixIcon: GestureDetector(
-              onTap: () {
-                Get.to(() => ForgotPasswordScreen());
-              },
-              child: Padding(
-                padding: EdgeInsets.only(top: 15.px, right: 6.px),
-                child: Text(
-                  'Forgot ?',
-                  style: TextStyle(
-                    fontFamily: 'ProximaNova',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: Color(0xffD9D9D9),
-                  ),
+          hintText: title,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(color: Color(0xffD9D9D9)),
+          ),
+          hintStyle: TextStyle(
+            fontFamily: 'ProximaNova',
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: Color(0xff7390A1),
+          ),
+          contentPadding: EdgeInsets.all(10),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(color: Color(0xffD9D9D9)),
+          ),
+          suffixIcon: GestureDetector(
+            onTap: () {
+              Get.to(() => ForgotPasswordScreen());
+            },
+            child: Padding(
+              padding: EdgeInsets.only(top: 15.px, right: 6.px),
+              child: Text(
+                'Forgot ?',
+                style: TextStyle(
+                  fontFamily: 'ProximaNova',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: Color(0xffD9D9D9),
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -98,23 +98,17 @@ class CustomEmailField extends StatelessWidget {
             contentPadding: EdgeInsets.all(10),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(
-                color: Color(0xffD9D9D9),
-              ),
+              borderSide: BorderSide(color: Color(0xffD9D9D9)),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(
-                color: Color(0xffD9D9D9),
-              ),
+              borderSide: BorderSide(color: Color(0xffD9D9D9)),
             ),
             // Display an icon based on the condition
-            suffixIcon: showTick.value
-                ? const Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  )
-                : null,
+            suffixIcon:
+                showTick.value
+                    ? const Icon(Icons.check, color: Colors.green)
+                    : null,
           ),
           validator: (value) {
             // Define a regular expression for email validation
@@ -133,7 +127,8 @@ class CustomEmailField extends StatelessWidget {
           },
           onChanged: (value) {
             // Update the showTick variable based on email validity
-            showTick.value = textEditingController!.text.isNotEmpty &&
+            showTick.value =
+                textEditingController!.text.isNotEmpty &&
                 RegExp(
                   r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
                 ).hasMatch(textEditingController!.text);

@@ -45,10 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
         preferences.getBool('isLogin') == null) {
       Get.offAll(() => const IntroScreenOne());
     } else {
-      Get.offAll(
-        () => HomePage(),
-        transition: Transition.downToUp,
-      );
+      Get.offAll(() => HomePage(), transition: Transition.downToUp);
     }
   }
 
@@ -61,9 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Center(
               child: Opacity(
                 opacity: 0.1,
-                child: Image.asset(
-                  'assets/pngs/htmimage1.png',
-                ),
+                child: Image.asset('assets/pngs/htmimage1.png'),
               ),
             ),
             Center(

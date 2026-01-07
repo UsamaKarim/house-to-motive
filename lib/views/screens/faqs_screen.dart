@@ -76,7 +76,9 @@ class FAQSScreen extends StatelessWidget {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
+                                  horizontal: 12,
+                                  vertical: 8,
+                                ),
                                 child: Column(
                                   children: [
                                     MySeparator(),
@@ -114,10 +116,7 @@ class FAQSScreen extends StatelessWidget {
 }
 
 class MySeparator extends StatelessWidget {
-  const MySeparator({
-    Key? key,
-    this.height = 1,
-  }) : super(key: key);
+  const MySeparator({Key? key, this.height = 1}) : super(key: key);
   final double height;
 
   @override

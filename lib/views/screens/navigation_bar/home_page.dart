@@ -96,9 +96,10 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white,
                         child: ListView.builder(
                           padding: EdgeInsets.only(
-                              left: width * 0.06,
-                              top: height * 0.02,
-                              right: width * 0.06),
+                            left: width * 0.06,
+                            top: height * 0.02,
+                            right: width * 0.06,
+                          ),
                           shrinkWrap: true,
                           itemCount: selectedSvg.length,
                           scrollDirection: Axis.horizontal,
@@ -111,16 +112,21 @@ class _HomePageState extends State<HomePage> {
                                     currentIndex.value = index;
                                     widget.searchQuery = null;
                                   },
-                                  child: currentIndex.value == index
-                                      ? SvgPicture.asset(selectedSvg[index])
-                                      : SvgPicture.asset(unSelectedSvg[index]),
+                                  child:
+                                      currentIndex.value == index
+                                          ? SvgPicture.asset(selectedSvg[index])
+                                          : SvgPicture.asset(
+                                            unSelectedSvg[index],
+                                          ),
                                 ),
                                 SizedBox(
-                                    width: index == 3
-                                        ? width * 0.09
-                                        : index == 2
-                                            ? width * 0.09
-                                            : width * 0.11),
+                                  width:
+                                      index == 3
+                                          ? width * 0.09
+                                          : index == 2
+                                          ? width * 0.09
+                                          : width * 0.11,
+                                ),
                               ],
                             );
                           },
@@ -130,17 +136,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Positioned(
                     bottom: height * 0.08,
-                    left: currentIndex.value == 0
-                        ? width * 0.085
-                        : currentIndex.value == 1
+                    left:
+                        currentIndex.value == 0
+                            ? width * 0.085
+                            : currentIndex.value == 1
                             ? width * 0.28
                             : currentIndex.value == 2
-                                ? width * 0.475
-                                : currentIndex.value == 3
-                                    ? width * 0.665
-                                    : currentIndex.value == 4
-                                        ? width * 0.86
-                                        : 0,
+                            ? width * 0.475
+                            : currentIndex.value == 3
+                            ? width * 0.665
+                            : currentIndex.value == 4
+                            ? width * 0.86
+                            : 0,
                     child: Container(
                       height: 10,
                       width: 10,
@@ -171,36 +178,60 @@ class MyCustomClipper extends CustomClipper<Path> {
     path.lineTo(0, 0);
     if (currentIndex.value == 0) {
       path.quadraticBezierTo(
-          size.width * 0.10, size.height * 0.50, size.width * 0.20, 0);
+        size.width * 0.10,
+        size.height * 0.50,
+        size.width * 0.20,
+        0,
+      );
       path.lineTo(size.width * 0.20, 0);
       path.lineTo(size.width, 0);
     } else if (currentIndex.value == 1) {
       path.lineTo(size.width * 0.20, 0);
       path.quadraticBezierTo(
-          size.width * 0.28, size.height * 0.50, size.width * 0.38, 0);
+        size.width * 0.28,
+        size.height * 0.50,
+        size.width * 0.38,
+        0,
+      );
       path.lineTo(size.width * 0.40, 0);
       path.lineTo(size.width, 0);
     } else if (currentIndex.value == 2) {
       path.lineTo(size.width * 0.40, 0);
       path.quadraticBezierTo(
-          size.width * 0.48, size.height * 0.50, size.width * 0.58, 0);
+        size.width * 0.48,
+        size.height * 0.50,
+        size.width * 0.58,
+        0,
+      );
       path.lineTo(size.width * 0.60, 0);
       path.lineTo(size.width, 0);
     } else if (currentIndex.value == 3) {
       path.lineTo(size.width * 0.60, 0);
       path.quadraticBezierTo(
-          size.width * 0.66, size.height * 0.50, size.width * 0.76, 0);
+        size.width * 0.66,
+        size.height * 0.50,
+        size.width * 0.76,
+        0,
+      );
       path.lineTo(size.width * 0.80, 0);
       path.lineTo(size.width, 0);
     } else if (currentIndex.value == 4) {
       path.lineTo(size.width * 0.80, 0);
       path.quadraticBezierTo(
-          size.width * 0.86, size.height * 0.50, size.width * 0.95, 0);
+        size.width * 0.86,
+        size.height * 0.50,
+        size.width * 0.95,
+        0,
+      );
       path.lineTo(size.width, 0);
       path.lineTo(size.width, 0);
     } else {
       path.quadraticBezierTo(
-          size.width * 0.10, size.height * 0.50, size.width * 0.20, 0);
+        size.width * 0.10,
+        size.height * 0.50,
+        size.width * 0.20,
+        0,
+      );
     }
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);

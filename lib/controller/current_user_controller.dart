@@ -18,10 +18,11 @@ class CurrentUserController extends GetxController {
     log("user email :${user?.email}");
     try {
       if (user != null) {
-        DocumentSnapshot userDoc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .get();
+        DocumentSnapshot userDoc =
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .get();
         currentUserName.value = userDoc["User Name"];
         currentUserProfile.value = userDoc["profilePic"];
         currentUserId.value = userDoc["userId"];
@@ -30,8 +31,9 @@ class CurrentUserController extends GetxController {
         return null; // User not logged in
       }
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     }
     return null;
   }

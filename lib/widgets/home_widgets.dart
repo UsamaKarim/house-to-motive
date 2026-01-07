@@ -34,14 +34,18 @@ class _ButtonWidgetState extends State<ButtonWidget> {
                     topLeft: Radius.circular(20),
                     bottomLeft: Radius.circular(20),
                   ),
-                  color: isSelectedContainer1.isTrue
-                      ? const Color(0xff025B8F)
-                      : Colors.white,
+                  color:
+                      isSelectedContainer1.isTrue
+                          ? const Color(0xff025B8F)
+                          : Colors.white,
                 ),
                 child: Center(
-                  child: isSelectedContainer1.isTrue
-                      ? Image.asset('assets/svgs/home/🎉 Things to Do.png')
-                      : Image.asset('assets/svgs/home/🎉 Things to Do2.png'),
+                  child:
+                      isSelectedContainer1.isTrue
+                          ? Image.asset('assets/svgs/home/🎉 Things to Do.png')
+                          : Image.asset(
+                            'assets/svgs/home/🎉 Things to Do2.png',
+                          ),
                 ),
               ),
             ),
@@ -62,19 +66,25 @@ class _ButtonWidgetState extends State<ButtonWidget> {
                     topRight: Radius.circular(20),
                     bottomRight: Radius.circular(20),
                   ),
-                  color: isSelectedContainer2.isTrue
-                      ? const Color(0xff025B8F)
-                      : Colors.white,
+                  color:
+                      isSelectedContainer2.isTrue
+                          ? const Color(0xff025B8F)
+                          : Colors.white,
                 ),
                 child: Center(
-                  child: isSelectedContainer2.isTrue
-                      ? Image.asset('assets/svgs/home/🗓️ Events Near Me2.png')
-                      : Image.asset('assets/svgs/home/🗓️ Events Near Me.png'),
+                  child:
+                      isSelectedContainer2.isTrue
+                          ? Image.asset(
+                            'assets/svgs/home/🗓️ Events Near Me2.png',
+                          )
+                          : Image.asset(
+                            'assets/svgs/home/🗓️ Events Near Me.png',
+                          ),
                 ),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

@@ -85,10 +85,11 @@ class _writeReviewState extends State<writeReview> {
               ),
             ),
             InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: SvgPicture.asset("assets/Cross icon.svg"))
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: SvgPicture.asset("assets/Cross icon.svg"),
+            ),
           ],
         ),
         Expanded(
@@ -96,7 +97,8 @@ class _writeReviewState extends State<writeReview> {
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {
               double rate = double.parse(
-                  data[index]['rate'].replaceAll('(', '').replaceAll(')', ''));
+                data[index]['rate'].replaceAll('(', '').replaceAll(')', ''),
+              );
               return Container(
                 height: size.height / 7,
                 child: ListTile(
@@ -107,9 +109,10 @@ class _writeReviewState extends State<writeReview> {
                   title: Text(
                     data[index]['name'],
                     style: TextStyle(
-                        fontSize: 13,
-                        color: Color(0xff8A8B8F),
-                        fontWeight: FontWeight.bold),
+                      fontSize: 13,
+                      color: Color(0xff8A8B8F),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,8 +125,10 @@ class _writeReviewState extends State<writeReview> {
                       SizedBox(height: size.height / 80),
                       Text(
                         data[index]['time'],
-                        style:
-                            TextStyle(color: Color(0xff8A8B8F), fontSize: 12),
+                        style: TextStyle(
+                          color: Color(0xff8A8B8F),
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -148,21 +153,21 @@ class _writeReviewState extends State<writeReview> {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
             fixedSize: Size(300, 50),
             backgroundColor: Colors.white,
           ),
           onPressed: () {
             _showBottomSheetSlider(context);
           },
-          child: Text("Write a Review",
-              style: TextStyle(color: Color(0xff025BBF))),
+          child: Text(
+            "Write a Review",
+            style: TextStyle(color: Color(0xff025BBF)),
+          ),
         ),
-        SizedBox(
-          height: 20,
-          width: 20,
-        )
+        SizedBox(height: 20, width: 20),
       ],
     );
   }

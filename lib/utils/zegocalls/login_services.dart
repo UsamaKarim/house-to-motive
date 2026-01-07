@@ -9,10 +9,7 @@ import 'constant.dart';
 ZegoUIKitPrebuiltCallController? callController;
 
 /// local virtual login
-Future<void> login({
-  required String userID,
-  required String userName,
-}) async {
+Future<void> login({required String userID, required String userName}) async {
   final prefs = await SharedPreferences.getInstance();
   prefs.setString(cacheUserIDKey, userID);
 
@@ -39,11 +36,12 @@ void onUserLogin() {
     userName: currentUser.name,
     plugins: [ZegoUIKitSignalingPlugin()],
     requireConfig: (ZegoCallInvitationData data) {
-      final config = (data.invitees.length > 1)
-          ? ZegoCallType.videoCall == data.type
-              ? ZegoUIKitPrebuiltCallConfig.groupVideoCall()
-              : ZegoUIKitPrebuiltCallConfig.groupVoiceCall()
-          : ZegoCallType.videoCall == data.type
+      final config =
+          (data.invitees.length > 1)
+              ? ZegoCallType.videoCall == data.type
+                  ? ZegoUIKitPrebuiltCallConfig.groupVideoCall()
+                  : ZegoUIKitPrebuiltCallConfig.groupVoiceCall()
+              : ZegoCallType.videoCall == data.type
               ? ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall()
               : ZegoUIKitPrebuiltCallConfig.oneOnOneVoiceCall();
 
@@ -51,8 +49,10 @@ void onUserLogin() {
 
       /// support minimizing, show minimizing button
       config.topMenuBarConfig.isVisible = true;
-      config.topMenuBarConfig.buttons
-          .insert(0, ZegoMenuBarButtonName.minimizingButton);
+      config.topMenuBarConfig.buttons.insert(
+        0,
+        ZegoMenuBarButtonName.minimizingButton,
+      );
 
       return config;
     },

@@ -27,10 +27,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<Map<String, dynamic>?> fetchUserData() async {
     try {
-      var userDocument = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(auth.currentUser!.uid)
-          .get();
+      var userDocument =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(auth.currentUser!.uid)
+              .get();
 
       return userDocument.data();
     } catch (e) {
@@ -43,8 +44,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> pickImage() async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? selected =
-        await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? selected = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
     setState(() {
       _imageFile = selected;
     });
@@ -83,11 +85,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               .doc(auth.currentUser!.uid)
               .update(updateData)
               .then((value) {
-            isLoading.value = false;
-            Get.snackbar('Status', 'Profile Updated',
-                backgroundColor: const Color(0xff025B8F),
-                colorText: Colors.white);
-          });
+                isLoading.value = false;
+                Get.snackbar(
+                  'Status',
+                  'Profile Updated',
+                  backgroundColor: const Color(0xff025B8F),
+                  colorText: Colors.white,
+                );
+              });
         }
       }
 
@@ -135,8 +140,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               children: [
                 FutureBuilder(
                   future: fetchUserData(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<Map<String, dynamic>?> snapshot) {
+                  builder: (
+                    BuildContext context,
+                    AsyncSnapshot<Map<String, dynamic>?> snapshot,
+                  ) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
@@ -145,37 +152,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       String? profilePicUrl = snapshot.data?['profilePic'];
                       return profilePicUrl != null
                           ? CircleAvatar(
-                              radius: 45,
-                              backgroundColor: Colors.transparent,
-                              child: _imageFile != null
-                                  ? CircleAvatar(
+                            radius: 45,
+                            backgroundColor: Colors.transparent,
+                            child:
+                                _imageFile != null
+                                    ? CircleAvatar(
                                       radius: 35,
-                                      backgroundImage:
-                                          FileImage(File(_imageFile!.path)))
-                                  : CircleAvatar(
+                                      backgroundImage: FileImage(
+                                        File(_imageFile!.path),
+                                      ),
+                                    )
+                                    : CircleAvatar(
                                       radius: 35,
                                       backgroundColor: Colors.black,
-                                      backgroundImage: NetworkImage(profilePicUrl
-                                              .isEmpty
-                                          ? "https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
-                                          : profilePicUrl),
+                                      backgroundImage: NetworkImage(
+                                        profilePicUrl.isEmpty
+                                            ? "https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
+                                            : profilePicUrl,
+                                      ),
                                     ),
-                            )
+                          )
                           : CircleAvatar(
-                              radius: 45,
-                              backgroundColor: Colors.transparent,
-                              child: _imageFile != null
-                                  ? CircleAvatar(
+                            radius: 45,
+                            backgroundColor: Colors.transparent,
+                            child:
+                                _imageFile != null
+                                    ? CircleAvatar(
                                       radius: 35,
-                                      backgroundImage:
-                                          FileImage(File(_imageFile!.path)))
-                                  : const CircleAvatar(
+                                      backgroundImage: FileImage(
+                                        File(_imageFile!.path),
+                                      ),
+                                    )
+                                    : const CircleAvatar(
                                       radius: 35,
                                       backgroundColor: Colors.white,
                                       backgroundImage: AssetImage(
-                                          'assets/pngs/user_profile.png'),
+                                        'assets/pngs/user_profile.png',
+                                      ),
                                     ),
-                            );
+                          );
                     } else {
                       return const Text("No user data available");
                     }
@@ -212,9 +227,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.06),
             CustomEmailField(
-                title: 'User name', textEditingController: userNameController),
+              title: 'User name',
+              textEditingController: userNameController,
+            ),
             CustomEmailField(
-                title: 'Email', textEditingController: emailController),
+              title: 'Email',
+              textEditingController: emailController,
+            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.072,
               child: Container(
@@ -226,8 +245,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     CountryCodePicker(
                       onChanged: (countryCode) {
-                        print(countryCode
-                            .dialCode); // Prints the selected country code
+                        print(
+                          countryCode.dialCode,
+                        ); // Prints the selected country code
                       },
                       initialSelection: 'US',
                       favorite: ['+1', 'US'],
@@ -240,7 +260,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       child: TextField(
                         controller: TextEditingController(),
                         keyboardType: const TextInputType.numberWithOptions(
-                            signed: true, decimal: true),
+                          signed: true,
+                          decimal: true,
+                        ),
                         decoration: const InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
@@ -255,18 +277,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             const Spacer(),
             Obx(
-              () => isLoading.value == true
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                      color: Color(0xff025B8F),
-                    ))
-                  : CustomButton(
-                      title: "Update Profile",
-                      ontap: () {
-                        uploadImage();
-                      },
-                    ),
-            )
+              () =>
+                  isLoading.value == true
+                      ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xff025B8F),
+                        ),
+                      )
+                      : CustomButton(
+                        title: "Update Profile",
+                        ontap: () {
+                          uploadImage();
+                        },
+                      ),
+            ),
           ],
         ),
       ),

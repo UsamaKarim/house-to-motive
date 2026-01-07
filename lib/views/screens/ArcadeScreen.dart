@@ -78,16 +78,11 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                   SizedBox(
                     width: Get.width,
                     height: Get.height / 3,
-                    child: Image.network(
-                      widget.photoURL,
-                      fit: BoxFit.fill,
-                    ),
+                    child: Image.network(widget.photoURL, fit: BoxFit.fill),
                   ),
                   Column(
                     children: [
-                      SizedBox(
-                        height: 4.h,
-                      ),
+                      SizedBox(height: 4.h),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 2.5.h),
                         child: Row(
@@ -99,10 +94,11 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                               decoration: const BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 3,
-                                      spreadRadius: 0,
-                                      offset: Offset(0, 0))
+                                    color: Colors.grey,
+                                    blurRadius: 3,
+                                    spreadRadius: 0,
+                                    offset: Offset(0, 0),
+                                  ),
                                 ],
                                 shape: BoxShape.circle,
                                 color: Colors.white,
@@ -137,9 +133,7 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: size.height / 30,
-              ),
+              SizedBox(height: size.height / 30),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
@@ -158,9 +152,7 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: size.height / 40,
-                    ),
+                    SizedBox(height: size.height / 40),
                     Row(
                       children: [
                         SvgPicture.asset("assets/Location.svg"),
@@ -180,9 +172,7 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: size.height / 100,
-                    ),
+                    SizedBox(height: size.height / 100),
                     Row(
                       children: [
                         SvgPicture.asset("assets/stopwatch.svg"),
@@ -198,17 +188,15 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: size.height / 40,
-                    ),
+                    SizedBox(height: size.height / 40),
                     ListTile(
                       leading: CircleAvatar(
                         radius: 25,
-                        backgroundImage: NetworkImage(widget.OrganizerProfilePic
-                                    .toString()
-                                .isEmpty
-                            ? "https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
-                            : widget.OrganizerProfilePic.toString()),
+                        backgroundImage: NetworkImage(
+                          widget.OrganizerProfilePic.toString().isEmpty
+                              ? "https://static.vecteezy.com/system/resources/thumbnails/002/534/006/small/social-media-chatting-online-blank-profile-picture-head-and-body-icon-people-standing-icon-grey-background-free-vector.jpg"
+                              : widget.OrganizerProfilePic.toString(),
+                        ),
                       ),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,63 +205,73 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                           Text(
                             widget.oragnizerName.toString(),
                             style: const TextStyle(
-                                color: Colors.black, fontSize: 12),
+                              color: Colors.black,
+                              fontSize: 12,
+                            ),
                           ),
                           SizedBox(height: size.height / 80),
                           const Text(
                             "Organizer",
                             style: TextStyle(
-                                color: Color(0xff8A8B8F), fontSize: 12),
+                              color: Color(0xff8A8B8F),
+                              fontSize: 12,
+                            ),
                           ),
                         ],
                       ),
-                      trailing: FirebaseAuth.instance.currentUser!.uid ==
-                              widget.ticketUid
-                          ? const SizedBox.shrink()
-                          : Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              height: 35,
-                              decoration: BoxDecoration(
+                      trailing:
+                          FirebaseAuth.instance.currentUser!.uid ==
+                                  widget.ticketUid
+                              ? const SizedBox.shrink()
+                              : Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                height: 35,
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey.shade200),
-                              child: ShaderMask(
-                                shaderCallback: (Rect bounds) {
-                                  return const LinearGradient(
-                                    colors: [
-                                      Color(0xffFF0092),
-                                      Color(0xff216DFD),
-                                    ],
-                                  ).createShader(bounds);
-                                },
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    // Toggle follow status and get the updated status
-                                    bool updatedFollowStatus =
-                                        await ticketController.toggleFollowUser(
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                      widget.ticketUid,
-                                    );
-
-                                    getVideoController.isFollowing.value =
-                                        updatedFollowStatus;
+                                  color: Colors.grey.shade200,
+                                ),
+                                child: ShaderMask(
+                                  shaderCallback: (Rect bounds) {
+                                    return const LinearGradient(
+                                      colors: [
+                                        Color(0xffFF0092),
+                                        Color(0xff216DFD),
+                                      ],
+                                    ).createShader(bounds);
                                   },
-                                  child: Obx(
-                                    () => Center(
-                                      child: Text(
-                                        getVideoController.isFollowing.value
-                                            ? "Unfollow"
-                                            : "Follow",
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.white,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      // Toggle follow status and get the updated status
+                                      bool updatedFollowStatus =
+                                          await ticketController
+                                              .toggleFollowUser(
+                                                FirebaseAuth
+                                                    .instance
+                                                    .currentUser!
+                                                    .uid,
+                                                widget.ticketUid,
+                                              );
+
+                                      getVideoController.isFollowing.value =
+                                          updatedFollowStatus;
+                                    },
+                                    child: Obx(
+                                      () => Center(
+                                        child: Text(
+                                          getVideoController.isFollowing.value
+                                              ? "Unfollow"
+                                              : "Follow",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
                     ),
                     // SizedBox(
                     //   height: 2.h,
@@ -430,9 +428,7 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                     //     ),
                     //   ),
                     // ),
-                    SizedBox(
-                      height: size.height / 60,
-                    ),
+                    SizedBox(height: size.height / 60),
                     //
                     Align(
                       alignment: Alignment.centerLeft,
@@ -445,9 +441,7 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     // Row(
                     //   children: [
                     //     SizedBox(
@@ -506,15 +500,17 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                                               ? "no date"
                                               : formattedDate,
                                           style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black),
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          ),
                                         ),
                                         SizedBox(height: 1.h),
                                         const Text(
                                           "Sunday, 5:30PM - 7:30PM",
                                           style: TextStyle(
-                                              fontSize: 8,
-                                              color: Color(0XFF707B81)),
+                                            fontSize: 8,
+                                            color: Color(0XFF707B81),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -532,14 +528,17 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                                         const Text(
                                           "158 The Green",
                                           style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black),
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          ),
                                         ),
                                         SizedBox(height: 1.h),
                                         Text(
                                           widget.location.length > 20
-                                              ? widget.location
-                                                      .substring(0, 20) +
+                                              ? widget.location.substring(
+                                                    0,
+                                                    20,
+                                                  ) +
                                                   '..'
                                               : widget.location,
                                           style: const TextStyle(
@@ -735,12 +734,11 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 1.h,
-              ),
+              SizedBox(height: 1.h),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 30),
+                  horizontal: MediaQuery.of(context).size.width / 30,
+                ),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -756,12 +754,17 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
 
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 30),
+                  horizontal: MediaQuery.of(context).size.width / 30,
+                ),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(widget.description,
-                      style: const TextStyle(
-                          color: Color(0XFF7390A1), fontSize: 12)),
+                  child: Text(
+                    widget.description,
+                    style: const TextStyle(
+                      color: Color(0XFF7390A1),
+                      fontSize: 12,
+                    ),
+                  ),
                 ),
               ),
               // SizedBox(
@@ -794,10 +797,7 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
               // ),
               //
               //
-              const SizedBox(
-                height: 20,
-                width: 20,
-              ),
+              const SizedBox(height: 20, width: 20),
             ],
           ),
         ),

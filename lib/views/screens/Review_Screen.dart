@@ -60,8 +60,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       ),
                     ),
                     WidgetSpan(
-                      child:
-                          Icon(Icons.star, color: Color(0xffFFB600), size: 18),
+                      child: Icon(
+                        Icons.star,
+                        color: Color(0xffFFB600),
+                        size: 18,
+                      ),
                     ),
                     TextSpan(
                       text: '4.9 rating )',
@@ -77,11 +80,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
               Row(
                 children: [
                   InkWell(
-                      onTap: () {
-                        showBottomSheetSlider(context);
-                      },
-                      child: SvgPicture.asset(
-                          'assets/svgs/home/Group 1171274839.svg')),
+                    onTap: () {
+                      showBottomSheetSlider(context);
+                    },
+                    child: SvgPicture.asset(
+                      'assets/svgs/home/Group 1171274839.svg',
+                    ),
+                  ),
                   // SizedBox(width: size.width / 20),
                   // ShaderMask(
                   //   shaderCallback: (Rect bounds) {
@@ -123,43 +128,50 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       title: Text(
                         data[index]['name'],
                         style: const TextStyle(
-                            fontSize: 14,
-                            color: Color(0xff8A8B8F),
-                            fontWeight: FontWeight.bold),
+                          fontSize: 14,
+                          color: Color(0xff8A8B8F),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            height: size.height / 90,
-                          ),
+                          SizedBox(height: size.height / 90),
                           Text(
                             data[index]['description'],
                             style: const TextStyle(
-                                color: Colors.black, fontSize: 14),
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
                           ),
-                          SizedBox(
-                            height: size.height / 80,
-                          ),
+                          SizedBox(height: size.height / 80),
                           Text(
                             data[index]['time'],
                             style: const TextStyle(
-                                color: Color(0xff8A8B8F), fontSize: 12),
+                              color: Color(0xff8A8B8F),
+                              fontSize: 12,
+                            ),
                           ),
                         ],
                       ),
                       trailing: Container(
-                        width: size.width /
+                        width:
+                            size.width /
                             10, // Set a specific width for the trailing widget
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.star,
-                                color: Color(0xffFFB600), size: 13),
+                            const Icon(
+                              Icons.star,
+                              color: Color(0xffFFB600),
+                              size: 13,
+                            ),
                             Text(
                               data[index]['rate'],
                               style: const TextStyle(
-                                  color: Colors.black, fontSize: 13),
+                                color: Colors.black,
+                                fontSize: 13,
+                              ),
                             ),
                           ],
                         ),

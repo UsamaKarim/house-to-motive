@@ -14,26 +14,11 @@ class CheckoutMethod extends StatefulWidget {
 
 class _CheckoutMethodState extends State<CheckoutMethod> {
   final List<Map<String, dynamic>> paymentMethods = [
-    {
-      'icon': 'assets/mastercard.svg',
-      'cardNumber': '**** **** **** 8395',
-    },
-    {
-      'icon': 'assets/paypal.svg',
-      'cardNumber': '**** **** **** 6246',
-    },
-    {
-      'icon': 'assets/logos_visa.svg',
-      'cardNumber': '** **** **** 624',
-    },
-    {
-      'icon': 'assets/apple.svg',
-      'cardNumber': '**** **** **** 9876',
-    },
-    {
-      'icon': 'assets/google.svg',
-      'cardNumber': '**** **** **** 1859',
-    },
+    {'icon': 'assets/mastercard.svg', 'cardNumber': '**** **** **** 8395'},
+    {'icon': 'assets/paypal.svg', 'cardNumber': '**** **** **** 6246'},
+    {'icon': 'assets/logos_visa.svg', 'cardNumber': '** **** **** 624'},
+    {'icon': 'assets/apple.svg', 'cardNumber': '**** **** **** 9876'},
+    {'icon': 'assets/google.svg', 'cardNumber': '**** **** **** 1859'},
   ];
 
   late List<bool> selectedList;
@@ -71,22 +56,18 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
               "Checkout",
               style: TextStyle(color: Colors.white, fontSize: 14),
             ),
-            const SizedBox(
-              height: 40,
-              width: 40,
-            ),
+            const SizedBox(height: 40, width: 40),
           ],
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width / 16),
+            horizontal: MediaQuery.of(context).size.width / 16,
+          ),
           child: Column(
             children: [
-              SizedBox(
-                height: size.height / 40,
-              ),
+              SizedBox(height: size.height / 40),
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -98,9 +79,7 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: Get.height * 0.04,
-              ),
+              SizedBox(height: Get.height * 0.04),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -116,7 +95,9 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
                           setState(() {
                             // Update the selectedList to have only one true value at a time
                             selectedList = List<bool>.generate(
-                                paymentMethods.length, (index) => false);
+                              paymentMethods.length,
+                              (index) => false,
+                            );
                             selectedList[index] = isSelected;
                           });
                         },
@@ -140,11 +121,14 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => const PaymentMethodProcess()),
+                      builder: (_) => const PaymentMethodProcess(),
+                    ),
                   );
                 },
-                child: const Text("Add New Card",
-                    style: TextStyle(color: Color(0xff025BBF))),
+                child: const Text(
+                  "Add New Card",
+                  style: TextStyle(color: Color(0xff025BBF)),
+                ),
               ),
               SizedBox(height: size.height / 30),
               const Align(
@@ -170,9 +154,7 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: size.height / 40,
-              ),
+              SizedBox(height: size.height / 40),
               TextFormField(
                 decoration: InputDecoration(
                   prefixIcon: Transform.scale(
@@ -185,16 +167,16 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
                     borderSide: const BorderSide(color: Color(0xffD9D9D9)),
                   ),
                   hintText: "Enter referral / coupon code",
-                  hintStyle:
-                      const TextStyle(fontSize: 14, color: Color(0xff7390A1)),
+                  hintStyle: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xff7390A1),
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              SizedBox(
-                height: size.height / 14,
-              ),
+              SizedBox(height: size.height / 14),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -216,9 +198,7 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: size.height / 80,
-                      ),
+                      SizedBox(height: size.height / 80),
                       const Text(
                         "Subtotal",
                         style: TextStyle(
@@ -240,8 +220,10 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
                     onPressed: () {
                       _showBottomSheetSlider(context);
                     },
-                    child: const Text("Pay",
-                        style: TextStyle(color: Colors.white)),
+                    child: const Text(
+                      "Pay",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               ),
@@ -269,36 +251,31 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 16),
+                  horizontal: MediaQuery.of(context).size.width / 16,
+                ),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: size.height / 40,
-                    ),
+                    SizedBox(height: size.height / 40),
                     Center(child: SvgPicture.asset("assets/congrat.svg")),
-                    SizedBox(
-                      height: size.height / 40,
-                    ),
+                    SizedBox(height: size.height / 40),
                     const Text(
                       "Congratulations!",
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700),
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    SizedBox(
-                      height: size.height / 40,
-                    ),
+                    SizedBox(height: size.height / 40),
                     Text(
                       "You have successfully purchased a ticked for NQ64 Arcade, we have sent ticket to your email address.",
                       style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black.withOpacity(0.7)),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black.withOpacity(0.7),
+                      ),
                     ),
-                    SizedBox(
-                      height: size.height / 20,
-                    ),
+                    SizedBox(height: size.height / 20),
                     // ElevatedButton(
                     //   style: ElevatedButton.styleFrom(
                     //     shape: RoundedRectangleBorder(
@@ -335,7 +312,7 @@ class _CheckoutMethodState extends State<CheckoutMethod> {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -373,10 +350,7 @@ class PaymentMethodCard extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 1,
-            ),
+            BoxShadow(color: Colors.grey.withOpacity(0.3), spreadRadius: 1),
           ],
           color: Colors.white,
           // color: isSelected ? Colors.blue : Colors.white,
@@ -392,9 +366,7 @@ class PaymentMethodCard extends StatelessWidget {
                 // height: 32,
                 // width: 32,
               ),
-              SizedBox(
-                width: Get.width / 50,
-              ),
+              SizedBox(width: Get.width / 50),
               Text(
                 "  $cardNumber",
                 style: const TextStyle(color: Colors.black, fontSize: 14),

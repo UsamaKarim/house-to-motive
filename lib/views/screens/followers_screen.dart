@@ -99,8 +99,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
 
                 if (userDetails == null) {
                   // Handle the case when userDetails is null
-                  return const SizedBox
-                      .shrink(); // Or return a placeholder widget
+                  return const SizedBox.shrink(); // Or return a placeholder widget
                 }
                 return GestureDetector(
                   onTap: () {
@@ -109,8 +108,10 @@ class _FollowersScreenState extends State<FollowersScreen> {
                         name: userDetails!.userName,
                         receiverEmail: userDetails.userId,
                         receiverId: userDetails.userId,
-                        chatRoomId: chatRoomId(userDetails.userId,
-                            FirebaseAuth.instance.currentUser!.uid),
+                        chatRoomId: chatRoomId(
+                          userDetails.userId,
+                          FirebaseAuth.instance.currentUser!.uid,
+                        ),
                         pic: userDetails.profilePic,
                       ),
                     );
@@ -149,7 +150,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
                         String followerUserId = userId;
 
                         await ticketController.removeFollower(
-                            currentUserId, followerUserId);
+                          currentUserId,
+                          followerUserId,
+                        );
 
                         setState(() {});
                       },
@@ -164,10 +167,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                           child: GradientText(
                             text: "Remove",
                             gradient: const LinearGradient(
-                              colors: [
-                                Color(0xffFF0092),
-                                Color(0xff216DFD),
-                              ],
+                              colors: [Color(0xffFF0092), Color(0xff216DFD)],
                             ),
                             style: GoogleFonts.inter(
                               fontWeight: FontWeight.w400,

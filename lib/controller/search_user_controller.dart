@@ -20,7 +20,7 @@ class SearchUserController extends GetxController {
   var users = <User>[].obs;
   var events = <Event>[].obs;
   var searchText = ''.obs;
-// getAllUsers
+  // getAllUsers
   Future<void> getApplicationUsers() async {
     try {
       QuerySnapshot querySnapshot =
@@ -35,7 +35,7 @@ class SearchUserController extends GetxController {
           userList.add({
             'userName': userName,
             'userId': userId,
-            'profilePic': profilePic
+            'profilePic': profilePic,
           });
         }
       }
@@ -44,7 +44,7 @@ class SearchUserController extends GetxController {
     }
   }
 
-//current user
+  //current user
   void getCurrentUserData(String videoId) {
     for (int i = 0; i < userNameList.length; i++) {
       String? userId = userIdList[i];
@@ -64,17 +64,20 @@ class SearchUserController extends GetxController {
     }
   }
 
-//search users method
+  //search users method
   RxList<Map<String, String>> searchResults = <Map<String, String>>[].obs;
   void queryChange(String query) {
-    searchResults = userList
-        .where(
-          (user) =>
-              user['userName']?.toLowerCase().contains(query.toLowerCase()) ??
-              false,
-        )
-        .toList()
-        .obs;
+    searchResults =
+        userList
+            .where(
+              (user) =>
+                  user['userName']?.toLowerCase().contains(
+                    query.toLowerCase(),
+                  ) ??
+                  false,
+            )
+            .toList()
+            .obs;
   }
   //all events
 
@@ -87,10 +90,12 @@ class SearchUserController extends GetxController {
 
         String adultPrice = userData['adultPrice']?.toString() ?? 'Unknown';
         String childPrice = userData['childPrice']?.toString() ?? 'Unknown';
-        String date = userData['date'] is Timestamp
-            ? DateFormat('yyyy-MM-dd')
-                .format((userData['date'] as Timestamp).toDate())
-            : userData['date']?.toString() ?? '';
+        String date =
+            userData['date'] is Timestamp
+                ? DateFormat(
+                  'yyyy-MM-dd',
+                ).format((userData['date'] as Timestamp).toDate())
+                : userData['date']?.toString() ?? '';
         String description = userData['description']?.toString() ?? '';
         String endTime = userData['endTime']?.toString() ?? '';
         String eventName = userData['eventName']?.toString() ?? '';
@@ -133,14 +138,17 @@ class SearchUserController extends GetxController {
 
   RxList<Map<String, String>> searchEventsResults = <Map<String, String>>[].obs;
   void queryEventsChange(String query) {
-    searchEventsResults = eventsList
-        .where(
-          (user) =>
-              user['eventName']?.toLowerCase().contains(query.toLowerCase()) ??
-              false,
-        )
-        .toList()
-        .obs;
+    searchEventsResults =
+        eventsList
+            .where(
+              (user) =>
+                  user['eventName']?.toLowerCase().contains(
+                    query.toLowerCase(),
+                  ) ??
+                  false,
+            )
+            .toList()
+            .obs;
   }
 
   void combinedQueryChange(String query) {

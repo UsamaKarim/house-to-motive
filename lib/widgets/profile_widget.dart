@@ -38,9 +38,7 @@ class ProfileWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       color: red ? Colors.red : Color(0xff025B8F),
                     ),
-                    child: Center(
-                      child: SvgPicture.asset(svg),
-                    ),
+                    child: Center(child: SvgPicture.asset(svg)),
                   ),
                   const SizedBox(width: 20),
                   SizedBox(
@@ -69,10 +67,7 @@ class ProfileWidget extends StatelessWidget {
                 ],
               ),
               isDevider
-                  ? Divider(
-                      indent: 65,
-                      color: Colors.black38,
-                    )
+                  ? Divider(indent: 65, color: Colors.black38)
                   : Container(),
             ],
           ),

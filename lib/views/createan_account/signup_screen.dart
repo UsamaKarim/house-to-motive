@@ -35,7 +35,7 @@ class UserModel {
     this.deviceToken,
     List<String>? activeChatList, // Make activeChatList optional
   }) : activeChatList =
-            activeChatList ?? []; // Initialize with an empty list if null
+           activeChatList ?? []; // Initialize with an empty list if null
 }
 
 class SignupController extends GetxController {
@@ -53,19 +53,20 @@ class SignupController extends GetxController {
     // String? deviceToken = await FirebaseMessaging.instance.getToken();
     try {
       isLoading.value = true;
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          );
 
       UserModel newUser = UserModel(
-          userName: userNameController.text.trim(),
-          email: userCredential.user!.email!,
-          deviceToken: "",
-          profilePic: '',
-          activeChatList: [], // You can set the profile picture here
-          userId: FirebaseAuth.instance.currentUser!.uid);
+        userName: userNameController.text.trim(),
+        email: userCredential.user!.email!,
+        deviceToken: "",
+        profilePic: '',
+        activeChatList: [], // You can set the profile picture here
+        userId: FirebaseAuth.instance.currentUser!.uid,
+      );
 
       await addUserDetails(newUser);
       isLoading.value = false;
@@ -85,13 +86,13 @@ class SignupController extends GetxController {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({
-      'User Name': user.userName,
-      'Email': user.email,
-      'profilePic': user.profilePic,
-      'Device Token': "",
-      'activeChatList': [], // Use the awaited value here
-      'userId': FirebaseAuth.instance.currentUser!.uid
-    });
+          'User Name': user.userName,
+          'Email': user.email,
+          'profilePic': user.profilePic,
+          'Device Token': "",
+          'activeChatList': [], // Use the awaited value here
+          'userId': FirebaseAuth.instance.currentUser!.uid,
+        });
   }
 
   Future<User?> signInWithGoogle() async {
@@ -103,8 +104,9 @@ class SignupController extends GetxController {
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
       try {
-        final UserCredential userCredential =
-            await auth.signInWithPopup(authProvider);
+        final UserCredential userCredential = await auth.signInWithPopup(
+          authProvider,
+        );
         user = userCredential.user;
 
         if (user != null) {
@@ -129,8 +131,9 @@ class SignupController extends GetxController {
       );
 
       try {
-        final UserCredential userCredential =
-            await auth.signInWithCredential(credential);
+        final UserCredential userCredential = await auth.signInWithCredential(
+          credential,
+        );
         user = userCredential.user;
 
         if (user != null) {
@@ -167,20 +170,22 @@ class SignupController extends GetxController {
       } else {
         final AuthorizationCredentialAppleID appleCredential =
             await SignInWithApple.getAppleIDCredential(
-          scopes: [
-            AppleIDAuthorizationScopes.email,
-            AppleIDAuthorizationScopes.fullName,
-          ],
-        );
+              scopes: [
+                AppleIDAuthorizationScopes.email,
+                AppleIDAuthorizationScopes.fullName,
+              ],
+            );
 
-        final OAuthCredential oauthCredential =
-            OAuthProvider("apple.com").credential(
+        final OAuthCredential oauthCredential = OAuthProvider(
+          "apple.com",
+        ).credential(
           idToken: appleCredential.identityToken,
           accessToken: appleCredential.authorizationCode,
         );
 
-        final UserCredential userCredential =
-            await auth.signInWithCredential(oauthCredential);
+        final UserCredential userCredential = await auth.signInWithCredential(
+          oauthCredential,
+        );
 
         user = userCredential.user;
 
@@ -261,9 +266,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   children: [
                     Opacity(
                       opacity: 0.1,
-                      child: Image.asset(
-                        'assets/pngs/htmimage1.png',
-                      ),
+                      child: Image.asset('assets/pngs/htmimage1.png'),
                     ),
                     Center(
                       child: Image.asset(
@@ -276,12 +279,11 @@ class _SignupScreenState extends State<SignupScreen> {
                       left: 10,
                       top: 50,
                       child: InkWell(
-                          onTap: () {
-                            // Get.back();
-                          },
-                          child: SvgPicture.asset(
-                            'assets/svgs/back_btn.svg',
-                          )),
+                        onTap: () {
+                          // Get.back();
+                        },
+                        child: SvgPicture.asset('assets/svgs/back_btn.svg'),
+                      ),
                     ),
                   ],
                 ),
@@ -315,16 +317,18 @@ class _SignupScreenState extends State<SignupScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomSocialButton(
-                            svg: "assets/apple.svg",
-                            ontap: () {
-                              controller.signInWithApple();
-                            }),
+                          svg: "assets/apple.svg",
+                          ontap: () {
+                            controller.signInWithApple();
+                          },
+                        ),
                         const SizedBox(width: 20),
                         CustomSocialButton(
-                            svg: "assets/svgs/social/google.svg",
-                            ontap: () {
-                              controller.signInWithGoogle();
-                            }),
+                          svg: "assets/svgs/social/google.svg",
+                          ontap: () {
+                            controller.signInWithGoogle();
+                          },
+                        ),
                       ],
                     ),
                     SizedBox(height: screenHeight * 0.03),
@@ -341,11 +345,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(
                       height: screenHeight * 0.08,
                       child: TextFormField(
-                        validator: (value) => value!.isEmpty
-                            ? 'Enter Your Name'
-                            : (alphaExp.hasMatch(value)
-                                ? null
-                                : 'Only Alphabets are allowed in a username'),
+                        validator:
+                            (value) =>
+                                value!.isEmpty
+                                    ? 'Enter Your Name'
+                                    : (alphaExp.hasMatch(value)
+                                        ? null
+                                        : 'Only Alphabets are allowed in a username'),
                         controller: controller.userNameController,
                         decoration: const InputDecoration(
                           hintText: 'User Name',
@@ -357,9 +363,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           contentPadding: EdgeInsets.all(10),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
                         ),
                       ),
@@ -402,11 +406,15 @@ class _SignupScreenState extends State<SignupScreen> {
                                     color: Color(0xff025B8F),
                                     decoration: TextDecoration.underline,
                                   ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      launchUrl(Uri.parse(
-                                          'https://housetomotive.com/terms-conditions/'));
-                                    },
+                                  recognizer:
+                                      TapGestureRecognizer()
+                                        ..onTap = () {
+                                          launchUrl(
+                                            Uri.parse(
+                                              'https://housetomotive.com/terms-conditions/',
+                                            ),
+                                          );
+                                        },
                                 ),
                               ],
                             ),
@@ -416,26 +424,28 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     SizedBox(height: screenHeight * 0.03),
                     Obx(
-                      () => controller.isLoading.value == true
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xff025B8F),
+                      () =>
+                          controller.isLoading.value == true
+                              ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Color(0xff025B8F),
+                                ),
+                              )
+                              : CustomButton(
+                                title: "Continue",
+                                ontap: () {
+                                  if (!isTermsAccepted) {
+                                    Utils().ToastMessage(
+                                      'You must accept the Terms and Conditions to continue.',
+                                    );
+                                    return;
+                                  }
+                                  if (signupFormKey.currentState!.validate()) {
+                                    controller.signUp();
+                                  }
+                                  // Get.to(() => const SignupWithPhoneNumberScreen());
+                                },
                               ),
-                            )
-                          : CustomButton(
-                              title: "Continue",
-                              ontap: () {
-                                if (!isTermsAccepted) {
-                                  Utils().ToastMessage(
-                                      'You must accept the Terms and Conditions to continue.');
-                                  return;
-                                }
-                                if (signupFormKey.currentState!.validate()) {
-                                  controller.signUp();
-                                }
-                                // Get.to(() => const SignupWithPhoneNumberScreen());
-                              },
-                            ),
                     ),
                     SizedBox(height: screenHeight * 0.03),
                     Row(
@@ -468,7 +478,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

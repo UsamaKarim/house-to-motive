@@ -17,8 +17,11 @@ import 'package:http/http.dart' as http;
 class ExploreScreen extends StatefulWidget {
   final String? selectedLocation;
   final Set<Marker> markers;
-  const ExploreScreen(
-      {super.key, this.selectedLocation, required this.markers});
+  const ExploreScreen({
+    super.key,
+    this.selectedLocation,
+    required this.markers,
+  });
   @override
   State<ExploreScreen> createState() => _ExploreScreenState();
 }
@@ -26,8 +29,9 @@ class ExploreScreen extends StatefulWidget {
 class _ExploreScreenState extends State<ExploreScreen> {
   Future<void> _searchAndMarkLocation(String location) async {
     // Assuming PlacesApi has a method to search location by name and return coordinates
-    LatLng coordinates =
-        await placeApiController.searchLocationByName(location);
+    LatLng coordinates = await placeApiController.searchLocationByName(
+      location,
+    );
     setState(() {
       widget.markers.add(
         Marker(
@@ -83,77 +87,87 @@ class _ExploreScreenState extends State<ExploreScreen> {
         child: Column(
           children: [
             Center(
-                child: Stack(
-              children: [
-                SizedBox(
-                  height: Get.height / 1.2,
-                  width: Get.width,
-                  child: GoogleMap(
-                    zoomControlsEnabled: false,
-                    myLocationButtonEnabled: false,
-                    myLocationEnabled: false,
-                    onMapCreated: placeApiController.onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: placeApiController.target,
-                      zoom: placeApiController.defaultZoom,
+              child: Stack(
+                children: [
+                  SizedBox(
+                    height: Get.height / 1.2,
+                    width: Get.width,
+                    child: GoogleMap(
+                      zoomControlsEnabled: false,
+                      myLocationButtonEnabled: false,
+                      myLocationEnabled: false,
+                      onMapCreated: placeApiController.onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: placeApiController.target,
+                        zoom: placeApiController.defaultZoom,
+                      ),
+                      markers: getVideoController.markers,
                     ),
-                    markers: getVideoController.markers,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Autocomplete<String>(
-                    optionsBuilder: (TextEditingValue textEditingValue) async {
-                      if (textEditingValue.text == '') {
-                        return const Iterable<String>.empty();
-                      }
-                      return placeApiController
-                          .getSuggestions(textEditingValue.text);
-                    },
-                    onSelected: (String selection) {
-                      placeApiController.searchPlaces(selection);
-                      placeApiController.storeRecentSearch(selection);
-                    },
-                    fieldViewBuilder: (BuildContext context,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Autocomplete<String>(
+                      optionsBuilder: (
+                        TextEditingValue textEditingValue,
+                      ) async {
+                        if (textEditingValue.text == '') {
+                          return const Iterable<String>.empty();
+                        }
+                        return placeApiController.getSuggestions(
+                          textEditingValue.text,
+                        );
+                      },
+                      onSelected: (String selection) {
+                        placeApiController.searchPlaces(selection);
+                        placeApiController.storeRecentSearch(selection);
+                      },
+                      fieldViewBuilder: (
+                        BuildContext context,
                         TextEditingController fieldTextEditingController,
                         FocusNode fieldFocusNode,
-                        VoidCallback onFieldSubmitted) {
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: TextFormField(
-                          controller: fieldTextEditingController,
-                          focusNode: fieldFocusNode,
-                          decoration: InputDecoration(
-                            hintText: "Search what’s near me",
-                            hintStyle: const TextStyle(
-                              fontFamily: 'ProximaNova',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xff424B5A),
-                            ),
-                            isDense: true,
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            fillColor: Colors.white,
-                            filled: true,
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                'assets/svgs/search-normal.svg',
+                        VoidCallback onFieldSubmitted,
+                      ) {
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextFormField(
+                            controller: fieldTextEditingController,
+                            focusNode: fieldFocusNode,
+                            decoration: InputDecoration(
+                              hintText: "Search what’s near me",
+                              hintStyle: const TextStyle(
+                                fontFamily: 'ProximaNova',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xff424B5A),
+                              ),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                10,
+                                10,
+                                10,
+                                0,
+                              ),
+                              fillColor: Colors.white,
+                              filled: true,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset(
+                                  'assets/svgs/search-normal.svg',
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -180,7 +194,7 @@ class PlacesApi extends GetxController {
     mapController = controller;
   }
 
-// Other code...
+  // Other code...
 
   void searchPlaces(String query) async {
     final String encodedQuery = Uri.encodeComponent(query);
@@ -195,11 +209,14 @@ class PlacesApi extends GetxController {
 
           Singleton().updateLocation(location['lat'], location['lng']);
 
-          mapController?.animateCamera(CameraUpdate.newCameraPosition(
-            CameraPosition(
+          mapController?.animateCamera(
+            CameraUpdate.newCameraPosition(
+              CameraPosition(
                 target: LatLng(location['lat'], location['lng']),
-                zoom: searchZoom),
-          ));
+                zoom: searchZoom,
+              ),
+            ),
+          );
         }
       } else {
         if (kDebugMode) {
@@ -270,8 +287,11 @@ class PlacesApi extends GetxController {
       if (response.statusCode == 200) {
         final result = json.decode(response.body);
         if (result['predictions'] != null) {
-          return List<String>.from(result['predictions']
-              .map((prediction) => prediction['description']));
+          return List<String>.from(
+            result['predictions'].map(
+              (prediction) => prediction['description'],
+            ),
+          );
         }
         return [];
       } else {
@@ -318,7 +338,8 @@ class PlacesApi extends GetxController {
 
     if (permission == LocationPermission.deniedForever) {
       return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
     }
 
     // When permissions are granted, get the current position.

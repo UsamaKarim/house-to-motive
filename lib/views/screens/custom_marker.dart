@@ -19,23 +19,24 @@ class TicketInfo {
   String ticketUid;
   bool isFollow;
 
-  TicketInfo(
-      {required this.id,
-      required this.eventName,
-      required this.photoURL,
-      required this.location,
-      required this.date, // Making it required and explicitly of type Timestamp
-      required this.adultPrice,
-      required this.familyPrice,
-      required this.childPrice,
-      required this.endTime,
-      required this.startTime,
-      required this.description,
-      required this.isPaid,
-      required this.organizarName,
-      required this.organizarImage,
-      required this.isFollow,
-      required this.ticketUid});
+  TicketInfo({
+    required this.id,
+    required this.eventName,
+    required this.photoURL,
+    required this.location,
+    required this.date, // Making it required and explicitly of type Timestamp
+    required this.adultPrice,
+    required this.familyPrice,
+    required this.childPrice,
+    required this.endTime,
+    required this.startTime,
+    required this.description,
+    required this.isPaid,
+    required this.organizarName,
+    required this.organizarImage,
+    required this.isFollow,
+    required this.ticketUid,
+  });
 }
 
 class videoInfo {

@@ -47,44 +47,36 @@ class ChangePassWordScreen extends StatelessWidget {
             Text(
               "Old Password",
               style: GoogleFonts.inter(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                  color: Color.fromRGBO(2, 91, 143, 1)),
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                color: Color.fromRGBO(2, 91, 143, 1),
+              ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             CustomTextFeild(context, 'Confirm ', oldPassword),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.043,
-            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.043),
             Text(
               "New Password",
               style: GoogleFonts.inter(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                  color: Color.fromRGBO(2, 91, 143, 1)),
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                color: Color.fromRGBO(2, 91, 143, 1),
+              ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.019,
-            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.019),
             CustomTextFeild(context, 'Confirm ', NewPassword),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.019,
-            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.019),
             CustomTextFeild(context, 'Confirm Password ', ConfirmPassword),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.019,
-            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.019),
             Text(
-                "Password must have 8 digits mix of characters, numbers and symbols.",
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xff7390A1))),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.07,
+              "Password must have 8 digits mix of characters, numbers and symbols.",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: Color(0xff7390A1),
+              ),
             ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.07),
             // Container(
             //     width: MediaQuery.of(context).size.width*0.9,
             //     height: MediaQuery.of(context).size.height*0.079,
@@ -112,7 +104,10 @@ class ChangePassWordScreen extends StatelessWidget {
 }
 
 Widget CustomTextFeild(
-    BuildContext context, String hintText, TextEditingController cnt) {
+  BuildContext context,
+  String hintText,
+  TextEditingController cnt,
+) {
   return Container(
     height: MediaQuery.of(context).size.height * 0.06,
     width: MediaQuery.of(context).size.width * 0.9,
@@ -132,8 +127,9 @@ Widget CustomTextFeild(
           color: Color(0xff7390A1).withOpacity(0.3),
         ),
         enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(color: Color(0xFF7390A1).withOpacity(0.3))),
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(color: Color(0xFF7390A1).withOpacity(0.3)),
+        ),
       ),
     ),
   );

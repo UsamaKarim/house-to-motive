@@ -45,9 +45,7 @@ class ContactUSScreen extends StatelessWidget {
                   hintText: "Name",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xffD9D9D9),
-                    ),
+                    borderSide: BorderSide(color: Color(0xffD9D9D9)),
                   ),
                   hintStyle: TextStyle(
                     fontFamily: 'ProximaNova',
@@ -58,23 +56,17 @@ class ContactUSScreen extends StatelessWidget {
                   contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xffD9D9D9),
-                    ),
+                    borderSide: BorderSide(color: Color(0xffD9D9D9)),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 3.h,
-              ),
+              SizedBox(height: 3.h),
               TextFormField(
                 decoration: InputDecoration(
                   hintText: "Emain address",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xffD9D9D9),
-                    ),
+                    borderSide: BorderSide(color: Color(0xffD9D9D9)),
                   ),
                   hintStyle: TextStyle(
                     fontFamily: 'ProximaNova',
@@ -85,23 +77,17 @@ class ContactUSScreen extends StatelessWidget {
                   contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xffD9D9D9),
-                    ),
+                    borderSide: BorderSide(color: Color(0xffD9D9D9)),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 3.h,
-              ),
+              SizedBox(height: 3.h),
               TextFormField(
                 decoration: InputDecoration(
                   hintText: "Select Subject",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xffD9D9D9),
-                    ),
+                    borderSide: BorderSide(color: Color(0xffD9D9D9)),
                   ),
                   hintStyle: TextStyle(
                     fontFamily: 'ProximaNova',
@@ -112,31 +98,23 @@ class ContactUSScreen extends StatelessWidget {
                   contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xffD9D9D9),
-                    ),
+                    borderSide: BorderSide(color: Color(0xffD9D9D9)),
                   ),
                   suffixIcon: CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: 10,
-                    child: SvgPicture.asset(
-                      'assets/svgs/rightt.svg',
-                    ),
+                    child: SvgPicture.asset('assets/svgs/rightt.svg'),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 3.h,
-              ),
+              SizedBox(height: 3.h),
               TextFormField(
                 maxLines: 5,
                 decoration: InputDecoration(
                   hintText: "Write your message here...",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xffD9D9D9),
-                    ),
+                    borderSide: BorderSide(color: Color(0xffD9D9D9)),
                   ),
                   hintStyle: TextStyle(
                     fontFamily: 'ProximaNova',
@@ -147,15 +125,11 @@ class ContactUSScreen extends StatelessWidget {
                   contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xffD9D9D9),
-                    ),
+                    borderSide: BorderSide(color: Color(0xffD9D9D9)),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 1.h,
-              ),
+              SizedBox(height: 1.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -166,10 +140,7 @@ class ContactUSScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 12.h),
-              CustomButton(
-                title: 'Send',
-                ontap: () {},
-              ),
+              CustomButton(title: 'Send', ontap: () {}),
             ],
           ),
         ),

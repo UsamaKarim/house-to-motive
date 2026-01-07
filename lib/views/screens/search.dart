@@ -25,8 +25,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
   // This will hold the filtered list of searches
   List<String> filteredSearches = [];
-  final SearchUserController searchUserController =
-      Get.put(SearchUserController());
+  final SearchUserController searchUserController = Get.put(
+    SearchUserController(),
+  );
 
   @override
   void initState() {
@@ -49,9 +50,10 @@ class _SearchScreenState extends State<SearchScreen> {
     // Use the text from the searchController to filter the recent searches
     String query = searchController.text.toLowerCase();
     setState(() {
-      filteredSearches = placeApiController.recentSearches.where((search) {
-        return search.toLowerCase().contains(query);
-      }).toList();
+      filteredSearches =
+          placeApiController.recentSearches.where((search) {
+            return search.toLowerCase().contains(query);
+          }).toList();
     });
   }
 
@@ -117,6 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                 ),
+
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.start,
                 //   children: [
@@ -133,51 +136,63 @@ class _SearchScreenState extends State<SearchScreen> {
                 //     ),
                 //   ],
                 // ),
-
                 searchUserController.searchResults.isNotEmpty
                     ? Obx(
-                        () => ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: searchUserController.searchResults.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Get.to(() => UserProfileScreen(
-                                    userId: searchUserController
-                                        .searchResults[index]['userId']!,
-                                    userName: searchUserController
-                                        .searchResults[index]['userName']!,
-                                    profilePic: searchUserController
-                                        .searchResults[index]['profilePic']!));
-                              },
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundImage: searchUserController
-                                                      .searchResults[index]
-                                                  ['profilePic'] !=
-                                              null &&
-                                          searchUserController
-                                              .searchResults[index]
-                                                  ['profilePic']!
-                                              .isNotEmpty
-                                      ? NetworkImage(searchUserController
-                                          .searchResults[index]['profilePic']!)
-                                      : const AssetImage('assets/pngs/user.png')
-                                          as ImageProvider,
-                                  onBackgroundImageError:
-                                      (exception, stackTrace) {
-                                    // Handle errors here if necessary
-                                  },
+                      () => ListView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemCount: searchUserController.searchResults.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                () => UserProfileScreen(
+                                  userId:
+                                      searchUserController
+                                          .searchResults[index]['userId']!,
+                                  userName:
+                                      searchUserController
+                                          .searchResults[index]['userName']!,
+                                  profilePic:
+                                      searchUserController
+                                          .searchResults[index]['profilePic']!,
                                 ),
-                                title: Text(searchUserController
-                                        .searchResults[index]['userName'] ??
-                                    ""),
+                              );
+                            },
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    searchUserController
+                                                    .searchResults[index]['profilePic'] !=
+                                                null &&
+                                            searchUserController
+                                                .searchResults[index]['profilePic']!
+                                                .isNotEmpty
+                                        ? NetworkImage(
+                                          searchUserController
+                                              .searchResults[index]['profilePic']!,
+                                        )
+                                        : const AssetImage(
+                                              'assets/pngs/user.png',
+                                            )
+                                            as ImageProvider,
+                                onBackgroundImageError: (
+                                  exception,
+                                  stackTrace,
+                                ) {
+                                  // Handle errors here if necessary
+                                },
                               ),
-                            );
-                          },
-                        ),
-                      )
+                              title: Text(
+                                searchUserController
+                                        .searchResults[index]['userName'] ??
+                                    "",
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
                     : const SizedBox.shrink(),
                 Obx(
                   () => Padding(
@@ -188,8 +203,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemCount:
                           searchUserController.searchEventsResults.length,
                       itemBuilder: (context, index) {
-                        Rx<String?> isFavorite = searchUserController
-                            .searchEventsResults[index]['isEventFavourite'].obs;
+                        Rx<String?> isFavorite =
+                            searchUserController
+                                .searchEventsResults[index]['isEventFavourite']
+                                .obs;
 
                         return GestureDetector(
                           onTap: () {
@@ -197,11 +214,12 @@ class _SearchScreenState extends State<SearchScreen> {
                               final timeParts = timeString.split(':');
                               final now = DateTime.now();
                               return DateTime(
-                                  now.year,
-                                  now.month,
-                                  now.day,
-                                  int.parse(timeParts[0]),
-                                  int.parse(timeParts[1]));
+                                now.year,
+                                now.month,
+                                now.day,
+                                int.parse(timeParts[0]),
+                                int.parse(timeParts[1]),
+                              );
                             }
 
                             // Function to convert String date to Timestamp
@@ -210,55 +228,72 @@ class _SearchScreenState extends State<SearchScreen> {
                               DateTime dateTime = DateTime.parse(dateString);
                               // Convert DateTime to Timestamp
                               return Timestamp.fromMillisecondsSinceEpoch(
-                                  dateTime.millisecondsSinceEpoch);
+                                dateTime.millisecondsSinceEpoch,
+                              );
                             }
 
                             Get.to(
                               () => ArcadeScreen(
-                                description: searchUserController
-                                    .searchEventsResults[index]['description'],
-                                photoURL: searchUserController
-                                    .searchEventsResults[index]['photoURL'],
-                                startTime: parseTime(searchUserController
-                                            .searchEventsResults[index]
-                                        ['startTime']!)
-                                    .toIso8601String(),
-                                endTime: parseTime(searchUserController
-                                        .searchEventsResults[index]['endTime']!)
-                                    .toIso8601String(),
-                                eventName: searchUserController
-                                    .searchEventsResults[index]['eventName'],
-                                location: searchUserController
-                                    .searchEventsResults[index]['location'],
-                                date: parseDateToTimestamp(searchUserController
-                                        .searchEventsResults[index]['date'] ??
-                                    ""), // Convert to Timestamp
-                                familyPrice: searchUserController
-                                    .searchEventsResults[index]['familyPrice'],
-                                adultPrice: searchUserController
-                                    .searchEventsResults[index]['adultPrice'],
-                                childPrice: searchUserController
-                                    .searchEventsResults[index]['childPrice'],
-                                oragnizerName: searchUserController
-                                    .searchEventsResults[index]['userName'],
-                                OrganizerProfilePic: searchUserController
-                                        .searchEventsResults[index]
-                                    ['userProfilePic'],
-                                ticketUid: searchUserController
-                                    .searchEventsResults[index]['uid'],
-                                isPaid: searchUserController
-                                    .searchEventsResults[index]['isPaid'],
-                                isEventFavourite: searchUserController
-                                        .searchEventsResults[index]
-                                    ['isEventFavourite'],
+                                description:
+                                    searchUserController
+                                        .searchEventsResults[index]['description'],
+                                photoURL:
+                                    searchUserController
+                                        .searchEventsResults[index]['photoURL'],
+                                startTime:
+                                    parseTime(
+                                      searchUserController
+                                          .searchEventsResults[index]['startTime']!,
+                                    ).toIso8601String(),
+                                endTime:
+                                    parseTime(
+                                      searchUserController
+                                          .searchEventsResults[index]['endTime']!,
+                                    ).toIso8601String(),
+                                eventName:
+                                    searchUserController
+                                        .searchEventsResults[index]['eventName'],
+                                location:
+                                    searchUserController
+                                        .searchEventsResults[index]['location'],
+                                date: parseDateToTimestamp(
+                                  searchUserController
+                                          .searchEventsResults[index]['date'] ??
+                                      "",
+                                ), // Convert to Timestamp
+                                familyPrice:
+                                    searchUserController
+                                        .searchEventsResults[index]['familyPrice'],
+                                adultPrice:
+                                    searchUserController
+                                        .searchEventsResults[index]['adultPrice'],
+                                childPrice:
+                                    searchUserController
+                                        .searchEventsResults[index]['childPrice'],
+                                oragnizerName:
+                                    searchUserController
+                                        .searchEventsResults[index]['userName'],
+                                OrganizerProfilePic:
+                                    searchUserController
+                                        .searchEventsResults[index]['userProfilePic'],
+                                ticketUid:
+                                    searchUserController
+                                        .searchEventsResults[index]['uid'],
+                                isPaid:
+                                    searchUserController
+                                        .searchEventsResults[index]['isPaid'],
+                                isEventFavourite:
+                                    searchUserController
+                                        .searchEventsResults[index]['isEventFavourite'],
                               ),
                             );
                           },
                           child: Stack(
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
                                 child: Container(
                                   height: screenHeight * 0.32,
                                   width: screenWidth / 1,
@@ -280,16 +315,13 @@ class _SearchScreenState extends State<SearchScreen> {
                                           children: [
                                             Text(
                                               searchUserController
-                                                          .searchEventsResults[
-                                                              index]
-                                                              ['eventName']
+                                                          .searchEventsResults[index]['eventName']
                                                           .toString()
                                                           .length >
                                                       35
                                                   ? '${searchUserController.searchEventsResults[index]['eventName'].toString().substring(0, 35)}..'
                                                   : searchUserController
-                                                      .searchEventsResults[
-                                                          index]['eventName']
+                                                      .searchEventsResults[index]['eventName']
                                                       .toString(),
                                               style: GoogleFonts.inter(
                                                 fontWeight: FontWeight.w700,
@@ -301,25 +333,24 @@ class _SearchScreenState extends State<SearchScreen> {
                                             Row(
                                               children: [
                                                 SvgPicture.asset(
-                                                    'assets/svgs/home/map-pin.svg'),
+                                                  'assets/svgs/home/map-pin.svg',
+                                                ),
                                                 const SizedBox(width: 3),
                                                 Text(
                                                   searchUserController
-                                                              .searchEventsResults[
-                                                                  index]
-                                                                  ['location']
+                                                              .searchEventsResults[index]['location']
                                                               .toString()
                                                               .length >
                                                           30
                                                       ? '${searchUserController.searchEventsResults[index]['location'].toString().substring(0, 30)}..'
                                                       : searchUserController
-                                                          .searchEventsResults[
-                                                              index]['location']
+                                                          .searchEventsResults[index]['location']
                                                           .toString(),
                                                   style: GoogleFonts.inter(
                                                     fontWeight: FontWeight.w400,
-                                                    color:
-                                                        const Color(0xff7390A1),
+                                                    color: const Color(
+                                                      0xff7390A1,
+                                                    ),
                                                     fontSize: 10,
                                                   ),
                                                 ),
@@ -339,9 +370,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                   image: DecorationImage(
                                     fit: BoxFit.fill,
-                                    image: NetworkImage(searchUserController
-                                        .searchEventsResults[index]['photoURL']
-                                        .toString()),
+                                    image: NetworkImage(
+                                      searchUserController
+                                          .searchEventsResults[index]['photoURL']
+                                          .toString(),
+                                    ),
                                   ),
                                 ),
                                 child: Padding(

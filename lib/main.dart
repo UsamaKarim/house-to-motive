@@ -11,9 +11,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   /// 1/5: define a navigator key
   final navigatorKey = GlobalKey<NavigatorState>();
@@ -22,9 +20,9 @@ void main() async {
   ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
 
   ZegoUIKit().initLog().then((value) {
-    ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(
-      [ZegoUIKitSignalingPlugin()],
-    );
+    ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI([
+      ZegoUIKitSignalingPlugin(),
+    ]);
 
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -39,10 +37,7 @@ void main() async {
 class MyApp extends StatefulWidget {
   GlobalKey<NavigatorState>? navigatorKey;
 
-  MyApp({
-    this.navigatorKey,
-    super.key,
-  });
+  MyApp({this.navigatorKey, super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -85,32 +80,35 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     const primaryColor = Color(0xff025B8F);
-    return ResponsiveSizer(builder: (context, orientation, deviceType) {
-      return GetMaterialApp(
-        navigatorKey: widget.navigatorKey,
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: primaryColor,
-          scaffoldBackgroundColor: const Color(0xFFF6F9FF),
-          useMaterial3: true,
-        ),
-        home: const SplashScreen(),
-        builder: (BuildContext context, Widget? child) {
-          return Stack(
-            children: [
-              child!,
-              ZegoUIKitPrebuiltCallMiniOverlayPage(
-                avatarBuilder: (context, size, user, extraInfo) =>
-                    const CircleAvatar(backgroundColor: Colors.blue),
-                contextQuery: () {
-                  return widget.navigatorKey!.currentState!.context;
-                },
-              ),
-            ],
-          );
-        },
-      );
-    });
+    return ResponsiveSizer(
+      builder: (context, orientation, deviceType) {
+        return GetMaterialApp(
+          navigatorKey: widget.navigatorKey,
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primaryColor: primaryColor,
+            scaffoldBackgroundColor: const Color(0xFFF6F9FF),
+            useMaterial3: true,
+          ),
+          home: const SplashScreen(),
+          builder: (BuildContext context, Widget? child) {
+            return Stack(
+              children: [
+                child!,
+                ZegoUIKitPrebuiltCallMiniOverlayPage(
+                  avatarBuilder:
+                      (context, size, user, extraInfo) =>
+                          const CircleAvatar(backgroundColor: Colors.blue),
+                  contextQuery: () {
+                    return widget.navigatorKey!.currentState!.context;
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 }

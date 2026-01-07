@@ -23,9 +23,7 @@ class BaseWidget extends StatelessWidget {
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset('assets/pngs/Group 1171274984 - 1.png'),
-              ],
+              children: [Image.asset('assets/pngs/Group 1171274984 - 1.png')],
             ),
             Expanded(
               child: Column(
@@ -79,9 +77,7 @@ class BaseWidget extends StatelessWidget {
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Image.asset('assets/pngs/Group 1171274984.png'),
-              ],
+              children: [Image.asset('assets/pngs/Group 1171274984.png')],
             ),
           ],
         ),

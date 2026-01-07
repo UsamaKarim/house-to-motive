@@ -44,24 +44,20 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
               "Add New Card",
               style: TextStyle(color: Colors.white, fontSize: 14),
             ),
-            SizedBox(
-              height: 40,
-              width: 40,
-            )
+            SizedBox(height: 40, width: 40),
           ],
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: size.height / 40,
-            ),
+            SizedBox(height: size.height / 40),
             SvgPicture.asset("assets/Credit card.svg", fit: BoxFit.fill),
             SizedBox(height: size.height / 40),
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width / 19),
+                horizontal: MediaQuery.of(context).size.width / 19,
+              ),
               child: Column(
                 children: [
                   TextFormField(
@@ -83,14 +79,17 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                     },
                     style: TextStyle(color: textColor),
                     decoration: InputDecoration(
-                        isDense: true,
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: Color(0xffD9D9D9))),
-                        hintText: "Card holder name",
-                        hintStyle: TextStyle(fontSize: 14, color: textColor),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20))),
+                      isDense: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Color(0xffD9D9D9)),
+                      ),
+                      hintText: "Card holder name",
+                      hintStyle: TextStyle(fontSize: 14, color: textColor),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
                   ),
                   SizedBox(height: size.height / 40),
                   TextFormField(
@@ -111,14 +110,17 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                     },
                     style: TextStyle(color: textColor),
                     decoration: InputDecoration(
-                        isDense: true,
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: Color(0xffD9D9D9))),
-                        hintText: "Card number / iban",
-                        hintStyle: TextStyle(fontSize: 14, color: textColor),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20))),
+                      isDense: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Color(0xffD9D9D9)),
+                      ),
+                      hintText: "Card number / iban",
+                      hintStyle: TextStyle(fontSize: 14, color: textColor),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
                   ),
                   SizedBox(height: size.height / 40),
                   Row(
@@ -147,16 +149,22 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                               },
                               style: TextStyle(color: textColor),
                               decoration: InputDecoration(
-                                  isDense: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide:
-                                          BorderSide(color: Color(0xffD9D9D9))),
-                                  hintText: "Exp date.",
-                                  hintStyle:
-                                      TextStyle(fontSize: 14, color: textColor),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20))),
+                                isDense: true,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(
+                                    color: Color(0xffD9D9D9),
+                                  ),
+                                ),
+                                hintText: "Exp date.",
+                                hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: textColor,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -186,16 +194,22 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                               },
                               style: TextStyle(color: textColor),
                               decoration: InputDecoration(
-                                  isDense: true,
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide:
-                                          BorderSide(color: Color(0xffD9D9D9))),
-                                  hintText: "CVV",
-                                  hintStyle:
-                                      TextStyle(fontSize: 14, color: textColor),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20))),
+                                isDense: true,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(
+                                    color: Color(0xffD9D9D9),
+                                  ),
+                                ),
+                                hintText: "CVV",
+                                hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: textColor,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -214,15 +228,21 @@ class _PaymentMethodProcessState extends State<PaymentMethodProcess> {
                     ),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => PaymentMethodProcess()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => PaymentMethodProcess(),
+                        ),
+                      );
                     },
-                    child: Text("Add Card",
-                        style: TextStyle(
-                            color: buttonColor == Color(0xff025BBF)
+                    child: Text(
+                      "Add Card",
+                      style: TextStyle(
+                        color:
+                            buttonColor == Color(0xff025BBF)
                                 ? Colors.white
-                                : Color(0xff025BBF))),
+                                : Color(0xff025BBF),
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -25,9 +25,7 @@ class SignupWithPhoneNumberScreen extends StatelessWidget {
                 children: [
                   Opacity(
                     opacity: 0.1,
-                    child: Image.asset(
-                      'assets/pngs/htmimage1.png',
-                    ),
+                    child: Image.asset('assets/pngs/htmimage1.png'),
                   ),
                   Center(
                     child: Image.asset(
@@ -40,12 +38,11 @@ class SignupWithPhoneNumberScreen extends StatelessWidget {
                     left: 10,
                     top: 50,
                     child: InkWell(
-                        onTap: () {
-                          // Get.back();
-                        },
-                        child: SvgPicture.asset(
-                          'assets/svgs/back_btn.svg',
-                        )),
+                      onTap: () {
+                        // Get.back();
+                      },
+                      child: SvgPicture.asset('assets/svgs/back_btn.svg'),
+                    ),
                   ),
                 ],
               ),
@@ -82,8 +79,9 @@ class SignupWithPhoneNumberScreen extends StatelessWidget {
                   children: [
                     CountryCodePicker(
                       onChanged: (countryCode) {
-                        print(countryCode
-                            .dialCode); // Prints the selected country code
+                        print(
+                          countryCode.dialCode,
+                        ); // Prints the selected country code
                       },
                       initialSelection: 'US',
                       favorite: ['+1', 'US'],
@@ -96,7 +94,9 @@ class SignupWithPhoneNumberScreen extends StatelessWidget {
                       child: TextField(
                         controller: TextEditingController(),
                         keyboardType: const TextInputType.numberWithOptions(
-                            signed: true, decimal: true),
+                          signed: true,
+                          decimal: true,
+                        ),
                         decoration: const InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
@@ -153,10 +153,7 @@ class SignupWithPhoneNumberScreen extends StatelessWidget {
             //   ),
             // ),
             SizedBox(height: screenHeight * 0.03),
-            CustomButton(
-              title: "Continue",
-              ontap: () {},
-            ),
+            CustomButton(title: "Continue", ontap: () {}),
             SizedBox(height: screenHeight * 0.03),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

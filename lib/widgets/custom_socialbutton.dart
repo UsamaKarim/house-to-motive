@@ -7,8 +7,12 @@ class CustomButtonWithIcon extends StatelessWidget {
   final String svg;
   final String title;
   final VoidCallback ontap;
-  const CustomButtonWithIcon(
-      {super.key, required this.svg, required this.title, required this.ontap});
+  const CustomButtonWithIcon({
+    super.key,
+    required this.svg,
+    required this.title,
+    required this.ontap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +68,7 @@ class CustomSocialButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           // color: Colors.black,
         ),
-        child: Center(
-          child: SvgPicture.asset(svg, height: 22),
-        ),
+        child: Center(child: SvgPicture.asset(svg, height: 22)),
       ),
     );
   }

@@ -25,9 +25,7 @@ class _CalenderSCreenState extends State<CalenderSCreen> {
               lastDay: DateTime.utc(2030, 3, 14),
               focusedDay: DateTime.now(),
               calendarStyle: const CalendarStyle(
-                defaultTextStyle: TextStyle(
-                  color: Color(0xff7390A1),
-                ),
+                defaultTextStyle: TextStyle(color: Color(0xff7390A1)),
               ),
               daysOfWeekStyle: DaysOfWeekStyle(
                 weekdayStyle: GoogleFonts.inter(
@@ -44,15 +42,9 @@ class _CalenderSCreenState extends State<CalenderSCreen> {
               headerStyle: HeaderStyle(
                 rightChevronIcon: Row(
                   children: [
-                    const Icon(
-                      Icons.arrow_back_ios,
-                      size: 15,
-                    ),
+                    const Icon(Icons.arrow_back_ios, size: 15),
                     SizedBox(width: 10.w),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
-                    ),
+                    const Icon(Icons.arrow_forward_ios, size: 15),
                   ],
                 ),
                 formatButtonVisible: false,

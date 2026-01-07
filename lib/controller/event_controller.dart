@@ -15,8 +15,8 @@ RxBool isCommentDisable = false.obs;
 RxBool isPrivate = false.obs;
 
 class TicketController extends GetxController {
-  final CollectionReference ticketsCollection =
-      FirebaseFirestore.instance.collection('tickets');
+  final CollectionReference ticketsCollection = FirebaseFirestore.instance
+      .collection('tickets');
   final eventNameController = TextEditingController();
   final eventDescriptionController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
@@ -95,22 +95,17 @@ class TicketController extends GetxController {
   pickedImage() async {
     final picker = ImagePicker();
     try {
-      final XFile? pickedFile =
-          await picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+      );
       if (pickedFile != null) {
         selectedImage.value = File(pickedFile.path);
         log(selectedImage.value.toString());
       } else {
-        Get.snackbar(
-          "No Image",
-          "Please Select Image",
-        );
+        Get.snackbar("No Image", "Please Select Image");
       }
     } catch (e) {
-      Get.snackbar(
-        "An Error",
-        " ${e.toString()}",
-      );
+      Get.snackbar("An Error", " ${e.toString()}");
     }
   }
 
@@ -144,9 +139,9 @@ class TicketController extends GetxController {
     if (selectedImage.value == null) return;
 
     FirebaseStorage storage = FirebaseStorage.instance;
-    Reference storageReference = storage
-        .ref()
-        .child('images/${DateTime.now().millisecondsSinceEpoch}.png');
+    Reference storageReference = storage.ref().child(
+      'images/${DateTime.now().millisecondsSinceEpoch}.png',
+    );
 
     UploadTask uploadTask = storageReference.putFile(selectedImage.value!);
     await uploadTask.whenComplete(() => log('Image uploaded to Firebase'));
@@ -181,11 +176,12 @@ class TicketController extends GetxController {
   }
 
   Future<void> updateTicketCollection(
-      RxString ticketId, RxBool isEventFavourite) async {
-    FirebaseFirestore.instance
-        .collection('tickets')
-        .doc(ticketId.value)
-        .update({'isEventFavourite': isEventFavourite.value});
+    RxString ticketId,
+    RxBool isEventFavourite,
+  ) async {
+    FirebaseFirestore.instance.collection('tickets').doc(ticketId.value).update(
+      {'isEventFavourite': isEventFavourite.value},
+    );
   }
 
   void addTicket({
@@ -234,16 +230,16 @@ class TicketController extends GetxController {
     ticketsCollection
         .doc(id)
         .set(newTicket.toMap())
-        .then(
-          (value) => log('Ticket added to Firestore'),
-        )
+        .then((value) => log('Ticket added to Firestore'))
         .catchError((error) => log('Failed to add ticket: $error'));
   }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<bool> toggleFollowUser(
-      String currentUserUid, String userToToggleUid) async {
+    String currentUserUid,
+    String userToToggleUid,
+  ) async {
     try {
       // Check if currentUserUid is the same as userToToggleUid
       if (currentUserUid == userToToggleUid) {
@@ -266,20 +262,20 @@ class TicketController extends GetxController {
       if (isFollowing) {
         // Remove userToToggleUid from the following list of currentUserUid
         await _firestore.collection('users').doc(currentUserUid).update({
-          'following': FieldValue.arrayRemove([userToToggleUid])
+          'following': FieldValue.arrayRemove([userToToggleUid]),
         });
         // Remove currentUserUid from the followers list of userToToggleUid
         await _firestore.collection('users').doc(userToToggleUid).update({
-          'followers': FieldValue.arrayRemove([currentUserUid])
+          'followers': FieldValue.arrayRemove([currentUserUid]),
         });
       } else {
         // Add userToToggleUid to the following list of currentUserUid
         await _firestore.collection('users').doc(currentUserUid).update({
-          'following': FieldValue.arrayUnion([userToToggleUid])
+          'following': FieldValue.arrayUnion([userToToggleUid]),
         });
         // Add currentUserUid to the followers list of userToToggleUid
         await _firestore.collection('users').doc(userToToggleUid).update({
-          'followers': FieldValue.arrayUnion([currentUserUid])
+          'followers': FieldValue.arrayUnion([currentUserUid]),
         });
       }
 
@@ -298,17 +294,21 @@ class TicketController extends GetxController {
   final RxList<String> followersList = <String>[].obs;
 
   void fetchFollowingList(String currentUserUid) async {
-    followingList.value =
-        await _firestoreService.getFollowingList(currentUserUid);
+    followingList.value = await _firestoreService.getFollowingList(
+      currentUserUid,
+    );
   }
 
   void fetchFollowersList(String currentUserUid) async {
-    followersList.value =
-        await _firestoreService.getFollowersList(currentUserUid);
+    followersList.value = await _firestoreService.getFollowersList(
+      currentUserUid,
+    );
   }
 
   Future<void> unfollowUser(
-      String currentUserId, String userToUnfollowId) async {
+    String currentUserId,
+    String userToUnfollowId,
+  ) async {
     // Remove from the local following list
     followingList.remove(userToUnfollowId);
 
@@ -317,33 +317,35 @@ class TicketController extends GetxController {
         .collection('users')
         .doc(currentUserId)
         .update({
-      'following': FieldValue.arrayRemove([userToUnfollowId])
-    });
+          'following': FieldValue.arrayRemove([userToUnfollowId]),
+        });
 
     // Optionally, remove the current user from the unfollowed user's followers list
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userToUnfollowId)
         .update({
-      'followers': FieldValue.arrayRemove([currentUserId])
-    });
+          'followers': FieldValue.arrayRemove([currentUserId]),
+        });
   }
 
   Future<void> removeFollower(
-      String currentUserId, String followerUserId) async {
+    String currentUserId,
+    String followerUserId,
+  ) async {
     followersList.remove(followerUserId);
     await FirebaseFirestore.instance
         .collection('users')
         .doc(currentUserId)
         .update({
-      'followers': FieldValue.arrayRemove([followerUserId])
-    });
+          'followers': FieldValue.arrayRemove([followerUserId]),
+        });
     await FirebaseFirestore.instance
         .collection('users')
         .doc(followerUserId)
         .update({
-      'following': FieldValue.arrayRemove([currentUserId])
-    });
+          'following': FieldValue.arrayRemove([currentUserId]),
+        });
   }
 
   Future<void> fetchFavouriteTickets() async {
@@ -352,10 +354,11 @@ class TicketController extends GetxController {
 
     try {
       // Query to get documents where isEventFavourite is true
-      QuerySnapshot querySnapshot = await firestore
-          .collection('tickets')
-          .where('isEventFavourite', isEqualTo: true)
-          .get();
+      QuerySnapshot querySnapshot =
+          await firestore
+              .collection('tickets')
+              .where('isEventFavourite', isEqualTo: true)
+              .get();
 
       // Check if documents are retrieved
       if (querySnapshot.docs.isNotEmpty) {
@@ -425,10 +428,11 @@ class FirestoreService extends GetxService {
         log('No current user logged in.');
         return;
       }
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUserId)
-          .get();
+      DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(currentUserId)
+              .get();
       if (userDoc.exists) {
         Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
         followers = userData['followers'] ?? [];
@@ -457,8 +461,11 @@ class FirestoreService extends GetxService {
         String profilePic = userData['profilePic'] ?? '';
         bool userExists = userList.any((user) => user['userId'] == userId);
         if (!userExists) {
-          userList.add(
-              {'Name': userName, 'userId': userId, 'profileImage': profilePic});
+          userList.add({
+            'Name': userName,
+            'userId': userId,
+            'profileImage': profilePic,
+          });
         }
         log('userName $userName');
         log('userId $userId');

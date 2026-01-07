@@ -5,7 +5,10 @@ import 'package:get/get.dart';
 
 class Utils {
   static void fieldFocusChange(
-      BuildContext context, FocusNode current, FocusNode nextFocus) {
+    BuildContext context,
+    FocusNode current,
+    FocusNode nextFocus,
+  ) {
     current.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }
@@ -31,8 +34,12 @@ class Utils {
   }
 
   static snackBar(String title, String message) {
-    Get.snackbar(title, message,
-        backgroundColor: Colors.green, colorText: Colors.white);
+    Get.snackbar(
+      title,
+      message,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
   }
 
   static Future<void> startLoading({required String loadingStatus}) async {

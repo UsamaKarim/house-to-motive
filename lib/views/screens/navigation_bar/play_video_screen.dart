@@ -19,17 +19,20 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    _videoControllers = widget.videoUrls
-        .map((url) => VideoPlayerController.network(url))
-        .toList();
+    _videoControllers =
+        widget.videoUrls
+            .map((url) => VideoPlayerController.network(url))
+            .toList();
     _initializePlayers();
   }
 
   Future<void> _initializePlayers() async {
-    await Future.wait(_videoControllers.map((controller) async {
-      await controller.initialize();
-      controller.setLooping(true); // Optional: Loop the videos
-    }));
+    await Future.wait(
+      _videoControllers.map((controller) async {
+        await controller.initialize();
+        controller.setLooping(true); // Optional: Loop the videos
+      }),
+    );
     setState(() {});
     _videoControllers[_currentPage].play(); // Play the first video
   }
@@ -69,12 +72,14 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
           return Column(
             children: [
               Expanded(
-                child: _videoControllers[index].value.isInitialized
-                    ? AspectRatio(
-                        aspectRatio: _videoControllers[index].value.aspectRatio,
-                        child: VideoPlayer(_videoControllers[index]),
-                      )
-                    : const Center(child: CircularProgressIndicator()),
+                child:
+                    _videoControllers[index].value.isInitialized
+                        ? AspectRatio(
+                          aspectRatio:
+                              _videoControllers[index].value.aspectRatio,
+                          child: VideoPlayer(_videoControllers[index]),
+                        )
+                        : const Center(child: CircularProgressIndicator()),
               ),
               VideoControls(controller: _videoControllers[index]),
             ],
