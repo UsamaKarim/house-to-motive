@@ -1,0 +1,91 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Load Environment Variables",
+      "type": "shell",
+      "command": "source ${workspaceFolder}/script/get_dart_defines.sh && echo \"${DART_DEFINES}\" > ${workspaceFolder}/.vscode/dart_defines.txt",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build iOS (Release)",
+      "type": "shell",
+      "command": "${workspaceFolder}/script/build_ios.sh",
+      "args": ["release"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build iOS (Debug)",
+      "type": "shell",
+      "command": "${workspaceFolder}/script/build_ios.sh",
+      "args": ["debug"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build Android (Release)",
+      "type": "shell",
+      "command": "${workspaceFolder}/script/build_android.sh",
+      "args": ["release", "apk"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build Android (Debug)",
+      "type": "shell",
+      "command": "${workspaceFolder}/script/build_android.sh",
+      "args": ["debug", "apk"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build Android App Bundle (Release)",
+      "type": "shell",
+      "command": "${workspaceFolder}/script/build_android.sh",
+      "args": ["release", "appbundle"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}
+
