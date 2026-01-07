@@ -9,7 +9,7 @@ import GoogleMaps // Import Google Maps SDK
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     // Initialize Google Maps with your API key
-    GMSServices.provideAPIKey("AIzaSyDotkOgJK6nWqbYMLFOuQQs8VNpyIOAmGw")
+    GMSServices.provideAPIKey("AIzaSyCBFSD31qSiFRpzQJe7nH9RwOM-d7wEFCw")
 
     // Register plugins with the Flutter engine
     GeneratedPluginRegistrant.register(with: self)
