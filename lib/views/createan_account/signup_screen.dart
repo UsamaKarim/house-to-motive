@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart' as g_sign_in;
 import 'package:house_to_motive/utils/utils.dart';
 import 'package:house_to_motive/views/login/loginwith_email.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -117,41 +117,37 @@ class SignupController extends GetxController {
         }
       }
     } else {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
+      await g_sign_in.GoogleSignIn.instance.initialize();
+      final g_sign_in.GoogleSignInAccount googleSignInAccount =
+          await g_sign_in.GoogleSignIn.instance.authenticate();
 
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+      final g_sign_in.GoogleSignInAuthentication googleSignInAuthentication =
+          googleSignInAccount.authentication;
 
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleSignInAuthentication.idToken,
+      );
 
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+        user = userCredential.user;
 
-        try {
-          final UserCredential userCredential =
-              await auth.signInWithCredential(credential);
-          user = userCredential.user;
-
-          if (user != null) {
-            // Save user details to Firestore
-            await addUserDetailsToFirestore(user);
-            prefs.setBool('isLogin', true);
-            prefs.setBool('isGuest', false);
-            Get.to(() => HomePage());
-          }
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            log('Account exists with different credential');
-          } else if (e.code == 'invalid-credential') {
-            log('Invalid Credential');
-          }
-        } catch (e) {
-          log(e.toString());
+        if (user != null) {
+          // Save user details to Firestore
+          await addUserDetailsToFirestore(user);
+          prefs.setBool('isLogin', true);
+          prefs.setBool('isGuest', false);
+          Get.to(() => HomePage());
         }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          log('Account exists with different credential');
+        } else if (e.code == 'invalid-credential') {
+          log('Invalid Credential');
+        }
+      } catch (e) {
+        log(e.toString());
       }
     }
 

@@ -300,40 +300,36 @@ class AuthenticationController extends GetxController {
         }
       }
     } else {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
+      await GoogleSignIn.instance.initialize();
+      final GoogleSignInAccount googleSignInAccount =
+          await GoogleSignIn.instance.authenticate();
 
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          googleSignInAccount.authentication;
 
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleSignInAuthentication.idToken,
+      );
 
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
 
-        try {
-          final UserCredential userCredential =
-              await auth.signInWithCredential(credential);
+        user = userCredential.user;
 
-          user = userCredential.user;
+        await addUserDetailsToFirestore(user!);
 
-          await addUserDetailsToFirestore(user!);
-
-          prefs.setBool('isLogin', true);
-          prefs.setBool('isGuest', false);
-          Get.to(() => HomePage());
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            log('Account exists with different credential');
-          } else if (e.code == 'invalid-credential') {
-            log('Invalid Credential');
-          }
-        } catch (e) {
-          log(e.toString());
+        prefs.setBool('isLogin', true);
+        prefs.setBool('isGuest', false);
+        Get.to(() => HomePage());
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          log('Account exists with different credential');
+        } else if (e.code == 'invalid-credential') {
+          log('Invalid Credential');
         }
+      } catch (e) {
+        log(e.toString());
       }
     }
 
@@ -402,11 +398,10 @@ class AuthenticationController extends GetxController {
   }
 
   Future<void> signOut() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
     try {
+      await GoogleSignIn.instance.signOut();
       if (!kIsWeb) {
-        await googleSignIn.signOut();
+        await GoogleSignIn.instance.signOut();
       }
       await FirebaseAuth.instance.signOut();
     } catch (e) {

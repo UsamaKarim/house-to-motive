@@ -11,6 +11,7 @@ import 'package:house_to_motive/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit/zego_uikit.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage(
