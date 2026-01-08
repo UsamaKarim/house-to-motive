@@ -126,8 +126,10 @@ class GetVideoController extends GetxController {
 
     // Check if the current user is following the other user
     bool isAlreadyFollowing =
-        currentUserDoc['following'] != null &&
-        currentUserDoc['following'].contains(ticketUid);
+        (currentUserDoc.data() as Map<String, dynamic>)['following'] != null &&
+        (currentUserDoc.data() as Map<String, dynamic>)['following'].contains(
+          ticketUid,
+        );
 
     isFollowing = isAlreadyFollowing.obs;
   }
