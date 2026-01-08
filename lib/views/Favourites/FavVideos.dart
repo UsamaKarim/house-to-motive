@@ -7,7 +7,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../../views/screens/video_screen.dart';
 
 class FavVideos extends StatelessWidget {
-  final String userId;
+  final String? userId;
   const FavVideos({super.key, required this.userId});
 
   @override

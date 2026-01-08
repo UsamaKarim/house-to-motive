@@ -65,7 +65,7 @@ class FavListController extends GetxController {
   // }
 
   var isGuestLogin = false;
-  String userId = '';
+  String? userId;
 
   Future<bool> checkGuestMode() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -76,7 +76,7 @@ class FavListController extends GetxController {
   _checkGuestMode() async {
     bool guestStatus = await checkGuestMode(); // Await the async method
     if (!guestStatus) {
-      userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+      userId = FirebaseAuth.instance.currentUser?.uid;
     }
   }
 
