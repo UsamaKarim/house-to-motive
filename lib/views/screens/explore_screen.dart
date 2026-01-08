@@ -28,6 +28,8 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  GoogleMapController? _mapController;
+
   Future<void> _searchAndMarkLocation(String location) async {
     // Assuming PlacesApi has a method to search location by name and return coordinates
     LatLng coordinates = await placeApiController.searchLocationByName(
@@ -48,7 +50,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     });
 
     // Optionally, move the camera to the new marker
-    placeApiController.mapController?.animateCamera(
+    _mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: coordinates,
@@ -61,13 +63,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   void initState() {
     super.initState();
-    _initMap();
     // _fetchAndMarkLocations().then((value) => _initMap());
   }
 
   Future<void> _initMap() async {
     try {
-      await placeApiController.determinePosition();
+      await placeApiController.determinePosition(_mapController);
       if (widget.selectedLocation != null) {
         await _searchAndMarkLocation(widget.selectedLocation!);
       }
@@ -77,6 +78,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   final placeApiController = Get.put(PlacesApi());
+
+  void onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+    _initMap();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +103,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       zoomControlsEnabled: false,
                       myLocationButtonEnabled: false,
                       myLocationEnabled: false,
-                      onMapCreated: placeApiController.onMapCreated,
+                      onMapCreated: onMapCreated,
                       initialCameraPosition: CameraPosition(
                         target: placeApiController.target,
                         zoom: placeApiController.defaultZoom,
@@ -119,7 +125,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         );
                       },
                       onSelected: (String selection) {
-                        placeApiController.searchPlaces(selection);
+                        placeApiController.searchPlaces(
+                          selection,
+                          _mapController,
+                        );
                         placeApiController.storeRecentSearch(selection);
                       },
                       fieldViewBuilder: (
@@ -177,14 +186,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   @override
   void dispose() {
+    _mapController?.dispose();
     super.dispose();
-    widget.selectedLocation;
   }
 }
 
 class PlacesApi extends GetxController {
   final TextEditingController eventLocationController = TextEditingController();
-  GoogleMapController? mapController;
   final LatLng target = const LatLng(30.3753, 69.3451);
   final double defaultZoom = 4.0;
   final double searchZoom = 15.0; // Example location
@@ -201,13 +209,9 @@ class PlacesApi extends GetxController {
   Completer<LatLng>? _searchLocationCompleter;
   Completer<List<String>>? _getSuggestionsCompleter;
 
-  void onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
   // Other code...
 
-  void searchPlaces(String query) async {
+  void searchPlaces(String query, [GoogleMapController? mapController]) async {
     _searchPlacesDebouncer.run(() async {
       final String encodedQuery = Uri.encodeComponent(query);
       final String url =
@@ -381,7 +385,7 @@ class PlacesApi extends GetxController {
   final double _zoomLevel = 17.0; // Higher value for closer zoom
   String address = "";
 
-  Future<void> determinePosition() async {
+  Future<void> determinePosition([GoogleMapController? mapController]) async {
     bool serviceEnabled;
     LocationPermission permission;
 
