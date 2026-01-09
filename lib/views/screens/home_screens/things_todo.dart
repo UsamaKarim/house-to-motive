@@ -508,230 +508,230 @@ class _HomeScreen2State extends State<HomeScreen2> {
             ),
           ),
         ),
-        SizedBox(height: screenHeight * 0.03),
-        Padding(
-          padding: const EdgeInsets.only(left: 12.0, right: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Food Near Me',
-                style: GoogleFonts.inter(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              // InkWell(
-              //   onTap: () {
-              //     // Get.to(() => VideoScreen());
-              //   },
-              //   child:
-              //       SvgPicture.asset('assets/svgs/home/Group 1171274839.svg'),
-              // ),
-            ],
-          ),
-        ),
-        SizedBox(height: screenHeight * 0.01),
-        Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'Best match near me - watch and explore',
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xff7390A1),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: screenHeight * 0.02),
-        SizedBox(
-          height: 26.h,
-          // height: 250,
-          child: StreamBuilder<QuerySnapshot>(
-            stream:
-                FirebaseFirestore.instance
-                    .collection("restaurants")
-                    .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              }
-              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                return const Center(child: Text('No Data Available'));
-              }
-              final data = snapshot.data!.docs;
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  final docData = data[index].data() as Map<String, dynamic>;
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(
-                        () => SanzioRestaurant(
-                          imageUrl: docData["imageUrl"],
-                          location: docData["location"],
-                          description: docData["description"],
-                          closingTime: docData["closingTime"],
-                          imageName: docData["imageName"],
-                          openingTime: docData["openingTime"],
-                          restaurantName: docData["restaurantName"],
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: screenHeight * 0.26,
-                            width: Get.width / 1.8,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  // SizedBox(height: 1.h),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        docData["restaurantName"]
-                                                    .toString()
-                                                    .length >
-                                                15
-                                            ? "${docData["restaurantName"].toString().substring(0, 15)}..."
-                                            : docData["restaurantName"],
-                                        style: GoogleFonts.inter(
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      // Text(
-                                      //   '£${docData["location"]}',
-                                      //   style: const TextStyle(
-                                      //     fontSize: 14,
-                                      //     fontWeight: FontWeight.w500,
-                                      //     color: Color(0xff025B8F),
-                                      //   ),
-                                      // )
-                                    ],
-                                  ),
-                                  SizedBox(height: 0.3.h),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.start,
-                                  //   children: [
-                                  //     GradientText(
-                                  //       text: "${foodnearby[index].mile} mile",
-                                  //       gradient: const LinearGradient(colors: [
-                                  //         Color(0xffFF0092),
-                                  //         Color(0xff216DFD),
-                                  //       ]),
-                                  //       style: GoogleFonts.inter(
-                                  //         fontWeight: FontWeight.w400,
-                                  //         fontSize: 10,
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  SizedBox(height: 0.3.h),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/svgs/home/map-pin.svg',
-                                      ),
-                                      SizedBox(width: 0.3.h),
-                                      Text(
-                                        docData["location"].toString().length >
-                                                15
-                                            ? "${docData["location"].toString().substring(0, 15)}..."
-                                            : docData["location"],
-                                        style: GoogleFonts.inter(
-                                          fontWeight: FontWeight.w400,
-                                          color: const Color(0xff7390A1),
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: Get.height / 6,
-                            width: Get.width / 1.8,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: NetworkImage(docData["imageUrl"]),
-                              ),
-                              // color: Colors.white,
-                            ),
-                            // child: Padding(
-                            //   padding: const EdgeInsets.all(12),
-                            //   child: Row(
-                            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //     crossAxisAlignment: CrossAxisAlignment.start,
-                            //     children: [
-                            //       Container(
-                            //         height: 3.5.h,
-                            //         width: 8.h,
-                            //         decoration: BoxDecoration(
-                            //             borderRadius: BorderRadius.circular(20),
-                            //             color: const Color(0xff80ffff),
-                            //             border:
-                            //             Border.all(color: Colors.white60)),
-                            //         child: Row(
-                            //           mainAxisAlignment:
-                            //           MainAxisAlignment.spaceEvenly,
-                            //           children: [
-                            //             SvgPicture.asset(
-                            //                 'assets/svgs/home/Star 2.svg'),
-                            //             Text(
-                            //               foodnearby[index].rating,
-                            //               style: GoogleFonts.inter(
-                            //                   fontSize: 10,
-                            //                   fontWeight: FontWeight.w400,
-                            //                   color: Colors.white),
-                            //             ),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //       CircleAvatar(
-                            //         backgroundColor: const Color(0xff80FFFF),
-                            //         radius: 16,
-                            //         child: SvgPicture.asset(
-                            //             'assets/svgs/home/Vector.svg'),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ),
+        // SizedBox(height: screenHeight * 0.03),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 12.0, right: 12),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //     children: [
+        //       Text(
+        //         'Food Near Me',
+        //         style: GoogleFonts.inter(
+        //           fontSize: 20,
+        //           fontWeight: FontWeight.w700,
+        //           color: Colors.black,
+        //         ),
+        //       ),
+        //       // InkWell(
+        //       //   onTap: () {
+        //       //     // Get.to(() => VideoScreen());
+        //       //   },
+        //       //   child:
+        //       //       SvgPicture.asset('assets/svgs/home/Group 1171274839.svg'),
+        //       // ),
+        //     ],
+        //   ),
+        // ),
+        // SizedBox(height: screenHeight * 0.01),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 12, right: 12),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.start,
+        //     children: [
+        //       Text(
+        //         'Best match near me - watch and explore',
+        //         style: GoogleFonts.inter(
+        //           fontSize: 10,
+        //           fontWeight: FontWeight.w400,
+        //           color: const Color(0xff7390A1),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        // SizedBox(height: screenHeight * 0.02),
+        // SizedBox(
+        //   height: 26.h,
+        //   // height: 250,
+        //   child: StreamBuilder<QuerySnapshot>(
+        //     stream:
+        //         FirebaseFirestore.instance
+        //             .collection("restaurants")
+        //             .snapshots(),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.waiting) {
+        //         return const Center(child: CircularProgressIndicator());
+        //       }
+        //       if (snapshot.hasError) {
+        //         return Center(child: Text('Error: ${snapshot.error}'));
+        //       }
+        //       if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+        //         return const Center(child: Text('No Data Available'));
+        //       }
+        //       final data = snapshot.data!.docs;
+        //       return ListView.builder(
+        //         scrollDirection: Axis.horizontal,
+        //         itemCount: data.length,
+        //         itemBuilder: (context, index) {
+        //           final docData = data[index].data() as Map<String, dynamic>;
+        //           return GestureDetector(
+        //             onTap: () {
+        //               Get.to(
+        //                 () => SanzioRestaurant(
+        //                   imageUrl: docData["imageUrl"],
+        //                   location: docData["location"],
+        //                   description: docData["description"],
+        //                   closingTime: docData["closingTime"],
+        //                   imageName: docData["imageName"],
+        //                   openingTime: docData["openingTime"],
+        //                   restaurantName: docData["restaurantName"],
+        //                 ),
+        //               );
+        //             },
+        //             child: Padding(
+        //               padding: const EdgeInsets.symmetric(horizontal: 4),
+        //               child: Stack(
+        //                 children: [
+        //                   Container(
+        //                     height: screenHeight * 0.26,
+        //                     width: Get.width / 1.8,
+        //                     decoration: BoxDecoration(
+        //                       borderRadius: BorderRadius.circular(8),
+        //                       color: Colors.white,
+        //                     ),
+        //                     child: Padding(
+        //                       padding: const EdgeInsets.all(6.0),
+        //                       child: Column(
+        //                         mainAxisAlignment: MainAxisAlignment.end,
+        //                         children: [
+        //                           // SizedBox(height: 1.h),
+        //                           Row(
+        //                             mainAxisAlignment: MainAxisAlignment.start,
+        //                             children: [
+        //                               Text(
+        //                                 docData["restaurantName"]
+        //                                             .toString()
+        //                                             .length >
+        //                                         15
+        //                                     ? "${docData["restaurantName"].toString().substring(0, 15)}..."
+        //                                     : docData["restaurantName"],
+        //                                 style: GoogleFonts.inter(
+        //                                   fontWeight: FontWeight.w700,
+        //                                   color: Colors.black,
+        //                                   fontSize: 14,
+        //                                 ),
+        //                               ),
+        //                               // Text(
+        //                               //   '£${docData["location"]}',
+        //                               //   style: const TextStyle(
+        //                               //     fontSize: 14,
+        //                               //     fontWeight: FontWeight.w500,
+        //                               //     color: Color(0xff025B8F),
+        //                               //   ),
+        //                               // )
+        //                             ],
+        //                           ),
+        //                           SizedBox(height: 0.3.h),
+        //                           // Row(
+        //                           //   mainAxisAlignment: MainAxisAlignment.start,
+        //                           //   children: [
+        //                           //     GradientText(
+        //                           //       text: "${foodnearby[index].mile} mile",
+        //                           //       gradient: const LinearGradient(colors: [
+        //                           //         Color(0xffFF0092),
+        //                           //         Color(0xff216DFD),
+        //                           //       ]),
+        //                           //       style: GoogleFonts.inter(
+        //                           //         fontWeight: FontWeight.w400,
+        //                           //         fontSize: 10,
+        //                           //       ),
+        //                           //     ),
+        //                           //   ],
+        //                           // ),
+        //                           SizedBox(height: 0.3.h),
+        //                           Row(
+        //                             children: [
+        //                               SvgPicture.asset(
+        //                                 'assets/svgs/home/map-pin.svg',
+        //                               ),
+        //                               SizedBox(width: 0.3.h),
+        //                               Text(
+        //                                 docData["location"].toString().length >
+        //                                         15
+        //                                     ? "${docData["location"].toString().substring(0, 15)}..."
+        //                                     : docData["location"],
+        //                                 style: GoogleFonts.inter(
+        //                                   fontWeight: FontWeight.w400,
+        //                                   color: const Color(0xff7390A1),
+        //                                   fontSize: 10,
+        //                                 ),
+        //                               ),
+        //                             ],
+        //                           ),
+        //                         ],
+        //                       ),
+        //                     ),
+        //                   ),
+        //                   Container(
+        //                     height: Get.height / 6,
+        //                     width: Get.width / 1.8,
+        //                     decoration: BoxDecoration(
+        //                       borderRadius: BorderRadius.circular(8),
+        //                       image: DecorationImage(
+        //                         fit: BoxFit.fill,
+        //                         image: NetworkImage(docData["imageUrl"]),
+        //                       ),
+        //                       // color: Colors.white,
+        //                     ),
+        //                     // child: Padding(
+        //                     //   padding: const EdgeInsets.all(12),
+        //                     //   child: Row(
+        //                     //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                     //     crossAxisAlignment: CrossAxisAlignment.start,
+        //                     //     children: [
+        //                     //       Container(
+        //                     //         height: 3.5.h,
+        //                     //         width: 8.h,
+        //                     //         decoration: BoxDecoration(
+        //                     //             borderRadius: BorderRadius.circular(20),
+        //                     //             color: const Color(0xff80ffff),
+        //                     //             border:
+        //                     //             Border.all(color: Colors.white60)),
+        //                     //         child: Row(
+        //                     //           mainAxisAlignment:
+        //                     //           MainAxisAlignment.spaceEvenly,
+        //                     //           children: [
+        //                     //             SvgPicture.asset(
+        //                     //                 'assets/svgs/home/Star 2.svg'),
+        //                     //             Text(
+        //                     //               foodnearby[index].rating,
+        //                     //               style: GoogleFonts.inter(
+        //                     //                   fontSize: 10,
+        //                     //                   fontWeight: FontWeight.w400,
+        //                     //                   color: Colors.white),
+        //                     //             ),
+        //                     //           ],
+        //                     //         ),
+        //                     //       ),
+        //                     //       CircleAvatar(
+        //                     //         backgroundColor: const Color(0xff80FFFF),
+        //                     //         radius: 16,
+        //                     //         child: SvgPicture.asset(
+        //                     //             'assets/svgs/home/Vector.svg'),
+        //                     //       ),
+        //                     //     ],
+        //                     //   ),
+        //                     // ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //       );
+        //     },
+        //   ),
+        // ),
         SizedBox(height: screenHeight * 0.03),
         Padding(
           padding: const EdgeInsets.only(left: 12.0, right: 12),
