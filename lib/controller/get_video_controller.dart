@@ -167,6 +167,11 @@ class GetVideoController extends GetxController {
       const int batchSize = 10; // Process 10 videos at a time
       List<videoInfo> tempVideos = [];
       List<double> tempDistances = [];
+      // Temporary lists to store data that will be sorted together
+      List<String> tempIds = [];
+      List<String> tempVideoUrls = [];
+      List<String> tempUserIds = [];
+      List<String> tempThumbnails = [];
 
       // Split documents into batches
       List<List<QueryDocumentSnapshot>> batches = [];
@@ -180,7 +185,17 @@ class GetVideoController extends GetxController {
 
         for (var video in batch) {
           batchFutures.add(
-            _processVideo(video, userLat, userLon, tempVideos, tempDistances),
+            _processVideo(
+              video,
+              userLat,
+              userLon,
+              tempVideos,
+              tempDistances,
+              tempIds,
+              tempVideoUrls,
+              tempUserIds,
+              tempThumbnails,
+            ),
           );
         }
 
@@ -189,18 +204,24 @@ class GetVideoController extends GetxController {
       }
 
       // Sort the videos based on distance in ascending order
-      List<MapEntry<videoInfo, double>> sortedVideos = List.generate(
+      List<MapEntry<int, double>> indexedDistances = List.generate(
         tempVideos.length,
-        (index) => MapEntry(tempVideos[index], tempDistances[index]),
+        (index) => MapEntry(index, tempDistances[index]),
       );
 
-      sortedVideos.sort((a, b) => a.value.compareTo(b.value));
+      indexedDistances.sort((a, b) => a.value.compareTo(b.value));
 
-      // Update with sorted data
-      for (var entry in sortedVideos) {
-        nearByVideos.add(entry.key);
+      // Update all lists with sorted data in the same order
+      for (var entry in indexedDistances) {
+        int sortedIndex = entry.key;
+        nearByVideos.add(tempVideos[sortedIndex]);
         kilometersList.add(entry.value);
         distanceList.add(entry.value);
+        // Update all lists in sorted order
+        idList.add(tempIds[sortedIndex]);
+        videoUrlsNearByLocation.add(tempVideoUrls[sortedIndex]);
+        videoUserIdsList.add(tempUserIds[sortedIndex]);
+        thumbnailList.add(tempThumbnails[sortedIndex]);
       }
     } catch (e) {
       log("Error in checkNearbyVideos: $e");
@@ -215,6 +236,10 @@ class GetVideoController extends GetxController {
     double userLon,
     List<videoInfo> tempVideos,
     List<double> tempDistances,
+    List<String> tempIds,
+    List<String> tempVideoUrls,
+    List<String> tempUserIds,
+    List<String> tempThumbnails,
   ) async {
     try {
       double videoLat = video.get('latitude');
@@ -225,7 +250,7 @@ class GetVideoController extends GetxController {
           Geolocator.distanceBetween(userLat, userLon, videoLat, videoLon) /
           1000;
 
-      if (roadDistance <= 15 && !idList.contains(video.id)) {
+      if (roadDistance <= 15 && !tempIds.contains(video.id)) {
         // Create a videoInfo object
         videoInfo videoData = videoInfo(
           userId: video.get('userId'),
@@ -235,15 +260,13 @@ class GetVideoController extends GetxController {
           userName: video.get('userName'),
         );
 
-        // Add video and distance to temporary lists
+        // Add video and distance to temporary lists (will be sorted later)
         tempVideos.add(videoData);
         tempDistances.add(roadDistance);
-
-        // Store additional information
-        idList.add(video.id);
-        videoUrlsNearByLocation.add(video.get('videoUrl'));
-        videoUserIdsList.add(video.get('userId'));
-        thumbnailList.add(video.get('thumbnailUrl'));
+        tempIds.add(video.id);
+        tempVideoUrls.add(video.get('videoUrl'));
+        tempUserIds.add(video.get('userId'));
+        tempThumbnails.add(video.get('thumbnailUrl'));
       }
     } catch (e) {
       log("Error processing video: $e");
