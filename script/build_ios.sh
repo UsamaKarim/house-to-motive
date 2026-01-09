@@ -56,12 +56,13 @@ cd "$PROJECT_ROOT"
 
 echo "Building iOS app in $BUILD_MODE mode..."
 echo "Using environment variables from .env file"
+echo "running: flutter build ipa --release $DART_DEFINES"
 
 # Build the iOS app
 if [ "$BUILD_MODE" == "release" ]; then
-    flutter build ios --release $DART_DEFINES
+    flutter build ipa --release $DART_DEFINES
 else
-    flutter build ios --debug $DART_DEFINES
+    flutter build ipa --debug $DART_DEFINES
 fi
 
 echo "Build completed successfully!"
