@@ -196,7 +196,7 @@ class PlacesApi extends GetxController {
   final LatLng target = const LatLng(30.3753, 69.3451);
   final double defaultZoom = 4.0;
   final double searchZoom = 15.0; // Example location
-  final key = String.fromEnvironment(
+  static const String key = String.fromEnvironment(
     'GOOGLE_MAPS_API_KEY',
   ); // Replace with your Google API Key
 
@@ -214,6 +214,7 @@ class PlacesApi extends GetxController {
   void searchPlaces(String query, [GoogleMapController? mapController]) async {
     _searchPlacesDebouncer.run(() async {
       final String encodedQuery = Uri.encodeComponent(query);
+
       final String url =
           'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$encodedQuery&inputtype=textquery&fields=geometry&key=$key';
       try {
@@ -333,6 +334,7 @@ class PlacesApi extends GetxController {
     _getSuggestionsDebouncer.run(() async {
       try {
         final String encodedQuery = Uri.encodeComponent(query);
+
         final String url =
             'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$encodedQuery&key=$key';
         final response = await http.get(Uri.parse(url));
@@ -345,6 +347,7 @@ class PlacesApi extends GetxController {
 
         if (response.statusCode == 200) {
           final result = json.decode(response.body);
+          print(result);
           if (result['predictions'] != null) {
             final suggestions = List<String>.from(
               result['predictions'].map(
