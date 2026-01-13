@@ -15,9 +15,14 @@ import 'package:flutter_svg/svg.dart';
 class HomePage extends StatefulWidget {
   final bool? status;
   final int? selectedIndex;
-  String? searchQuery;
+  final String? searchQuery;
 
-  HomePage({super.key, this.selectedIndex, this.searchQuery, this.status});
+  const HomePage({
+    super.key,
+    this.selectedIndex,
+    this.searchQuery,
+    this.status,
+  });
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -110,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                                 GestureDetector(
                                   onTap: () {
                                     currentIndex.value = index;
-                                    widget.searchQuery = null;
+                                    // widget.searchQuery = null;
                                   },
                                   child:
                                       currentIndex.value == index
