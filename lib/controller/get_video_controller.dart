@@ -74,42 +74,54 @@ class GetVideoController extends GetxController {
     final String imageURL = doc['thumbnailUrl'];
     final String videoURL = doc['videoUrl'];
     final String userId = doc['userId'];
+    final double? latitude = doc['latitude'];
+    final double? longitude = doc['longitude'];
     final String docId = doc.id;
     log('location $address');
     log('imageURL $imageURL');
     log('videoURL $videoURL');
 
     try {
-      final List<Location> locations = await locationFromAddress(address);
+      // final List<Location> locations = await locationFromAddress(address);
       final BitmapDescriptor customIcon = await getBitmapDescriptorFromUrl(
         imageURL,
       );
-      final Location location = locations.first;
-
-      final marker = Marker(
-        markerId: MarkerId(doc.id),
-        position: LatLng(location.latitude, location.longitude),
-        icon: customIcon,
-        onTap: () {
-          Get.to(
-            () => VideoScreen(
-              videoUrls: videoUrls,
-              initialIndex: videoUrls.indexOf(videoURL),
-              videoUserIdList: userIdsList1,
-              title: 'title',
-              videoIdList: videoIdsList1,
-              userId: userId,
-            ),
-          );
-        },
-      );
-
-      markers.add(marker);
+      // final Location location = locations.first;
+      if (latitude != null && longitude != null) {
+        final marker = Marker(
+          markerId: MarkerId(doc.id),
+          position: LatLng(latitude, longitude),
+          icon: customIcon,
+          onTap: () {
+            Get.to(
+              () => VideoScreen(
+                videoUrls: videoUrls,
+                initialIndex: videoUrls.indexOf(videoURL),
+                videoUserIdList: userIdsList1,
+                title: 'title',
+                videoIdList: videoIdsList1,
+                userId: userId,
+              ),
+            );
+          },
+        );
+        markers.add(marker);
+      } else {
+        log(
+          'Latitude or longitude is null for document ${doc.id}',
+          name: 'fetchAndMarkLocations',
+        );
+      }
       videoUrls.add(videoURL);
       userIdsList1.add(userId);
       videoIdsList1.add(docId);
-    } catch (e) {
-      log('Error processing document $doc: $e');
+    } catch (e, s) {
+      log(
+        'Error processing document ${doc.data()}',
+        name: 'fetchAndMarkLocations',
+        error: e,
+        stackTrace: s,
+      );
     }
   }
 

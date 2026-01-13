@@ -72,6 +72,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
       if (widget.selectedLocation != null) {
         await _searchAndMarkLocation(widget.selectedLocation!);
       }
+      final getVideoController = Get.find<GetVideoController>();
+      await getVideoController.fetchAndMarkLocations();
+      if (!mounted) return;
+      setState(() {});
     } catch (e) {
       log("Error initializing map: $e");
     }
