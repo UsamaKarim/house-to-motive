@@ -11,7 +11,6 @@ import 'package:house_to_motive/views/screens/custom_marker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:ui' as ui;
-import 'package:geocoding/geocoding.dart';
 import '../views/screens/video_screen.dart';
 import '../utils/debouncer.dart';
 
@@ -21,6 +20,10 @@ class GetVideoController extends GetxController {
   final RxList<String> userIdsList1 = <String>[].obs;
   final RxList<String> videoIdsList1 = <String>[].obs;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // Initialization state tracking
+  final RxBool isInitialized = false.obs;
+  final RxBool isLoadingLocations = false.obs;
   Future<BitmapDescriptor> getBitmapDescriptorFromUrl(String url) async {
     final http.Response response = await http.get(Uri.parse(url));
     final Uint8List bytes = response.bodyBytes;
@@ -57,39 +60,126 @@ class GetVideoController extends GetxController {
   }
 
   Future<void> fetchAndMarkLocations() async {
-    final videoCollection = firestore.collection('videos');
-    final querySnapshot = await videoCollection.get();
+    try {
+      isLoadingLocations.value = true;
+      isInitialized.value = false;
 
-    List<Future<void>> futures = [];
+      // Clear existing data to prevent duplicates
+      markers.clear();
+      videoUrls.clear();
+      userIdsList1.clear();
+      videoIdsList1.clear();
 
-    for (var doc in querySnapshot.docs) {
-      futures.add(_processDocument(doc));
+      // Track processed document IDs to prevent duplicates within the same fetch
+      final Set<String> processedIds = <String>{};
+
+      final videoCollection = firestore.collection('videos');
+      final querySnapshot = await videoCollection.get();
+
+      List<Future<void>> futures = [];
+
+      for (var doc in querySnapshot.docs) {
+        // Skip if already processed (shouldn't happen in same fetch, but safety check)
+        if (!processedIds.contains(doc.id)) {
+          futures.add(_processDocument(doc, processedIds));
+        }
+      }
+
+      await Future.wait(futures);
+
+      // Mark as initialized only if we successfully processed at least some data
+      isInitialized.value = true;
+      log(
+        'Successfully initialized ${markers.length} markers and ${videoUrls.length} videos',
+        name: 'fetchAndMarkLocations',
+      );
+    } catch (e, s) {
+      // On error, ensure state is consistent - data is cleared, not partially initialized
+      log(
+        'Error in fetchAndMarkLocations: $e',
+        name: 'fetchAndMarkLocations',
+        error: e,
+        stackTrace: s,
+      );
+      isInitialized.value = false;
+      // Data is already cleared, so state is consistent (empty but valid)
+    } finally {
+      isLoadingLocations.value = false;
     }
-
-    await Future.wait(futures);
   }
 
-  Future<void> _processDocument(DocumentSnapshot doc) async {
-    final String address = doc['location'];
-    final String imageURL = doc['thumbnailUrl'];
-    final String videoURL = doc['videoUrl'];
-    final String userId = doc['userId'];
-    final double? latitude = doc['latitude'];
-    final double? longitude = doc['longitude'];
+  Future<void> _processDocument(
+    DocumentSnapshot doc,
+    Set<String> processedIds,
+  ) async {
     final String docId = doc.id;
-    log('location $address');
-    log('imageURL $imageURL');
-    log('videoURL $videoURL');
+
+    // Check if this document has already been processed (deduplication)
+    if (processedIds.contains(docId) || videoIdsList1.contains(docId)) {
+      log('Skipping duplicate document: $docId', name: 'fetchAndMarkLocations');
+      return;
+    }
 
     try {
-      // final List<Location> locations = await locationFromAddress(address);
-      final BitmapDescriptor customIcon = await getBitmapDescriptorFromUrl(
-        imageURL,
-      );
-      // final Location location = locations.first;
-      if (latitude != null && longitude != null) {
+      // Validate required fields exist
+      if (!doc.exists || doc.data() == null) {
+        log(
+          'Document $docId does not exist or has no data',
+          name: 'fetchAndMarkLocations',
+        );
+        return;
+      }
+
+      final data = doc.data() as Map<String, dynamic>;
+      final String? address = data['location'] as String?;
+      final String? imageURL = data['thumbnailUrl'] as String?;
+      final String? videoURL = data['videoUrl'] as String?;
+      final String? userId = data['userId'] as String?;
+      final dynamic latitudeValue = data['latitude'];
+      final dynamic longitudeValue = data['longitude'];
+
+      // Validate required fields
+      if (imageURL == null ||
+          videoURL == null ||
+          userId == null ||
+          latitudeValue == null ||
+          longitudeValue == null) {
+        log(
+          'Missing required fields for document $docId',
+          name: 'fetchAndMarkLocations',
+        );
+        return;
+      }
+
+      final double? latitude =
+          (latitudeValue is num) ? latitudeValue.toDouble() : null;
+      final double? longitude =
+          (longitudeValue is num) ? longitudeValue.toDouble() : null;
+
+      if (latitude == null || longitude == null) {
+        log(
+          'Invalid latitude or longitude for document $docId',
+          name: 'fetchAndMarkLocations',
+        );
+        return;
+      }
+
+      log('location $address');
+      log('imageURL $imageURL');
+      log('videoURL $videoURL');
+
+      // Check for duplicate marker before adding
+      final markerId = MarkerId(docId);
+      final markerExists = markers.any((m) => m.markerId == markerId);
+
+      if (!markerExists) {
+        // final List<Location> locations = await locationFromAddress(address);
+        final BitmapDescriptor customIcon = await getBitmapDescriptorFromUrl(
+          imageURL,
+        );
+        // final Location location = locations.first;
         final marker = Marker(
-          markerId: MarkerId(doc.id),
+          markerId: markerId,
           position: LatLng(latitude, longitude),
           icon: customIcon,
           onTap: () {
@@ -106,22 +196,24 @@ class GetVideoController extends GetxController {
           },
         );
         markers.add(marker);
-      } else {
-        log(
-          'Latitude or longitude is null for document ${doc.id}',
-          name: 'fetchAndMarkLocations',
-        );
       }
-      videoUrls.add(videoURL);
-      userIdsList1.add(userId);
-      videoIdsList1.add(docId);
+
+      // Add to lists only if not already present (additional safety check)
+      if (!videoIdsList1.contains(docId)) {
+        videoUrls.add(videoURL);
+        userIdsList1.add(userId);
+        videoIdsList1.add(docId);
+        processedIds.add(docId); // Mark as processed
+      }
     } catch (e, s) {
+      // Log error but continue processing other documents
       log(
-        'Error processing document ${doc.data()}',
+        'Error processing document $docId: $e',
         name: 'fetchAndMarkLocations',
         error: e,
         stackTrace: s,
       );
+      // Don't rethrow - allow other documents to be processed
     }
   }
 
